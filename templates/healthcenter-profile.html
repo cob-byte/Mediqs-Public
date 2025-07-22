@@ -1,0 +1,672 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html> 
+<html lang="en">
+	
+<!-- doccure/doctor-profile.html  30 Nov 2019 04:12:16 GMT -->
+<head>
+		<meta charset="utf-8">
+		<title>Mediqs</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		
+		<!-- Favicons -->
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  	/>		
+		<!-- Bootstrap CSS -->
+		{% if user.is_authenticated %}
+		{% if user.is_healthcenter_admin %}
+		<link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"/>
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}">
+		{% else %}
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}">
+		{% endif %}
+		{% else %}
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}">
+		{% endif %}
+
+		
+		
+   <!-- Fontawesome CSS 
+        <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"/>
+	
+		<!-- Fancybox CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fancybox/jquery.fancybox.min.css'%}">
+
+		<!-- Feathericon CSS -->
+		<link
+		rel="stylesheet"
+		href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}"
+	  />
+  
+	  <link
+		rel="stylesheet"
+		href="{% static 'Mediqs/plugins/admin/morris/morris.css'%}"
+	  />
+		
+
+		<!-- Main CSS -->
+		
+		{% if user.is_authenticated %}
+		{% if user.is_healthcenter_admin %}
+		<link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css' %}">
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css' %}">
+		{% else %}
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css' %}">
+		{% endif %}
+		{% else %}
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css' %}">
+		{% endif %}
+
+		<!--<style>
+			th, td {
+			border: 1px solid white;
+	 		border-radius: 10px;
+			 /* #96D4D4 */
+	 		background-color: #b3eafc;
+	 		height: 50px;
+	 		color: black;
+			width: 1000px;
+			text-align: center;
+		}
+	</style> -->
+		
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	
+	</head>
+	<body>
+		<!-- Main Wrapper -->
+		<div class="main-wrapper">
+		
+					<!-- Header -->
+			<header class="header">
+				{% if user.is_authenticated %}
+					{% if user.is_patient %}
+						{% include 'patient_navbar.html' %}
+					{% elif user.is_doctor %}
+						{% include 'doctor-navbar.html' %}
+
+					{% elif user.is_healthcenter_admin %}
+						{% include 'healthcenter-admin-navbar.html' %}
+					{% endif %}
+				{% endif %}
+			</header>
+
+			{% if user.is_authenticated and user.is_healthcenter_admin %}
+
+			<!-- Sidebar -->
+			<aside class="sidebar" id="sidebar">
+			{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %} </aside>
+			<!-- /Sidebar -->
+			
+			{% endif %}
+
+			<!-- /Header -->
+				{% if user.is_authenticated and not user.is_healthcenter_admin %}
+					<!-- Breadcrumb -->
+					<div class="breadcrumb-bar">
+						{% if user.is_authenticated and user.is_doctor %}
+						<div class="chat-patient">
+							<ul>
+								<p><a href="{% url 'inventory' %}" style="color: black;">Inventory</a><br>
+								<a href="{% url 'chat-home' pk=user.id %}" style="color: black;">Chat with Patients</a></p>
+							</ul>
+						</div>
+					{% endif %}
+					<!-- /Breadcrumb -->
+				{% endif %}
+
+				{% if user.is_authenticated and not user.is_healthcenter_admin %}
+				<div class="container-fluid">
+					<div class="row align-items-center">
+						<div class="col-md-12 col-12">
+							<nav aria-label="breadcrumb" class="page-breadcrumb">
+								<ol class="breadcrumb">
+									{% if user.is_authenticated and user.is_patient %}
+									<li class="breadcrumb-item"><a href="{% url 'patient-dashboard' %}">Home</a></li>
+									{% endif %}
+
+									{% if user.is_authenticated and user.is_doctor %}
+									<li class="breadcrumb-item"><a href="{% url 'doctor-dashboard' %}">Home</a></li>
+									{% endif %}
+									<li class="breadcrumb-item active" aria-current="page">HealthCare Center Profile</li>
+								</ol>
+							</nav>
+							<h2 class="breadcrumb-title">HealthCare Center Profile</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /Breadcrumb -->
+			{% else %}
+
+			<div class="breadcrumb-bar col-md-12" style="margin-top:3.5%;">
+			<div class="container-fluid">
+				<div class="row align-items-center">
+					<div class="col-md-12 col-12">
+						<nav aria-label="breadcrumb" class="page-breadcrumb" >
+							<ol class="breadcrumb" style="margin-left: 15%;font-size: 1rem;">
+								<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Admin Dashboard</a></li>
+								<li class="breadcrumb-item active">Health Center</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+			</div>
+			</div>
+			{% endif %}
+			
+			<!-- Page Content -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+
+							<!-- Profile Sidebar -->
+							<div>
+								{% if user.is_authenticated and user.is_patient %}
+								{% include 'patient-sidebar.html' %}
+								{% endif %}
+				
+								{% if user.is_authenticated and user.is_doctor %}
+								{% include 'doctor-sidebar.html' %}
+								{% endif %}
+							</div>
+							<!-- /Profile Sidebar -->
+							
+						</div>
+						<div class="col-sm-12 col-md-12 col-lg-8 col-xl-9">
+							
+							<!-- Doctor Widget -->						
+							<div class="card">
+							  <div class="card-profile" style="background-color: #065242;">
+								<div class="doctor-widget">
+								  <div class="doc-info-left">
+									<div class="doctor-img">
+										<img src="{{ healthcenters.featured_image.url | adjust_image_url }}"
+										  class="docprofile-img1"
+										  alt="User Image"
+										/>
+									</div>
+									
+									<div class="doc-info-cont" >
+										<h3 class="doc-name">{{healthcenters.name}}</h3><br>
+									  
+										<div class="clinic-details mb-0" style="color: #fff">
+											<a> <i class=" fas fa-map-marker-alt"></i> {{healthcenters.street}} {{healthcenters.barangay}} {{healthcenters.city}} </a><br>
+											<i class=" fa-solid fa-phone"></i> {{healthcenters.phone_number}}<br>
+											<a> <i class="fa-solid fa-user-doctor"></i> {{healthcenters.head_facility}}</a>
+
+											<ul class="clinic-gallery" style="margin:10px ;">
+												<li>
+													<a href="{% static 'Mediqs/images/Normal/features/feature-01.jpg'%}" data-fancybox="gallery">
+														<img src="{% static 'Mediqs/images/Normal/features/feature-01.jpg'%}" alt="Feature">
+													</a>
+												</li>
+												<li>
+													<a href="{% static 'Mediqs/images/Normal/features/feature-02.jpg'%}" data-fancybox="gallery">
+														<img  src="{% static 'Mediqs/images/Normal/features/feature-02.jpg'%}" alt="Feature">
+													</a>
+												</li>
+												<li>
+													<a href="{% static 'Mediqs/images/Normal/features/feature-03.jpg'%}" data-fancybox="gallery">
+														<img src="{% static 'Mediqs/images/Normal/features/feature-03.jpg'%}" alt="Feature">
+													</a>
+												</li>
+												<li>
+													<a href="{% static 'Mediqs/images/Normal/features/feature-04.jpg'%}" data-fancybox="gallery">
+														<img src="{% static 'Mediqs/images/Normal/features/feature-04.jpg'%}" alt="Feature">
+													</a>
+												</li>
+											</ul> 
+										</div>
+									</div>
+									<div class="clinic-booking" style="margin-left: 30%; margin-top: 2%;">
+
+										{% if user.is_authenticated and user.is_patient and healthcenters == patient.health_center %}
+											<a class="apt-btn" href="{% url 'booking' pk=healthcenters.healthcenter_id %}">Book Appointment</a>
+										{% endif %}
+									</div>
+								  </div>
+			  
+								  <!--<div class="doc-info-right col-xl-3">
+									<div class="clinic-booking">
+										<a class="apt-btn" href="{% url 'healthcenter-doctor-list' pk=healthcenters.healthcenter_id %}">Doctor List</a>
+									</div>
+								</div>-->
+							  </div>
+							</div>
+							
+							<!-- Doctor Details Tab -->
+							<div class="card-profile-body pt-0">
+								
+									<div class="nav-tabs nav-tabs-solid pt-0">
+									<!-- Tab Menu -->
+
+									<nav class="user-tabs ">
+										<ul class="nav nav-tabs nav-tabs-bottom nav-justified ">
+											<li class="nav-item">
+												<a class="nav-link active" href="#doc_overview" data-toggle="tab">Overview</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#doc_locations" data-toggle="tab" >Locations and Contact</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#doc_emergency" data-toggle="tab">Emergency Info</a>
+											</li>
+											{% if user.is_authenticated and user.is_doctor and doctor.health_center != healthcenters %}
+											<li class="nav-item">
+												<a class="nav-link" href="#patient_record" data-toggle="tab" >Patient Record</a>
+											</li>
+											{% endif %}	
+										</ul>
+									</nav>
+									</div>
+									<!-- /Tab Menu -->
+									
+									<!-- Tab Content -->
+									<div class="tab-content pt-0">
+									
+										<!-- Overview Content -->
+										<div role="tabpanel" id="doc_overview" class="tab-pane fade show active" style="background-color:#90E8D7;">
+											<div class="row">
+												<div class="card-body">
+												<div class="col-md-12 col-lg-9">
+												
+													<!-- About Details -->
+													<div class="widget about-widget">
+														<a class="widget-title"><b>About Our HealthCare Center</b></a>
+														<br>{{healthcenters.description}}
+													</div>
+													<!-- /About Details -->
+													
+													<!-- Services List -->
+													<div class="service-list">
+														<a class="widget-title"><b>Services </b></a>
+														<ul class="clearfix">
+															{% for service in services %}
+															<p>{{service.service_name}}</p>
+															{% endfor %}
+															
+														</ul>
+													</div>
+													<!-- /Services List -->
+													
+													<!-- Specializations List -->
+													<div class="service-list">
+														<a class="widget-title"><b>Specializations</b></a>
+														<ul class="clearfix">
+															{% for specialization in specializations %}
+															<p>{{specialization.specialization_name}}</p>
+															{% endfor %}	
+
+														</ul>
+													</div>
+													<!-- /Specializations List -->
+		
+												</div>
+											</div>
+											</div>
+										</div>
+										<!-- /Overview Content -->
+										
+										<!-- Locations Content -->
+										<div role="tabpanel" id="doc_locations" class="tab-pane fade" style="background-color:#90E8D7; ">
+										
+											<!-- Location List -->
+											<div class="location-list">
+												<div class="row">
+												
+													<!-- Clinic Content -->
+													<div class="col-md-4">
+														<div class="clinic-content">
+															<h4 class="clinic-name" href="#">{{healthcenters.name}}</h4>
+															<p class="doc-speciality">{{healthcenter.healthcenter_type}}</p>
+															
+															<div class="clinic-details mb-0">
+																<a class="clinic-direction" > <i class="fas fa-map-marker-alt"></i> {{healthcenters.street}} {{healthcenters.barangay}} {{healthcenters.city}} </a>
+
+																	<br><a href="javascript:void(0);" style="color:#000"onmouseover="this.style.color='#fff';" onmouseout="this.style.color='#000';">Get Directions</a>
+																<ul>
+																	<li>
+																		<a href="{% static 'Mediqs/images/Normal/features/feature-01.jpg' %}" data-fancybox="gallery2">
+																			<img src="{% static 'Mediqs/images/Normal/features/feature-01.jpg' %}" alt="Feature Image">
+																		</a>
+																	</li>
+																	<li>
+																		<a href="{% static 'Mediqs/images/Normal/features/feature-02.jpg' %}" data-fancybox="gallery2">
+																			<img src="{% static 'Mediqs/images/Normal/features/feature-02.jpg' %}" alt="Feature Image">
+																		</a>
+																	</li>
+																	<li>
+																		<a href="{% static 'Mediqs/images/Normal/features/feature-03.jpg' %}" data-fancybox="gallery2">
+																			<img src="{% static 'Mediqs/images/Normal/features/feature-03.jpg' %}" alt="Feature Image">
+																		</a>
+																	</li>
+																	<li>
+																		<a href="{% static 'Mediqs/images/Normal/features/feature-04.jpg' %}" data-fancybox="gallery2">
+																			<img src="{% static 'Mediqs/images/Normal/features/feature-04.jpg' %}" alt="Feature Image">
+																		</a>
+																	</li>
+																</ul> 
+															</div>
+														</div>
+													</div>
+													<!-- /Clinic Content -->
+													
+													<!-- Clinic Timing -->
+													<div class="col-md-4">
+														<div class="clinic-timing">
+															
+															<div>
+																<p class="timings-days" style="color:#000" > Email</p>
+																<p class="timings-times">{{healthcenters.email}} <!-- <span>care@gmail.com</span> --></p>
+															</div>
+
+															<div>
+															<p class="timings-days" style="color:#000">Contact</p>
+															<p class="timings-times">{{healthcenters.phone_number}}</p>
+															</div>
+														</div>
+													</div>
+													<!-- /Clinic Timing -->
+												</div>
+											</div>
+											<!-- /Location List -->
+											
+											
+		
+										</div>
+										<!-- /Locations Content -->
+											
+										<!-- Overview Content -->
+										<div role="tabpanel" id="doc_emergency" class="tab-pane fade show">
+											<div class="card card-table text-center" style="margin: 3%">
+												<div class="card-body">
+													<div class="row">
+														<div class="col-md-12 col-lg-12">
+															<div class="table-responsive">
+																<table class="table table-hover table-center mb-0" style="color: #000;">
+																<tr style="background-color: #416F83;">
+																	<th style="color: #ffffff;">Facility Types</th>
+																	<th style="color: #ffffff;">Number of Units</th>
+																</tr>
+																	<td><b>General Bed</b></td>
+																	<td>{{healthcenters.general_bed_no}}</td>
+																</tr>
+																<tr>
+																	<td><b>Regular Cabin</b></td>
+																	<td>{{healthcenters.regular_cabin_no}}</td>
+																</tr>
+																<tr>
+																	<td><b>ICU</b></td>
+																	<td>{{healthcenters.available_icu_no}}</td>
+																</tr>
+																<tr>
+																	<td><b>Emergency Cabin</b></td>
+																	<td>{{healthcenters.emergency_cabin_no}}</td>
+																</tr>
+																<tr>
+																	<td><b>VIP room</b></td>
+																	<td>{{healthcenters.vip_cabin_no}}</td>
+																</tr>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+					
+										
+										<!-- /Overview Content -->
+								{% if user.is_authenticated and user.is_doctor and doctor.health_center != healthcenters %}
+									<div class="tab-pane" id="patient_record" class="tab-pane fade show">
+										
+										<div class="top-nav-search" style="margin-right: 3%;">
+											<form action="{% url 'patient-search' pk=doctor.doctor_id %}" method="GET" style="display: flex; justify-content: flex-end; align-items: center;">
+											  <div style="position: relative;">
+												<input type="text" class="form-control" placeholder="Search my patient" name="search_query" value="{{ search_query }}" style="width: 230px; display: inline-flex; align-items: center; padding-right: 40px;" />
+												<button class="btn" type="submit" style="position: absolute; right: 0; top: 0; height: 100%; display: flex; align-items: center; background-color: transparent; border: none;">
+												  <i class="fa fa-search" style="font-size: 20px; color: #000;"></i>
+												</button>
+											  </div>
+											</form>
+										  </div>
+										  
+										
+								<div class="row" style="margin:2%">
+									<div class="col-sm-12 col-md-12 col-lg-12">
+										<div class="card-table">
+											<div class="card-body">
+												<div class="table-responsive">
+													<table class="table datatable table-center mb-0" style="border: 2px solid #065242;">
+														<thead>
+															<tr>
+																<th>Patient ID</th>
+																<th>Patient Name</th>
+																<th>Health Center</th>
+																<th>Status</th>
+																<th>Actions</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for patient in patients %}
+															<tr>
+																<td>{{ patient.patient_id }}</td>
+																<td>
+																	<h2 class="table-avatar">
+																		<a href="patient-profile.html" class="avatar avatar-sm mr-2">
+																			<img class="avatar-img rounded-circle" src="{{ patient.featured_image.url | adjust_image_url }}" alt="User Image"/>
+																		</a>
+																		<a href="patient-profile.html">{{ patient.name }}</a>
+																	</h2>
+																</td>
+																<td>{{ patient.health_center }}</td>
+																<td>{{ patient.status }}</td>
+																<td>
+																	<div class="table-action">
+																		{% with request=patient.doctorrecordrequest_set.last %}
+																			{% if request and request.doctor == doctor and request.status == 'P' %}
+																				<button class="btn btn-warning">
+																					<i class="fas fa-clock"></i> Pending
+																				</button>
+																			{% elif request and request.doctor == doctor and request.status == 'A' %}
+																				<a href="{% url 'doctor-view-other-record' pk=request.patient_id %}" class="btn btn-primary">
+																					<i class="far fa-eye"></i> View
+																				</a>
+																			{% elif request and request.doctor == doctor and request.status == 'D' %}
+																				<button class="btn btn-danger modal-trigger" data-toggle="modal" data-target="#requestModal{{ patient.patient_id }}">
+																					<i class="fas fa-redo"></i> Request Again
+																				</button>
+																			{% else %}
+																				<button class="btn btn-success modal-trigger" data-toggle="modal" data-target="#requestModal{{ patient.patient_id }}">
+																					<i class="fas fa-file-medical"></i> Request
+																				</button>
+																			{% endif %}
+																		{% endwith %}
+																	</div>																	
+																</td>
+															</tr>
+															<!-- Modal Structure for each record -->
+															<div class="modal fade" id="requestModal{{ patient.patient_id }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+																<div class="modal-dialog modal-dialog-centered" role="document">
+																	<div class="modal-content">
+																		<div class="modal-header text-center">
+																			<h4 class="modal-title w-100 font-weight-bold">Request Access to {{patient.name}}'s' Medical Records</h4>
+																			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																				<span aria-hidden="true">&times;</span>
+																			</button>
+																		</div>
+																		<form method="POST" action="{% url 'create-doctor-record-request' patient.patient_id %}" enctype="multipart/form-data">
+																			{% csrf_token %}
+																			<div class="modal-body mx-3">
+																				<div class="md-form mb-3">
+																					<label for="purpose_of_request">Purpose of request</label>
+																					<textarea id="purpose_of_request" class="form-control" name="purpose_of_request" rows="6"></textarea>
+																				</div>
+																				<div class="md-form mb-3">
+																					<label for="supporting_documentation">Supporting Documentation</label>
+																					<input type="file" id="supporting_documentation" name="supporting_documentation" class="form-control">
+																				</div>
+																				<div class="md-form mb-3">
+																					<label for="date_needed">Date Needed</label>
+																					<input type="date" id="date_needed" name="date_needed" class="form-control">
+																				</div>
+																			</div>
+																			<div class="modal-footer d-flex justify-content-center">
+																				<button class="btn btn-default" type="submit">Submit</button>
+																			</div>
+																		</form>																		
+																	</div>
+																</div>
+															  </div>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									{% endif %}
+
+									
+
+								<!-- Doctor Widget -->
+								
+								<!-- /Doctor Details Tab -->
+
+								</div>
+			</div>		
+			<!-- /Page Content -->
+
+		   
+		</div>
+		<!-- /Main Wrapper -->
+		
+
+		<!-- <div class="modal fade" id="edit_more_details" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<div class="modal-body">
+				  ...
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			  </div>
+			</div>
+		  </div> -->
+
+
+		<!-- Voice Call Modal -->
+		<!-- <div class="modal fade call-modal" id="voice_call">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+						
+						<div class="call-box incoming-box">
+							<div class="call-wrapper">
+								<div class="call-inner">
+									<div class="call-user">
+										<img alt="User Image" src="assets/img/doctors/doctor-thumb-02.jpg" class="call-avatar">
+										<h4>Dr. Darren Elder</h4>
+										<span>Connecting...</span>
+									</div>							
+									<div class="call-items">
+										<a href="javascript:void(0);" class="btn call-item call-end" data-dismiss="modal" aria-label="Close"><i class="material-icons">call_end</i></a>
+										<a href="voice-call.html" class="btn call-item call-start"><i class="material-icons">call</i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<!-- /Voice Call Modal -->
+		
+		<!-- Video Call Modal -->
+		<!-- <div class="modal fade call-modal" id="video_call">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+					
+						
+						<div class="call-box incoming-box">
+							<div class="call-wrapper">
+								<div class="call-inner">
+									<div class="call-user">
+										<img class="call-avatar" src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+										<h4>Dr. Darren Elder</h4>
+										<span>Calling ...</span>
+									</div>							
+									<div class="call-items">
+										<a href="javascript:void(0);" class="btn call-item call-end" data-dismiss="modal" aria-label="Close"><i class="material-icons">call_end</i></a>
+										<a href="video-call.html" class="btn call-item call-start"><i class="material-icons">videocam</i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<!-- Video Call Modal -->
+		
+	
+		<!-- jQuery -->
+		<script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+		
+		<!-- Bootstrap Core JS -->
+		<script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+		<script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+		
+		
+		<!-- Fancybox JS -->
+		<script src="{% static 'Mediqs/plugins/Normal/fancybox/jquery.fancybox.min.js'%}"></script>
+		
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+		<!--Admin-->
+
+		<!-- Bootstrap Core JS -->
+		<script src="{% static 'Mediqs/js/admin/popper.min.js'%}"></script>
+		<script src="{% static 'Mediqs/js/admin/bootstrap.min.js'%}"></script>
+
+		<!-- Slimscroll JS -->
+
+		<script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js'%}"></script>
+
+		<!-- Datatables JS -->
+			<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+			<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/js/admin/script.js'%}"></script>
+		
+	</body>
+
+<!-- doccure/doctor-profile.html  30 Nov 2019 04:12:16 GMT -->
+</html>

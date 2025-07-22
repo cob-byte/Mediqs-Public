@@ -1,0 +1,384 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/doctor-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:51 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Mediqs</title>
+
+    	<!-- Favicon -->
+
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  />
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}">
+
+	<!-- Fontawesome CSS -->
+	<!--<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"/>-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<!-- Feathericon CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+
+	<!-- Datatables CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/plugins/admin/datatables/datatables.min.css'%}">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}">
+
+	<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+		<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header>
+		<!-- Logo -->
+
+
+		<!-- /Header -->
+
+		<!-- Sidebar -->
+		<aside class="sidebar" id="sidebar">
+			{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %} </aside>
+		<!-- /Sidebar -->
+
+		<!-- Page Wrapper -->
+
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+
+			<div class="content container-fluid">
+
+				<!-- Breadcrumb -->
+				<div class="breadcrumb-bar">
+					<div class="container-fluid">
+						<div class="row align-items-center">
+							<div class="col-md-12 col-12">
+								<h2 class="breadcrumb-title black">Health Center Information</h2>{% include 'message.html' %}
+								<nav aria-label="breadcrumb" class="page-breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item"><a href="index-2.html">Home</a></li>
+										<li class="breadcrumb-item active" aria-current="page">Edit Health Center information
+										</li>
+									</ol>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Breadcrumb -->
+
+				<!-- Page Content -->
+				<div class="content">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-7 col-lg-8 col-xl-12">
+								<div class="ec-card">
+									<div class="card-body">
+										<h1 class="black text-center">Edit Health Center Information</h1>
+										<!-- Profile Settings Form -->
+										<form action="{% url 'edit-healthcenter' pk=healthcenter.healthcenter_id %}" method="POST"
+											enctype="multipart/form-data">
+											{% csrf_token %}
+										<div>
+											<div class="row form-row">
+												<div class="col-md-6 pr-2">
+													<div class="card-body mr-0">
+														<div class="table-responsive">
+															<table class="table table-center">
+																<thead>
+																	<tr>
+																		<th>Health Center Name</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td class="healthcenter-name">
+																			<input class="form-control" type="text" name="healthcenter_name" value="{{healthcenter.name}}">
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+												<div class="card-body">
+													<div class="table-responsive">
+														<table class="table table-hover table-center">
+															<thead>
+																<tr>
+																	<th>Health Center Email</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td>
+																		<input class="form-control" type="email"
+																			name="email"
+																			value="{{healthcenter.email}}">
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										
+									
+													<!--End of First-->
+												<div class="row form-row">
+													<div class="col-md-4">
+														<div class="card-body">
+															<div class="table-responsive">
+																<table class="table table-center">
+																	<thead>
+																		<tr>
+																			<th>Address</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<input class="form-control" type="text"
+																					name="address"
+																					value="{{healthcenter.address}}">
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+
+															</div>
+														</div>
+													</div>
+												
+													<div class="col-md-4">
+														<div class="card-body">
+															<div class="table-responsive">
+																<table class="table table-center">
+																	<thead>
+																		<tr>
+																			<th>Health Center Phone Number</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<input class="form-control" type="text"
+																					name="phone_number"
+																					value="{{healthcenter.phone_number}}">
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+
+													<div class="row form-row">
+														<div class="col-md-7">
+														  <div class="card card-table">
+															<div class="card">
+															  <div class="card-body">
+																<div class="table-responsive">
+																  <table class="table table-center">
+																	<thead>
+																	  <tr>
+																		<th style="width: 100%">Operation Hours</th>
+																	  </tr>
+																	</thead>
+																	<tbody class="operation-hours-info">
+																	{%for service in services%}	
+																	  <tr class="form-row">
+																		<td class="form-row">
+																		  <div class="col-12 col-md-4">
+																			<div class="form-group">
+																			  <label>Day</label>
+																			  <select class="form-control" name="day" id="day">
+																				<option value="MON">Monday</option>
+																			  </select>
+																			</div>
+																		  </div>
+																		  <div class="col-12 col-md-4">
+																			<div class="form-group">
+																			  <label>Start Time</label>
+																			  <input type="time" class="form-control" name="start_time" id="start_time">
+																			</div>
+																		  </div>
+																		  <div class="col-12 col-md-4">
+																			<div class="form-group">
+																			  <label>End Time</label>
+																			  <input type="time" class="form-control" name="end_time" id="end_time">
+																			</div>
+																		  </div>
+																		</td>
+																	  </tr>
+																	</tbody>
+																  </table>
+																</div>
+																{%endfor%}
+																<div class="add-more">
+																  <a href="javascript:void(0);" class="add-operation-hour" style="color: #20c0f3"><i class="fa fa-plus-circle"></i> Add More</a>
+																</div>
+															  </div>
+															</div>
+														  </div>
+														</div>
+													  </div>
+													
+													
+												<!--Last-->
+												<div class="row form-row">
+													<div class="col-md-4">
+													  <div class="card-body text-center">
+														<div class="table-responsive">
+														  <div class="change-avatar">
+															<div class="profile-img">
+															  <img src="{% static healthcenter.featured_image.url %}" width="200 px" alt="User Image">
+															</div>
+														  </div>
+														  <div class="upload-img">
+															<label for="upload-photo-btn" class="change-photo-btn">
+															  <span><i class="fa fa-upload"></i> Upload Photo</span>
+															</label>
+															<input type="file" id="upload-photo-btn" class="upload" name="featured_image" value="{{featured_image}}" style="display:none;">
+															<small class="form-text text-muted-black">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+														  </div>
+														</div>
+													  </div>
+													</div>
+												  
+													<div class="col-md-6">
+													  <div class="card-body">
+														<div class="table-responsive">
+														  <table class="table table-center">
+															<thead>
+															  <tr>
+																<th>Description</th>
+															  </tr>
+															</thead>
+															<tbody>
+															  <tr>
+																<td>
+																  <textarea type="text" rows="5" class="form-control" name="description">{{healthcenter.description}}</textarea>
+																</td>
+															  </tr>
+															</tbody>
+														  </table>
+														</div>
+													  </div>
+													</div>
+												</div>
+												
+													<!--<div class="card">
+														<div class="card-body">
+															<h4 class="card-title">Services</h4>
+														{%for service in services%}	
+															<div class="service-info">
+																<div class="row form-row service-cont">
+																	<div class="col-12 col-md-8 col-lg-11">
+																		<div class="form-group">
+																			<label>Add New Services</label>
+																			<input type="text" class="form-control"
+																				value="{{service.service_name}}">
+																		</div>
+																	</div>
+																	<div class="col-md-2 col-lg-1">
+																		<label class="d-md-block d-sm-none d-none">&nbsp;</label>
+																		<a href="{% url 'delete-service' pk=service.service_id pk2=healthcenter.healthcenter_id %}" onclick="return confirm('Are you sure you want to Delete?');" class="btn btn-danger">
+																		  <i class="far fa-trash-alt"></i>
+																		</a>
+																	</div>
+																</div>
+															</div>
+														{%endfor%}
+															<div class="add-more">
+																<a href="javascript:void(0);" class="add-service"
+																	style="color: #20c0f3"><i
+																		class="fa fa-plus-circle"></i> Add More</a>
+															</div>
+														</div>
+													</div>
+												-->
+
+												</div>
+												<div class="submit-section">
+													<button type="submit" class="btn btn-primary submit-btn">
+														Save Changes
+													</button>
+												</div>
+											</div>
+										</div>
+										</form>
+										<!-- /Profile Settings Form -->
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- /Page Content -->
+
+
+
+
+
+
+			</div>
+		</div>
+		<!-- /Page Wrapper -->
+
+	</div>
+	<!-- /Main Wrapper -->
+
+	<!-- jQuery -->
+	<script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script>
+
+	<!-- Bootstrap Core JS -->
+	<script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script>
+	<script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script>
+
+	<!-- Slimscroll JS -->
+	<script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+	<!-- Datatables JS -->
+	<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script>
+	<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+	<!-- Custom JS -->
+	<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+
+	<!-- add js -->
+	<!-- <script src="{% static 'Mediqs/js/Normal/edit-healthcenter.js' %}"></script> -->
+	<script src="{% static 'Mediqs/js/Normal/edit_healthcenter.js' %}"></script>
+
+	{% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+
+
+</body>
+
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/doctor-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:51 GMT -->
+
+</html>

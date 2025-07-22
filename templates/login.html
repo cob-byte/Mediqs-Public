@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/login.html  30 Nov 2019 04:12:20 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <title>Mediqs</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+
+    <!-- Favicons -->
+    <link
+    type="image/x-icon"
+    href="{% static 'images/circle-logo.png' %}"
+    rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/mediqs-css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animated.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.css' %}">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="account-page"style="background-image: url('{% static 'Mediqs/images/Normal/big-green.png' %}');background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;z-index: -1;">
+
+    <!-- Main Wrapper -->
+
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header" style="z-index: 1000; position: relative;">
+        <a href="{% url 'healthcenter_home' %}">
+          <img src="{% static 'Mediqs/images/Normal/mediqs_logo.png' %}" alt="Header Image" class="img-fluid login-logo" style="width: 20%; height: auto; margin-top: 1%; z-index:1;">
+        </a>
+      </header>      
+  
+      <!-- Page Content --> 
+        <div class="content">
+          <div class="center-left-image">
+            <img src="{% static 'Mediqs/images/Normal/Patient.png' %}" alt="Left Image">
+          </div>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-8 offset-md-2" style="z-index:4;">
+                <!-- Login Tab Content -->
+                <div class="account-content">
+                  <div class="row-right">
+                    <div class="col-md-12 col-lg-6 login-right">
+                      <div class="login-header">
+                        <div class="d-flex align-items-center"style="margin-left:20px">
+                          <div class="me-3">
+                            <img src="{% static 'Mediqs/images/Normal/patient profile.png' %}" style="width: 100px; height: 100px; object-fit: contain;">
+                          </div>
+                          <div>
+                            <h1 class="log">Login</h1>
+                            <h3>Kindly enter your account</h3>
+                          </div>
+                        </div>
+                    </div>
+
+                    <form method="POST" action="{% url 'login' %}">
+                      {% csrf_token %}
+
+                      {% comment %} {% if messages %}
+                      
+                          {% for message in messages %}
+                          <div class="alert alert-danger alert-dismissible fade show" id="CredentialCheck" role="alert">
+                            <a href="#" class="alert-link"></a><a{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</a>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          {% endfor %}
+                      
+                      {% endif %} {% endcomment %}
+
+                      {% include 'message.html' %}
+
+                      <h6 style="color:#000000">Username</h6>
+                      <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form form-control" name='username' id="floatingInput" placeholder="User Name">
+                      </div>
+
+                      <h6 style="color:#000000">Password</h6>
+                      <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form form-control" name='password' id="myInput" placeholder="Password"> 
+                      </div>
+
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-sm-12 text-end">
+                            <a class="forgot-link" href="{% url 'reset-password' %}"><i>Forgot Password?</i></a>
+                          </div>
+                          <div class="col-sm-12"style="margin-left:10px">
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" onclick="myFunction11()" id="showPassword">
+                              <label class="form-check-label" for="showPassword">Show Password</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="text-center">
+                      <button class="btn btn-primary" type="submit" style="font-size: 14px;color: antiquewhite;border-radius: 5px;border-color: transparent;text-align: center;width:100%">
+                        <i class="fas fa-sign-in-alt" style="margin-right: 5px;"></i>Sign-In
+                      </button>
+                      </div>
+                      <div class="text-center dont-have">
+                        Are you a Patient? Don't have an account?
+                        <a href="{% url 'patient-register' %}" style="text-decoration: none;">Register</a>
+                        <br>
+                        <div class="text-center dont-have"><a href="{%url 'healthcenter_home' %}">Return to Homepage</a></div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- /Login Tab Content -->
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- /Page Content -->
+
+    </div>
+    </div>
+    <!-- /Main Wrapper -->
+
+
+
+    <!-- jQuery -->
+    <!-- jQuery -->
+    <!-- <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script> -->
+    <!-- <script src="{% static 'Mediqs/js/jquery.min.js' %}"></script> -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <!-- <script src="{% static 'Mediqs/js/Normal/script.js' %}"></script> -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+
+    <!-- alert js -->
+    {% comment %} <script>
+			var x = document.getElementById('CredentialCheck');
+			if (x.style.display === "none") {
+				x.style.display = "block";
+			}
+			$('#CredentialCheck').delay(4000).fadeOut('slow');     
+		</script>
+    {% endcomment %}
+
+    <!-- and at the end:-->
+    {% if messages %}
+      <script>
+          {% for message in messages %}
+              $(document).ready(function () {
+                  $('.toast').toast('show');
+              });
+          {% endfor %}
+      </script>
+    {% endif %} 
+
+    <!-- show password js -->
+    <script>
+      function myFunction11() {
+      var x = document.getElementById('myInput');
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+      }
+    </script>
+
+    
+  </body>
+
+  <!-- doccure/login.html  30 Nov 2019 04:12:20 GMT -->
+</html>

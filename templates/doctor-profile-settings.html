@@ -1,0 +1,645 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/doctor-profile-settings.html  30 Nov 2019 04:12:14 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <title>Mediqs</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Select2 CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/select2/css/select2.min.css' %}"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/bootstrap-tagsinput/css/bootstrap-tagsinput.css' %}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/dropzone/dropzone.min.css' %}"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+   <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+/>
+
+
+    <!-- Fancybox CSS -->
+    <link
+      rel="stylesheet"
+      href="% static 'Mediqs/plugins/fancybox/jquery.fancybox.min.css' %"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">{% include 'doctor-navbar.html' %}</header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'doctor-dashboard' %}">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Profile Settings
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Profile Settings</h2>{% include 'message.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              <!-- Profile Sidebar -->
+              <div>{% include 'doctor-sidebar.html' %}</div>
+              <!-- /Profile Sidebar -->
+            </div>
+
+	          <div class="col-md-7 col-lg-8 col-xl-9">
+				<div class="card">
+					<!-- Page Content -->
+                      <!--NEW-->
+					  <div class="content">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-7 col-lg-8 col-xl-12">
+									<div class="ec-cards">
+										<h1 class="card-title"style="text-align: center; font-size: 45px; color: black">
+											Profile Settings
+											</h1>
+
+											<!-- Profile Settings Form -->
+											<form action="{% url 'doctor-profile-settings' %}" method="POST" enctype="multipart/form-data">
+												{% csrf_token %}
+
+												<!-- Basic Information -->
+												<!--FIRST LINE-->
+												<div class="row form-row " >
+													<!--Upload Photo-->
+													<div class="col-md-6 ">
+														<div class="card card-table">
+															<div class="table-responsive">
+																<table class="table table-center ">
+																	<thead>
+																		<tr>
+																			<th>Upload Photo</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<div class="row form-row ">
+																					<div class=" col-md-12 ">
+																						<div class="form-group">
+																							<div class="change-avatar text-center">
+																								<div class="table-responsive">
+																									<div class="profile-img">
+																										<div class="image-container">
+																										<img id="profile_img_preview" src="{{ doctor.featured_image.url | adjust_image_url }}" alt="User Image">
+																										</div>
+																									</div>
+																									<div class="upload-img">
+																										<label for="profile_img_upload" class="btn btn-primary">
+																										<span><i class="fa fa-upload"></i> Upload Photo</span>
+																										</label>
+															
+																										<input type="file" id="profile_img_upload" class="upload" name="featured_image" style="display:none;">
+																									<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+																									</div>
+																							</div>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+													<!--/Upload Photo-->
+													
+													<div class="col-md-6">
+														<!--Name-->
+														<div class="row-cols-md-1">
+															<div class="card card-table">
+																<div class="table-responsive">
+																	<table class="table table-center">
+																		<thead>
+																			<tr>
+																				<th style="width: 60px">Name</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr>
+																				<td class="text-danger">
+																					<input class="form-control" type="text" name="name" placeholder="Username" value="{{doctor.name}}">
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+														<!--/Name-->
+														
+														<!--Username-->
+														<div class="row-cols-xl-1">
+															<div class="card card-table">
+																<table class="table table-center">
+																	<thead>
+																		<tr>
+																			<th>Username</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td class="text-danger">
+																				<input class="form-control" type="text" name="username" placeholder="Username" value="{{doctor.username}}" readonly>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+														<!--/Username-->
+													</div>
+												</div>
+													<!--/FIRST LINE-->
+
+													<!--SECOND LINE-->
+													<tbody>
+														<div class="row form-row">
+
+															<!--Phone Number-->
+															<div class="col-md-4">
+																<div class="card card-table">
+																	<div class="table-responsive">
+																		<table class="table table-center">
+																			<thead>
+																				<tr>
+																					<th style="width: 30px">Phone Number</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td>
+																						<input class="form-control" type="tel" name="number" placeholder="Phone Number" value="{{doctor.phone_number}}">
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>	
+																</div>
+															</div>
+															<!--/Phone Number-->
+
+															<!--/Date of Birth-->
+															<div class="col-md-4">
+																<div class="card card-table">
+																	<div class="table-responsive">
+																		<table class="table table-center">
+																			<thead>
+																				<tr>
+																					<th style="min-width: 100px">Date of Birth</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td class="text-danger">
+																						<input class="form-control" type="date" name="dob" value="{{doctor.dob|date:'Y-m-d'}}">
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>	
+																</div>
+															</div>
+															<!--/Date of Birth-->	
+
+															<!--Gender-->
+																<div class="col-md-4">
+																	<div class="card card-table">
+																		<div class="table-responsive">
+																			<table class="table table-center">
+																				<thead>
+																					<tr>
+																						<th style="min-width: 100px">Gender</th>
+																					</tr>
+																				</thead>
+																				<tbody>
+																					<tr>
+																						<td>
+																							<select class="form-control" name="gender" value="{{doctor.gender}}">
+																								<option value="Female">Female</option>
+																								<option value="Male">Male</option>
+																							</select>
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</div>	
+																	</div>
+																</div>
+															<!--/Gender-->
+														</div>
+													</tbody>
+													<!--END OF SECOND LINE-->
+
+													<!--THIRD LINE-->
+													<tbody>
+														<div class="row form-row">
+
+															<!--Visiting Hour-->
+															<div class="col-md-4">
+																<div class="card card-table">
+																		<div class="table-responsive">
+																			<table class="table table-center">
+																				<thead>
+																					<tr>
+																						<th style="min-width: 100px">Visiting Hour</th>
+																					</tr>
+																				</thead>
+																				<tbody>
+																					<tr>
+																						<td class="text-danger">
+																							<input class="form-control" type="text" name="visit_hour" placeholder="x am - x pm" value="{{doctor.visiting_hour}}">
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</div>
+																</div>
+															</div>
+															<!--/Visiting Hour-->
+
+															<!--address-->
+															<div class="col-md-4">
+																<div class="card card-table">
+																		<div class="table-responsive">
+																			<table class="table table-center">
+																				<thead>
+																					<tr>
+																						<th style="min-width: 100px">Email</th>
+																					</tr>
+																				</thead>
+																				<tbody>
+																					<tr>
+																						<td class="text-danger">
+																							<input class="form-control" type="text" name="email" value="{{doctor.email}}" readonly>
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</div>
+																</div>
+															</div>
+															<!--/address-->
+
+															<!--NID-->
+															<div class="col-md-4">
+																<div class="card card-table">
+																	<div class="table-responsive">
+																		<table class="table table-center">
+																			<thead>
+																				<tr>
+																					<th style="min-width: 100px">NID</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td class="text-danger">
+																						<input class="form-control" type="text" name="nid" placeholder="National ID Number" value="{{doctor.nid}}">
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>	
+																</div>
+															</div>
+															<!--/NID-->
+														</div>
+													</tbody>
+													<!--/ End Third Line-->
+													<!-- /Basic Information -->
+
+													<!-- FOURTH LINE  -->
+													<!-- ABOUT ME -->
+													<div class="row form-row">
+														<div class="col-md-12">
+															<div class="card card-table">
+																<div class="table-responsive">
+																	<table class="table table-center">
+																		<thead>
+																			<tr>
+																				<th style="min-width: 100px">Biography</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr>
+																				<td class="text-danger">
+																					<textarea class="form-control" rows="5" name="description">{{doctor.description}}</textarea>
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>	
+															</div>
+														</div>
+													</div>
+													<!-- /ABOUT ME -->
+													<!-- /FOURTH LINE  -->
+
+													<!-- FIFTH LINE  -->
+													<!-- EDUCATION -->
+													
+													<div class="row form-row">
+														<div class="col-md-12">
+															<div class="card card-table">
+																<div class="table-responsive">
+																	<table class="table table-center">
+																	<thead>
+																		<tr>
+																		<th style="width: 100%">Education</th>
+																		</tr>
+																	</thead>
+																	</table>
+																	<div class="card-profile">
+																		<div class="education-info">
+																			<div class="row form-row education-cont">
+																				{% for education in educations %}
+																					<div class="col-12 col-md-10 col-lg-11">
+																						<div class="row form-row">
+										
+																							<div class="col-12 col-md-6 col-lg-4">
+																								<div class="form-group">
+																									<label>Degree</label>
+																									<input type="text" class="form-control" value="{{education.degree}}">
+																								</div> 
+																							</div>
+													
+																							<div class="col-12 col-md-6 col-lg-4">
+																								<div class="form-group">
+																									<label>Institute</label>
+																									<input type="text" class="form-control" value="{{education.institute}}">
+																								</div> 
+																							</div>
+														
+																							<div class="col-12 col-md-6 col-lg-4">
+																								<div class="form-group">
+																									<label>Year of Completion</label>
+																									<input type="text" class="form-control" value="{{education.year_of_completion}}">
+																								</div> 
+																							</div>
+										
+																						</div>
+																					</div>
+									
+																					<div class="col-12 col-md-2 col-lg-1">
+																						<label class="d-md-block d-sm-none d-none">&nbsp;</label>
+																						<a href="{% url 'delete-education' pk=education.education_id %}" onclick="return confirm('Are you sure you want to Delete?');" class="btn btn-danger">
+																						<i class="far fa-trash-alt"></i>
+																						</a>
+																					</div>
+									
+																				{% endfor %}
+									
+																			</div>
+																		</div>	
+
+																		<div class="add-more">
+																			<a href="javascript:void(0);" class="add-education"><i class="fa fa-plus-circle"></i> Add Education</a>
+																		</div>
+																					
+																	</div>
+																</div>
+															</div>
+													  	</div>
+													</div>
+
+													<!-- /EDUCATION -->
+													<!-- /FIFTH LINE  -->
+
+													<!-- SIXTH LINE  -->
+													<!-- EXPERIENCE -->
+													<div class="row form-row">
+														<div class="col-md-12">
+															<div class="card card-table">
+																<div class="table-responsive">
+																	<table class="table table-center">
+																		<thead>
+																			<tr>
+																				<th style="width: 100%">Experience</th>
+																			</tr>
+																		</thead>
+																	</table>
+																	<div class="card-profile" >
+																		<div class="experience-info">
+																			<div class="row form-row experience-cont">
+																			  	{% for e in experiences %}
+																					<div class="col-12 col-md-10 col-lg-11">
+																						<div class="row form-row">
+																							<div class="col-12 col-md-6 col-lg-3">
+																								<div class="form-group">
+																									<label>Hospital Name</label>
+																									<input type="text" class="form-control" value="{{e.work_place_name}}">
+																								</div>
+																							</div>
+										
+																							<div class="col-12 col-md-6 col-lg-3">
+																								<div class="form-group">
+																									<label>From</label>
+																									<input type="text" class="form-control" value="{{e.from_year}}">
+																								</div> 
+																							</div>
+										
+																							<div class="col-12 col-md-6 col-lg-3">
+																								<div class="form-group">
+																									<label>To</label>
+																									<input type="text" class="form-control" value="{{e.to_year}}">
+																								</div> 
+																							</div>
+										
+																							<div class="col-12 col-md-6 col-lg-3">
+																								<div class="form-group">
+																									<label>Designation</label>
+																									<input type="text" class="form-control" value="{{e.designation}}">
+																								</div> 
+																							</div>
+																						</div>
+																					</div>
+									
+																					<div class="col-12 col-md-2 col-lg-1">
+																						<label class="d-md-block d-sm-none d-none">&nbsp;</label>
+																						<a href="{% url 'delete-experience' pk=e.experience_id %}" onclick="return confirm('Are you sure you want to Delete?');" class="btn btn-danger">
+																						<i class="far fa-trash-alt"></i>
+																						</a>
+																					</div>		
+																				{% endfor %}
+																			</div>
+																		</div>
+																		<div class="add-more">
+																			<a href="javascript:void(0);" class="add-experience"><i class="fa fa-plus-circle"></i> Add Experience</a>
+																		</div>				
+																	</div>
+																</div>
+															</div>
+													  	</div>
+													</div>
+													<!-- /EXPERIENCE -->
+													<!-- /SIXTH LINE  -->
+
+											<!--Save Changes-->
+											<div class="col-md-12 text-center" style="margin-bottom: 20px;">
+												<div class="submit-section">
+													<button type="submit" class="btn btn-primary submit-btn">
+														<i class="fa-solid fa-floppy-disk"></i>
+														 Save Changes
+													</button>
+												</div>
+											</div>
+											<!--/Save Changes-->
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					  </div>
+ 				<!--/NEW-->
+				<!-- /Page Content -->
+				</div>
+			  </div>
+				
+          </div>
+        </div>
+      </div>
+      <!-- /Page Content -->
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Select2 JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/select2/js/select2.min.js' %}"></script>
+
+    <!-- Dropzone JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/dropzone/dropzone.min.js' %}"></script>
+
+    <!-- Bootstrap Tagsinput JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/bootstrap-tagsinput/js/bootstrap-tagsinput.js' %}"></script>
+
+    <!-- Profile Settings JS -->
+    <script src="{% static 'Mediqs/js/Normal/doctor-profile-settings.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- Searchbar JS -->
+    <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+	{% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+
+  <script>
+	document.getElementById('profile_img_upload').addEventListener('change', function(e){
+	var file = e.target.files[0];
+	var reader = new FileReader();
+
+	// Check if the file is an image
+	if (!file.type.startsWith('image/')) {
+		// Display an error message
+		alert("Please upload an image file.");
+
+		// Clear the file input field
+		e.target.value = '';
+
+		// Clear the image preview
+		document.getElementById('profile_img_preview').src = '{{ patient.featured_image.url | adjust_image_url }}';
+
+		return;
+	}
+
+	reader.onloadend = function() {
+		document.getElementById('profile_img_preview').src = reader.result;
+	}
+
+	if (file) {
+		reader.readAsDataURL(file);
+	} else {
+		document.getElementById('profile_img_preview').src = "";
+	}
+});
+</script>
+
+    
+  </body>
+
+  <!-- doccure/doctor-profile-settings.html  30 Nov 2019 04:12:15 GMT -->
+</html>

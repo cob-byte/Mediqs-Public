@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      	<!-- Header -->
+      	<header class="header">{% include 'patient_navbar.html' %}</header>
+      	<!-- /Header -->
+
+     	<!-- Breadcrumb -->
+      	<div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'patient-dashboard' %}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Patient Dashboard
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Patient Dashboard</h2>
+            </div>
+          </div>
+        </div>
+      	</div>
+      	<!-- /Breadcrumb -->
+
+      	<!-- Page Content -->
+      	<div class="content">
+        	<div class="container-fluid">
+          		<div class="row">
+            		<!-- Profile Sidebar -->
+            		<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              <div>{% include 'patient-sidebar.html' %}</div>
+            		</div>
+            		<!-- / Profile Sidebar -->
+
+					<div class="col-md-7 col-lg-6 col-xl-9">
+
+
+							<div class="invoice-content" style="background-color: white;">
+								<div class="invoice-item">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="invoice-logo">
+												<img src="{% static 'Mediqs/images/Normal/DARK LOGO.png' %}" alt="logo">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<p class="invoice-details">
+												<strong>Prescription ID:</strong> {{prescription.prescription_id}} <br>
+												<strong>Patient ID:</strong> {{prescription.patient.patient_id}} <br>
+												<strong>Date:</strong> {{prescription.create_date }} 
+											</p>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Invoice Item -->
+								<div class="invoice-item">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="invoice-info">
+												<strong class="customer-text">Doctor Information</strong>
+												<p class="invoice-details invoice-details-two">
+													<b>Name: </b>{{prescription.doctor.name}} <br>
+													<b>Department: </b>{{prescription.doctor.department_name}}<br>
+													<b>Email: </b>{{prescription.doctor.email}} <br>
+													
+												</p>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="invoice-info invoice-info2">
+												<strong class="customer-text">Prescription To</strong>
+												<p class="invoice-details">
+													<b>Name: </b>{{prescription.patient.name}}<br>
+													<b>Address: </b>{{prescription.patient.address}}<br>
+													<b>Email: </b>{{prescription.patient.email}}<br>
+													<b>Phone Number: </b>{{prescription.prescription_id}}
+													
+												</p>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Invoice Item -->
+								
+								
+								
+									<!-- Invoice Item -->
+									<div class="invoice-item invoice-table-wrap">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="table-responsive">
+													<table class="invoice-table table table-bordered text-center medical-results-table">
+														<tbody>
+															<tr style="background-color: rgb(84, 147, 199);">
+																<th colspan="6" class="text-center">Medicine</th>
+															</tr>
+															<tr style="background-color: rgb(84, 147, 199);">
+																<th>Medicine Name</th>
+																<th class="text-center">Quantity</th>
+																<th class="text-center">Frequency</th>
+																<th class="text-center">Duration</th>																
+																<th class="text-center">Instruction</th>
+															{% for pm in prescription_medicine %}
+															<tr>
+																<td class="text-center">{{pm.medicine_name}}</td>
+																<td class="text-center">{{pm.quantity}}</td>
+																<td class="text-center">{{pm.frequency}}</td>
+																<td class="text-center">{{pm.duration}}</td>												
+																<td class="text-center">{{pm.instruction}}</td>					
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br>
+									<div class="invoice-item invoice-table-wrap">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="table-responsive">
+													<table class="invoice-table table table-bordered text-center medical-results-table">
+														<tbody>
+															<tr style="background-color: rgb(84, 147, 199);">
+																<th colspan="3" class="text-center">Test</th>
+															</tr>
+															<tr style="background-color: rgb(84, 147, 199)">
+																<th class="text-center"> Test ID </th>
+																<th class="text-center">Test Name</th>
+																<th class="text-center">Description</th>
+															</tr>
+															{% for pt in prescription_test %}
+															<tr>
+																<td class="text-center">{{pt.test_id}}</td>
+																<td class="text-center">{{pt.test_name}}</td>
+																<td class="text-center">{{pt.test_description}}</td>
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- /Invoice Item -->
+									<br>
+									<br>
+									<!-- Invoice Information -->
+									<div class="invoice-item invoice-table-wrap">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="table-responsive">
+													<table class="invoice-table table table-bordered text-center medical-results-table">
+														<tbody>
+															<tr style="background-color: rgb(84, 147, 199);">
+																<th colspan="2" class="text-center">Advice/Recommendation</th>
+															</tr>
+															<tr>
+																<td>{{prescription.extra_information}}</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<br>
+									<button class="download-medical-record"> <a target="_blank" href="{% url 'pres_pdf' pk=prescription.prescription_id %}" > Download Prescription </a></button>
+								</div>
+								<!-- /Invoice Information -->
+								
+							</div>
+						</div>
+						</div>
+					</div>
+					
+
+				</div>	
+			</div>		   
+		</div>
+		<!-- /Page Content -->
+	<!-- /Main Wrapper -->
+	</div>
+	  
+	<!-- jQuery -->
+	<script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+  </body>
+
+<!-- doccure/invoice-view.html  30 Nov 2019 04:12:20 GMT -->
+</html>

@@ -1,0 +1,25 @@
+<ul class="oh-navbar__nofication-list"> 
+    {% for notification in notifications %}
+    <a class="oh-navbar__notification-item" href="{{notification.data.redirect}}">
+      <div>
+        {% if notification.unread %}
+        <span class="oh-navbar__notification-dot oh-navbar__notification-dot--green"
+          :class="markRead ? '': 'oh-navbar__notification-dot--unread'">
+        </span>
+        {% endif %}
+
+      </div>
+      <div>
+        <p class="oh-navbar__notification-text"
+          :class="markRead ? '': 'oh-navbar__notification-text--unread' ">{{ notification.verb }} </p>
+        <p class="oh-navbar__notification-text" style="font-weight: normal;">{{ notification.description }} </p>
+        <span class="oh-navbar__notification-date">{{ notification.timesince }} ago by <img src="https://ui-avatars.com/api/?name={{notification.actor}}&amp;background=random" style="width: 1.5em; border-radius: 100%;" alt="User"> {{ notification.actor }}</span>
+      </div>
+      <div>
+        <div class="oh-navbar__notification-image">
+          <ion-icon name="{{notification.data.icon}}"></ion-icon>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </ul>

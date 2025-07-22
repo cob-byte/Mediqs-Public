@@ -1,0 +1,355 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/create-medical.html GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+    
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+/>
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+       <!-- Header -->
+       <header class="header">{% include 'doctor-navbar.html' %}</header>
+       <!-- /Header -->
+ 
+     
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'doctor-dashboard'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Add Medical Record
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Add Medical Record</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft">
+              <!-- Profile Widget -->
+              {% include 'message.html' %}
+              <div class="card-profile-body widget-profile pat-widget-profile">
+                <div class="card-body">
+                  <div class="pro-widget-content">
+                    <div class="profile-info-widget">
+                      <a href="#" class="booking-doc-img">
+                        <img
+                          src="{{ patient.featured_image.url | adjust_image_url }}"
+                          alt="User Image"
+                        />
+                      </a>
+                      <div class="profile-det-info">
+                        <h3><a href="#">{{patient.name}}</a></h3>
+
+
+                        <div class="patient-details">
+                          <h5><b>ID :</b> {{ patient.patient_id }}</h5>
+                          <h5 class="mb-0">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ patient.address }}
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="patient-info">
+                    <ul>
+                      <li>Phone <span>{{patient.phone_number}}</span></li>
+                      <li>Age <span>{{patient.age}}</span></li>
+                      <li>Blood Group <span>{{patient.blood_group}}</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+			<div class="col-md-7 col-lg-8 col-xl-9">
+				<div class="card-profile-body">
+					<div class="card-body card-title" >
+						<h3  style="text-align: center; font-size: 45px;">Add Medical Record</h3><hr>
+					</div>
+					<div class="card-body">
+						
+						
+
+						
+						<!-- Prescription Item -->
+                        <form action="#" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="card card-table">
+                                <!-- Lab Results -->
+                                <div class="card-body">
+                                    <h4 class="card-title"><b>Lab Results</b></h4>
+                                    <div class="row form-row">
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                          <div class="form-group">
+                                            <label>Lab Name</label>
+                                            <input type="text" class="form-control" name="lab_name" id="lab_name">
+                                          </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label>Date of Test</label>
+                                                <input type="date" class="form-control" name="test_date" id="test_date">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Test(s) Conducted</label>
+                                                <input type="text" class="form-control" name="tests_conducted" id="tests_conducted">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Results Summary</label>
+                                                <textarea class="form-control" name="results_summary" id="results_summary" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Examination Findings -->
+                                <div class="card-body">
+                                    <h4 class="card-title"><b>Examination Findings</b></h4>
+                                    <div class="row form-row" style="padding-left: 15px;">
+                                        <div class="col-12">
+                                          <label>A. Vital Signs</label>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label>1. Blood Pressure</label>
+                                                <input type="text" class="form-control" name="blood_pressure" id="blood_pressure">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label>2. Heart Rate</label>
+                                                <input type="text" class="form-control" name="heart_rate" id="heart_rate">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label>3. Respiratory Rate</label>
+                                                <input type="text" class="form-control" name="respiratory_rate" id="respiratory_rate">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label>4. Temperature</label>
+                                                <input type="text" class="form-control" name="temperature" id="temperature">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>B. Physical Examination</label>
+                                                <textarea class="form-control" name="physical_examination" id="physical_examination" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>C. Relevant Diagnostic Tests (if any)</label>
+                                                <input type="text" class="form-control" name="diagnostic_tests" id="diagnostic_tests">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Diagnosis -->
+                                <div class="card-body">
+                                    <h4 class="card-title"><b>Diagnosis</b></h4>
+                                    <div class="row form-row">
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label>A. Disease/Condition</label>
+                                                <select class="form-control" name="disease_condition" id="disease_condition">
+                                                    {% for code, disease in DISEASE_CHOICES %}
+                                                        <option value="{{ code }}">{{ disease }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label>B. Severity</label>
+                                                <input type="text" class="form-control" name="severity" id="severity">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Additional Notes/Recommendations -->
+                                <div class="card-body">
+                                    <h4 class="card-title"><b>Additional Notes/Recommendations</b></h4>
+                                    <div class="row form-row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <textarea class="form-control" name="additional_notes" id="additional_notes" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                      <!--Save Changes-->
+											<div class="col-md-12 text-center" style="margin-bottom: 20px;">
+												<div class="submit-section">
+													<button type="submit" class="btn btn-primary submit-btn">
+														<i class="fa-solid fa-floppy-disk"></i>
+														 Save
+													</button>
+												</div>
+											</div>
+											<!--/Save Changes-->
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>                        
+      <!-- /Page Content -->
+    </div>
+   
+    <!-- /Main Wrapper -->
+
+    <!-- Add Medical Records Modal -->
+    <div class="modal fade custom-modal" id="add_medical_records">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Medical Records</h3>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Date</label>
+                <input
+                  type="text"
+                  class="form-control datetimepicker"
+                  value="31-10-2019"
+                />
+              </div>
+              <div class="form-group">
+                <label>Description ( Optional )</label>
+                <textarea class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Upload File</label>
+                <input type="file" class="form-control" />
+              </div>
+              <div class="submit-section text-center">
+                <button type="submit" class="btn btn-primary submit-btn">
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary submit-btn"
+                  data-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /Add Medical Records Modal -->
+
+   
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Slimscroll JS -->
+    <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+    <!-- Datetimepicker JS -->
+    <!-- <script src="{% static 'Mediqs/js/Normal/moment.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap-datetimepicker.min.js' %}"></script> -->
+
+    <!-- Prescription Settings JS -->
+    <script src="{% static 'Mediqs/js/Normal/prescription-settings.js' %}"></script>
+
+    	<!-- Datatables JS -->
+		<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+		<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <!-- <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script> -->
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    {% if messages %}
+      <script>
+          {% for message in messages %}
+              $(document).ready(function () {
+                  $('.toast').toast('show');
+              });
+          {% endfor %}
+      </script>
+    {% endif %}
+	
+  </body>
+   
+
+  <!-- doccure/patient-profile.html  30 Nov 2019 04:12:13 GMT -->
+</html>

@@ -1,0 +1,246 @@
+{% load static %}
+{% load cloud %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/appointments.html  30 Nov 2019 04:12:09 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+   <!-- Fontawesome CSS 
+        <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"/>
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">
+          {% include 'staff-navbar.html' %} 
+      </header>
+          <!-- /Header -->
+
+      <!-- Breadcrumb -->
+
+      <div class="breadcrumb-bar">
+
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'doctor-dashboard'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Appointments
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Appointments</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              <!-- Profile Sidebar -->
+              <div>{% include 'staff-sidebar.html' %}</div>
+              <!-- /Profile Sidebar -->
+            </div>
+            
+            <div class="col-md-7 col-lg-8 col-xl-9">
+              <div class="appointments">
+                <!-- Appointment List -->
+                {% for app in appointments %}
+              <div class="appointment-card">
+                <div class="appointment-list">
+                  <div class="profile-info-widget">
+                    <a href="{%url 'patient-profile' pk=app.patient.patient_id%}" class="booking-doc-img">
+                      <img src="{{ app.patient.featured_image.url | adjust_image_url }}" alt="User Image"/>
+                    </a>
+                    <div class="profile-det-info">
+                      <h3><a href="{%url 'patient-profile' pk=app.patient.patient_id%}">{{app.patient.name}}</a></h3>
+                      
+                      <div class="patient-details">
+                        <h5>
+                          <i class="fas fa-file"></i>Appoinment Serial No: #PT{{app.serial_number}}
+                        </h5>
+                        <h5>
+                          <i class="far fa-clock"></i> {{app.date}} {{app.time}}
+                        </h5>
+                        <h5>
+                          <i class="fas fa-briefcase-medical"></i> Purpose: {{app.appointment_type}} 
+                        </h5>
+                        <h5>
+                          <i class="fas fa-map-marker-alt"></i>{{app.patient.address}}
+                        </h5>
+                        <h5>
+                          <i class="fas fa-envelope"></i> {{app.patient.email}}
+                        </h5>
+                        
+                        <h5 class="mb-0">
+                          <i class="fas fa-phone"></i>{{app.patient.phone_number}}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="appointment-action">
+                    <a href="{% url 'accept-appointment' pk=app.id %}" onclick="return confirm('Are you sure {{ app.patient.name }} showed up to the appointment?');" class="btn btn-sm bg-success-light"><i class="fas fa-check"></i> Show</a>
+                    <a href="{% url 'reject-appointment' pk=app.id %}" onclick="return confirm('Are you sure {{ app.patient.name }} didnt show up to the appointment?');" class="btn btn-sm bg-danger-light"><i class="fas fa-times"></i> No Show</a>              
+                  </div>               
+                </div>
+                </div>
+                <!-- /Appointment List -->
+                
+                  {% empty %}
+                    <div class="card">
+                      <div class="card-body">
+                        <h4>No Appointments</h4>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  <div class="pagination">
+                    <button id="prev-btn" class="btn btn-primary" style="margin-right:1%">
+                      <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button id="next-btn" class="btn btn-primary">
+                      Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+              </div>
+              
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+      <!-- /Page Content -->
+
+     
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/js/Normal/script.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <script>
+      // Function to handle pagination
+      function handlePagination() {
+        // Get all the cards
+        var cards = document.getElementsByClassName('appointment-card');
+        var pageSize = 3; // Number of cards to display per page
+        var totalPages = Math.ceil(cards.length / pageSize); // Total number of pages
+        var currentPage = 1; // Current page number
+    
+        // Show initial set of cards
+        showCards(currentPage);
+    
+        // Function to display cards for a specific page
+        function showCards(page) {
+          // Hide all cards
+          for (var i = 0; i < cards.length; i++) {
+            cards[i].style.display = 'none';
+          }
+    
+          // Calculate start and end indices of cards to display
+          var startIndex = (page - 1) * pageSize;
+          var endIndex = Math.min(startIndex + pageSize, cards.length);
+    
+          // Display cards within the range
+          for (var j = startIndex; j < endIndex; j++) {
+            cards[j].style.display = 'block';
+          }
+        }
+    
+        // Function to handle "Next" button click
+        function nextPage() {
+          if (currentPage < totalPages) {
+            currentPage++;
+            showCards(currentPage);
+          } else {
+            // Show error message when there are no more cards to show
+            alert('No more cards to show.');
+          }
+        }
+    
+        // Function to handle "Previous" button click
+        function previousPage() {
+          if (currentPage > 1) {
+            currentPage--;
+            showCards(currentPage);
+          } else {
+            // Show error message when on the first page
+            alert('You are already on the first page.');
+          }
+        }
+    
+        // Attach event listeners to pagination buttons
+        var nextBtn = document.getElementById('next-btn');
+        var prevBtn = document.getElementById('prev-btn');
+    
+        nextBtn.addEventListener('click', nextPage);
+        prevBtn.addEventListener('click', previousPage);
+      }
+    
+      // Event listener to run the pagination function after the DOM is fully loaded
+      document.addEventListener('DOMContentLoaded', function () {
+        handlePagination();
+      });
+    </script>
+
+  
+  </body>
+
+  <!-- doccure/appointments.html  30 Nov 2019 04:12:09 GMT -->
+</html>

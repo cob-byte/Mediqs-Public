@@ -1,0 +1,391 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <title>Mediqs - Revolutionizing Electronic Medical Records with Predictive Analytics</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+<!--
+
+Mediqs - Revolutionizing Electronic Medical Records with Predictive Analytics
+
+-->
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/mediqs-css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animated.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slider-hc.css' %}">
+
+  </head>
+
+<body>
+
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <!-- ***** Logo Start ***** -->
+            <a href="#top" class="logo" style="margin-top: 15px">
+              <img src="{% static 'Mediqs/images/Normal/mediqs_logo.png' %}" alt="Mediqs Logo">
+            </a>
+            <!-- ***** Logo End ***** -->
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+              <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+              <li class="scroll-to-section"><a href="#services">Services</a></li>
+              <li class="scroll-to-section"><a href="#about">About</a></li>
+              <li class="scroll-to-section"><a href="#featured">Health Centers</a></li>
+              <li><div class="gradient-button"><a id="modal_trigger" href="{% url 'login' %}">SIGN IN <i class="fa fa-sign-in-alt"></i></a></div></li> 
+            </ul>        
+            <a class='menu-trigger'>
+                <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="row">
+              <div class="col-lg-6 align-self-center">
+                <div class="right-image wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+                  <img src="{% static 'images/slider-dec.png' %}" alt="hospital" style="margin-top: -100px;">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="left-content show-up header-text wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <h2>Revolutionizing Electronic Medical Records with Predictive Analytics</h2>
+                      <p>Computer-based healthcare management facilitates healthcare management in barangay providing a secure and reliable way of storing and accessing comprehensive patient information.</p>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="white-button first-button scroll-to-section">
+                        <a id="modal_trigger" href="#bookappointment">BOOK AN APPOINTMENT?</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="top-right-image wow fadeIn" data-wow-duration="1s" data-wow-delay="1s">
+                  <img src="{% static 'images/circles.png' %}" alt="hospital">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="services wow fadeIn" id="services" name="Services" data-wow-duration="1s" data-wow-delay="0.5s">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+          <div class="section-heading  wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.5s">
+            <h4 style="color: #fff;">Services Offered</h4>
+            <img src="{% static 'images/two-lines.png' %}" alt="">
+            <p>Computer-based healthcare management facilitates healthcare management in barangay providing a secure and reliable way of storing and accessing comprehensive patient information.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="service-item first-service h-75" style="margin-left: 15%;">
+            <div class="icon"></div>
+            <h4>EMR System</h4>
+            <p>A web-based electronic medical record (EMR) system to facilitate healthcare management in barangay providing a secure and reliable way of storing and accessing comprehensive patient information.</p>
+            <br>
+            <br>
+            <br>
+            <br>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="service-item second-service h-75">
+            <div class="icon"></div>
+            <h4>Digitizing Tasks</h4>
+            <p>There is a digitalization of administrative works such as patient registration, appointment, scheduling, monitoring of medical supplies and equipment, writing a prescription, and billing process.</p>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="service-item third-service h-75">
+            <div class="icon"></div>
+            <h4>Appointment System</h4>
+            <p>Efficiently manage patient appointments and schedules in the Barangay Health Center and improve healthcare providers' access to patients' appointment histories and follow-up appointments, reducing wait times and improving patient flow.</p>
+            <br>
+            <br>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="service-item fourth-service h-75" style="margin-right: 15%;">
+            <div class="icon"></div>
+            <h4>Predictive Analytics</h4>
+            <p>Implementation of an outbreak prediction analytics system that utilizes real-time data and machine learning algorithms to accurately predict outbreaks and provide timely insights to healthcare professionals for effective preventive measures.</p>
+            <br>
+            <br>
+            <br>
+            <br>
+          </div>
+        </div>
+      </div>
+    <div class="book wow fadeIn" id="bookappointment" data-wow-duration="1s" data-wow-delay="0.5s">
+      <ul>
+      <li style="color: #fff;font-size: 35px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; text-align: center;"><mark>How to book an appointment?</mark></li>
+      <br>
+      <li style="color: #fff;font-size: 21px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; text-align: center;">Follow the step-by-step process of booking an appointment for a medical assistance</li>
+      <br>
+      <img src="static\Mediqs\images\Normal\Appointment's-process.png" alt="Process Diagram">
+      <br>
+      <h5><i>Need any medical assistance? Book an appointment and get your priority number <span><a href="{% url 'login' %}">here.</i></a></span></h5>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  <!-- about section -->
+  <div id="about" class="about">
+    <div class="container">
+      <div class="row">
+        <div class="section-heading">
+          <hr style="border-left: 2px; color: solid black; height: 2px;">
+          <h4 style="font-size: 35px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; text-align: right;">ABOUT</h4>
+          <div class="about-content">
+              <div class="about-images">
+                <ul class="slides">
+                    <input type="radio" name="radio-btn" id="img-1" checked />
+                    <li class="slide-container">
+                    <div class="slide">
+                      <img src="{% static 'Mediqs/images/Normal/sample-image.png' %}" />
+                        </div>
+                    <div class="nav">
+                      <label for="img-4" class="prev">&#x2039;</label>
+                      <label for="img-2" class="next">&#x203a;</label>
+                    </div>
+                    </li>
+                
+                    <input type="radio" name="radio-btn" id="img-2" />
+                    <li class="slide-container">
+                        <div class="slide">
+                          <img src="{% static 'Mediqs/images/Normal/sample-image2.jpg' %}" />
+                        </div>
+                    <div class="nav">
+                      <label for="img-1" class="prev">&#x2039;</label>
+                      <label for="img-3" class="next">&#x203a;</label>
+                    </div>
+                    </li>
+                
+                    <input type="radio" name="radio-btn" id="img-3" />
+                    <li class="slide-container">
+                        <div class="slide">
+                          <img src="{% static 'Mediqs/images/Normal/sample-image3.jpg' %}" />
+                        </div>
+                    <div class="nav">
+                      <label for="img-2" class="prev">&#x2039;</label>
+                      <label for="img-4" class="next">&#x203a;</label>
+                    </div>
+                    </li>
+                
+                    <input type="radio" name="radio-btn" id="img-4" />
+                    <li class="slide-container">
+                        <div class="slide">
+                          <img src="{% static 'Mediqs/images/Normal/sample-image4.jpg' %}" />
+                        </div>
+                    <div class="nav">
+                      <label for="img-3" class="prev">&#x2039;</label>
+                      <label for="img-1" class="next">&#x203a;</label>
+                    </div>
+                    </li>
+                
+                    <li class="nav-dots">
+                      <label for="img-1" class="nav-dot" id="img-dot-1"></label>
+                      <label for="img-2" class="nav-dot" id="img-dot-2"></label>
+                      <label for="img-3" class="nav-dot" id="img-dot-3"></label>
+                      <label for="img-4" class="nav-dot" id="img-dot-4"></label>
+                    </li>
+                </ul>
+              </div>
+              <div class="about-text">
+                  <p style="text-align:justify; color: #065242; font-size: 17px; text-indent: 2em;">Mediqs is a web-based platform for multiple healthcare centers within Manila area. This is a platform for the barangay community for easier process in healthcare management.</p>
+                  <p style="text-align:justify; color: #065242; font-size: 17px; text-indent: 2em;">It provides medical assistance to patients who require healthcare services in the barangay. It has the ability to track, monitor, and inform patients' health records digitally.</p>
+                  <p style="text-align:justify; color: #065242; font-size: 17px; text-indent: 2em;">Patients can also view information regarding multiple healthcare centers and make appointments online, and doctors can manage the records of their patients.</p>
+              </div>
+            </div>  
+            <hr style="border-left: 2px; color: solid black; height: 2px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <div id="featured" class="featured">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+          <div class="section-heading"> 
+            <h4>Featured Barangay Healthcare Center</h4>
+            <p>Here are the list of barangay healthcare center integrated in our website. Here You can access multiple healthcare center. You can book your appointment from your doctor & can collect all healthcare center informations from here.</p>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="moviewpb-section">
+            <div class="owl-carousel owl-theme"  id="moviewrap">
+              {% for healthcenter in healthcenters %}
+              <div class="item moviewrap"><div class="genrecard card1"> <div class="wrapper"><img src="{{ healthcenter.featured_image.url | adjust_image_url }}" 
+                class="img-responsive wp-post-image jetpack-lazy-image--handled" 
+                alt="{{healthcenter.name}}'s Picture"> 
+                <div class="data"> <div class="content"> <div class="cardheader"> 
+                  <span class="headertitle"><h1 class="title">{{healthcenter.name}}
+                  </h1></span> 
+                  <span class="genre">{{healthcenter.street}}, Barangay {{healthcenter.barangay}}, {{healthcenter.city}} {{healthcenter.zip_code}}</span> </div> 
+                  <p class="text">{{healthcenter.description}}</p> 
+                  </div> </div> </div> </div></div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <!-- Start of Footer Section -->
+	<footer id="footer">
+		<div class="layer-stretch">
+			<div class="row layer-wrapper">
+				<div class="col-md-4 footer-block">
+					<div class="footer-ttl">
+						<p>Basic Info</p>
+					</div>
+					<div class="footer-container footer-a">
+						<div class="tbl">
+							<div class="tbl-row">
+								<div class="tbl-cell"><i class="far fa-map"></i></div>
+								<div class="tbl-cell">
+									<p class="paragraph-medium paragraph-white">Gen. Luna corner Muralla St, Intramuros, Manila, 1002 Metro Manila, Philippines</p>
+								</div>
+							</div>
+							<div class="tbl-row">
+								<div class="tbl-cell"><i class="fas fa-mobile-alt"></i></div>
+								<div class="tbl-cell">
+									<p class="paragraph-medium paragraph-white">+63286432500</p>
+								</div>
+							</div>
+							<div class="tbl-row">
+								<div class="tbl-cell"><i class="far fa-envelope-open"></i></div>
+								<div class="tbl-cell">
+									<p class="paragraph-medium paragraph-white">mediqshealthcenters@gmail.com</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 footer-block">
+          <div class="footer-ttl">
+            <p>Quick Links</p>
+          </div>
+          <div class="quick-links-container">
+            <div class="quick-links-col">
+              <ul>
+                <li class="scroll-to-section">
+                  <a href="#about" style="color: #416F83;">
+                    <button class="quick-links-btn">About</button>
+                  </a>
+                </li>
+                <li>
+                  <a href="{% url 'patient-register' %}" style="color: #416F83">
+                    <button class="quick-links-btn">Register</button>
+                  </a>
+                </li>
+              </ul>
+              <ul>
+                <li class="scroll-to-section">
+                  <a href="#services" style="color: #416F83;">
+                    <button class="quick-links-btn">Services Offered</button>
+                  </a>
+                </li>
+                <li class="scroll-to-section">
+                  <a href="#bookappointment" style="color: #416F83;">
+                    <button class="quick-links-btn">Book an appointment</button>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>          
+        </div>        
+				<div class="col-md-4 footer-block">
+					<div class="footer-container footer-c">
+						<a href="#top"><img src="{% static 'Mediqs/images/Normal/DARK LOGO.png' %}"></a>
+					</div>
+ 				</div>
+			</div>
+		</div>
+		<!-- Start of Copyright Section -->
+		<div id="copyright">
+			<div class="layer-stretch">
+				<div class="paragraph-medium paragraph-white">
+					2023 © DevBuilds. ALL RIGHTS RESERVED				</div>
+			</div>
+		</div><!-- End of Copyright Section -->
+	</footer><!-- End of Footer Section -->
+
+
+  <!-- Scripts -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+  <script src="{% static 'assets/js/animation.js' %}"></script>
+  <script src="{% static 'assets/js/imagesloaded.js' %}"></script>
+  <script src="{% static 'assets/js/popup.js' %}"></script>
+  <script src="{% static 'assets/js/custom.js' %}"></script>
+  <script src="{% static 'assets/js/slider-hc.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Mediqs</title>
+        <!-- Favicons -->
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  />
+		
+		<!-- Favicon -->
+
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"> 
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}">
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+		
+		<!-- Datatables CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/admin/datatables/datatables.min.css'%}"> 
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}"> 
+		<link rel="stylesheet"href="{% static 'Mediqs/css/Normal/search2.css' %}">
+		
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+			<header class="header">{% include 'healthcenter_admin/pharmacist-navbar.html' %}</header>
+          
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+			<aside class="sidebar" id="sidebar">
+				{% include 'healthcenter_admin/pharmacist-sidebar.html' %} </aside>
+				<!-- /Sidebar -->
+			
+            <div class="page-wrapper">
+
+                <div class="content container-fluid">
+					
+					<div class="col-md-6 col-6 text-right float-right">
+						<div class="top-nav-search">
+						  <form action="{% url 'medical-supply-list' %}" method="GET">
+							<input type="text" class="form-control" placeholder="Search medical supply" name="search_query" value="{{search_query}}">
+							<button class="btn" type="submit"><i class="fe fe-search"></i></button>
+						  </form>
+						</div>
+					</div>
+					
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">List of Medical Supply</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'inventorymanager-dashboard' %}">Dashboard</a></li>
+									<li class="breadcrumb-item active">Medical Supply</li>
+								</ul>
+							</div>
+							
+						</div>
+					</div>
+
+					<div class="row">
+						 <div class="col-sm-12">
+							 <div class="card-table">
+								 <div class="card-body">
+									 <div class="table-responsive">
+										<table class="datatable table table-center mb-0">
+											 <thead>
+												<tr>
+													<th>Item Code</th>
+													<th>Supply Name</th>
+													<th>Stock Quantity</th>
+													<th>Supply Subcategory</th>
+													<th>Supplier</th>
+													<th>Price Per Unit</th>
+													<th>Expiration Date</th>
+													<th>Actions</th>
+
+												</tr>
+											 </thead>
+											 {% for medical_supply in medical_supply %}
+												<tr>
+													<td>{{medical_supply.item_code}}</td>
+													<td>{{medical_supply.name}}</td>
+													<td>{{medical_supply.stock_quantity}} pcs</td>
+													<td>{{medical_supply.subcategory}}</td>
+													<td>{{medical_supply.supplier}}</td>
+													<td>{{medical_supply.price_per_unit}}</td>
+													<td>{{medical_supply.expiration_date}}</td>
+													<td>
+                                                        <a href="{% url 'medical-supply-list-view'%}" class="btn btn-primary"><i class="fa-solid fa-eye" style="margin-right: 5px;"></i>View</a>
+                                                        <a href="{% url 'medical-supply-list-manage' pk=medical_supply.serial_number %}" class="btn btn-danger btn-m"><i class="fa-solid fa-pen-to-square" style="margin-right: 5px;"></i>Manage</a>
+                                                    </td>
+												</tr>
+											  {% endfor %}
+										</table>
+									</div>
+								</div>
+							</div>	
+					    </div>
+					</div>
+				</div>
+			<!-- /Page Wrapper -->
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+        <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+		
+		<!-- Bootstrap Core JS -->
+        <script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script> 
+        <script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script> 
+		
+		<!-- Slimscroll JS -->
+        <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+		
+		<!-- Datatables JS -->
+		<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+		<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+		<script src="{% static 'Mediqs/js/Normal/script.js' %}"></script>
+		
+    </body>
+
+</html>

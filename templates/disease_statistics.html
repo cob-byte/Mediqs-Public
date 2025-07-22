@@ -1,0 +1,1202 @@
+  {% load static %}
+  {% load custom_filters %}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <title>Mediqs</title>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=0"
+      />
+
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+      <script src="https://code.highcharts.com/modules/exporting.js"></script>
+      <script src="https://code.highcharts.com/modules/export-data.js"></script>
+      <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+      <script src="https://code.highcharts.com/modules/data.js"></script>
+
+      <!-- Favicons -->
+      <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+      />
+
+      <!-- Select2 CSS -->
+      <link
+        rel="stylesheet"
+        href="{% static 'Mediqs/plugins/Normal/select2/css/select2.min.css' %}"
+      />
+
+      <!-- Bootstrap CSS -->
+      <link
+        rel="stylesheet"
+        href="{% static 'Mediqs/plugins/Normal/bootstrap-tagsinput/css/bootstrap-tagsinput.css' %}"
+      />
+
+      <link
+        rel="stylesheet"
+        href="{% static 'Mediqs/plugins/Normal/dropzone/dropzone.min.css' %}"
+      />
+
+      <!-- Bootstrap CSS -->
+      <link
+        rel="stylesheet"
+        href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+      />
+
+      <!-- Fontawesome CSS -->
+      <link
+        rel="stylesheet"
+        href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+      />
+      <link
+        rel="stylesheet"
+        href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+      />
+
+      <!-- Fancybox CSS -->
+      <link
+        rel="stylesheet"
+        href="% static 'Mediqs/plugins/fancybox/jquery.fancybox.min.css' %"
+      />
+
+      <!-- Main CSS -->
+      <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/tab.css' %}"
+      />
+
+      <!-- Main CSS -->
+      <link
+        rel="stylesheet"
+        href="{% static 'Mediqs/css/Normal/style.css' %}"
+      />
+
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+      <![endif]-->
+    </head>
+    <body>
+      <!-- Main Wrapper -->
+      <div class="main-wrapper">
+        <!-- Header -->
+        <header class="header">{% include 'doctor-navbar.html' %}</header>
+        <!-- /Header -->
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+          <div class="chat-patient">
+            <ul>
+             <p><a href="{% url 'inventory' %}" style="color: black;">Inventory</a><br>
+              <a href="{% url 'chat-home' pk=user.id %}" style="color: black;">Chat with Patients</a></p>
+            </ul>
+          </div>
+          <div class="container-fluid">
+            <div class="row align-items-center">
+              <div class="col-md-12 col-12">
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'doctor-dashboard' %}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                      Disease Statistics
+                    </li>
+                  </ol>
+                </nav>
+                <h2 class="breadcrumb-title">Disease Statistics</h2>{% include 'message.html' %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /Breadcrumb -->
+
+        <!-- Page Content -->
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+
+              <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                <!-- Profile Sidebar -->
+                <div>{% include 'doctor-sidebar.html' %}</div>
+                <!-- /Profile Sidebar -->
+              </div>
+
+              <!-- Disease Statistics Content -->
+              <div class="col-md-7 col-lg-8 col-xl-9">
+                <div class="wrapper">
+                  <div class="title">
+                    Disease Statistics of All Healthcenters
+                  </div>
+                  <div class="tabs_wrap">
+                    <ul>
+                      <li data-tabs="overall" data-title="Disease Statistics of All Healthcenters" class="active">Overall Disease Statistics</li>
+                      <li data-tabs="healthcenter" data-title="{{ doctor.health_center.name }} Disease Statistics">{{doctor.health_center.name}} Disease Statistics</li>
+                    </ul>
+                  </div>
+                  <div id="overall" class="tabs_content" style="display: block;">
+                    <div class="tabs_wrap">
+                      <ul>
+                          <li data-tabs1="all_time" data-title="Disease Statistics of All Healthcenters" class="active">All Time</li>
+                          <li data-tabs1="30_days" data-title="Disease Statistics of All Healthcenters">30D</li>
+                          <li data-tabs1="7_days" data-title="Disease Statistics of All Healthcenters">7D</li>
+                          <li data-tabs1="1_day" data-title="Disease Statistics of All Healthcenters">1D</li>
+                      </ul>
+                    </div>
+                    <!-- Content for All Time tab -->
+                    <div id="all_time" class="tabs_content" style="display: block; margin-left: 0; margin-right: 0;">
+                      <div class="col-md-12">
+                        <div id="bar-race-chart" style="width:100%; height:400px;"></div>
+                      </div>
+
+                      <!-- Disease Ranking Table -->
+                      <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Change</th>
+                                    <th>Name of Disease</th>
+                                    <th>Cases (All Time)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for stat, change in overall_stats_current|zip_lists:ranking_difference_all_time %}
+                              <tr>
+                                      <td>
+                                          {% if change == 'up' %}
+                                              <i class="fas fa-arrow-up text-danger"></i>
+                                          {% elif change == 'down' %}
+                                              <i class="fas fa-arrow-down text-success"></i>
+                                          {% elif change == 'same' %}
+                                              <i class="fas fa-minus"></i>
+                                          {% else %}
+                                              <span class="badge badge-info">New</span>
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ stat.disease_condition }}</td>
+                                      <td>{{ stat.total_cases }}</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                      <td colspan="4">No Case For Today</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+
+                      <div>{{ age_group_chart_all_time|safe }}</div>
+                      <div>{{ gender_chart_all_time|safe }}</div>
+                      <div>{{ severity_chart_all_time|safe }}</div>
+                      <div>{{ time_series_chart_all_time|safe }}</div>
+                    </div>
+
+                    <!-- Content for 30 Days tab -->
+                    <div id="30_days" class="tabs_content" style="display: none; margin-left: 0; margin-right: 0;">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <!-- Chart showing the cases for each disease currently -->
+                          <div id="current-cases-chart-30D"></div>
+                        </div>
+                        <div class="col-md-6">
+                          <!-- Chart showing the % of increase/disease in the past 30 days -->
+                          <div id="percentage-increase-chart-30D"></div>
+                        </div>
+                      </div>
+
+                      <!-- Disease Ranking Table -->
+                      <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Change</th>
+                                    <th>Name of Disease</th>
+                                    <th>Cases (30 Days)</th>
+                                    <th>Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for stat, change in percentage_increase_past_30_days|zip_lists:ranking_difference_past_30_days %}
+                              <tr>
+                                      <td>
+                                          {% if change == 'up' %}
+                                              <i class="fas fa-arrow-up text-danger"></i>
+                                          {% elif change == 'down' %}
+                                              <i class="fas fa-arrow-down text-success"></i>
+                                          {% elif change == 'same' %}
+                                              <i class="fas fa-minus"></i>
+                                          {% else %}
+                                              <span class="badge badge-info">New</span>
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ stat.disease_condition }}</td>
+                                      <td>{{ stat.total_cases }}</td>
+                                      <td>{{ stat.percentage_increase|floatformat:2 }}%</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                      <td colspan="4">No Case For Today</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+                      <div class="col-md-12">
+                        <div>{{ age_group_chart_30D|safe }}</div>
+                        <div>{{ gender_chart_30D|safe }}</div>
+                        <div>{{ severity_chart_30D|safe }}</div>
+                        <div>{{ time_series_chart_30D|safe }}</div>
+                      </div>
+                    </div>
+
+                    <!-- Content for 7 Days tab -->
+                    <div id="7_days" class="tabs_content" style="display: none; margin-left: 0; margin-right: 0;">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <!-- Chart showing the cases for each disease currently -->
+                          <div id="current-cases-chart-7D"></div>
+                        </div>
+                        <div class="col-md-6">
+                          <!-- Chart showing the % of increase/disease in the past 30 days -->
+                          <div id="percentage-increase-chart-7D"></div>
+                        </div>
+                      </div>
+
+                      <!-- Disease Ranking Table -->
+                      <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Change</th>
+                                    <th>Name of Disease</th>
+                                    <th>Cases (7 days)</th>
+                                    <th>Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for stat, change in percentage_increase_past_7_days|zip_lists:ranking_difference_past_7_days %}
+                                  <tr>
+                                      <td>
+                                          {% if change == 'up' %}
+                                              <i class="fas fa-arrow-up text-danger" ></i>
+                                          {% elif change == 'down' %}
+                                              <i class="fas fa-arrow-down text-success"></i>
+                                          {% elif change == 'same' %}
+                                              <i class="fas fa-minus"></i>
+                                          {% else %}
+                                              <span class="badge badge-info">New</span>
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ stat.disease_condition }}</td>
+                                      <td>{{ stat.total_cases }}</td>
+                                      <td>{{ stat.percentage_increase|floatformat:2 }}%</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                      <td colspan="4">No Case For Today</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+
+                      <div>{{ age_group_chart_7D|safe }}</div>
+                      <div>{{ gender_chart_7D|safe }}</div>
+                      <div>{{ severity_chart_7D|safe }}</div>
+                      <div>{{ time_series_chart_7D|safe }}</div>
+                    </div>
+
+                    <!-- Content for 1 Day tab -->
+                    <div id="1_day" class="tabs_content" style="display: none; margin-left: 0; margin-right: 0;">
+                      <div class="col-md-12">
+                        <!-- Chart showing the cases for each disease currently -->
+                        <div id="current-cases-chart-1D"></div>
+                      </div>
+
+                      <!-- Disease Ranking Table -->
+                      <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Change</th>
+                                    <th>Name of Disease</th>
+                                    <th>Cases (24 Hours)</th>
+                                    <th>Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for stat, change in percentage_increase_past_24_hours|zip_lists:ranking_difference_past_1_day %}
+                              <tr>
+                                      <td>
+                                          {% if change == 'up' %}
+                                              <i class="fas fa-arrow-up text-danger"></i>
+                                          {% elif change == 'down' %}
+                                              <i class="fas fa-arrow-down text-success"></i>
+                                          {% elif change == 'same' %}
+                                              <i class="fas fa-minus"></i>
+                                          {% else %}
+                                              <span class="badge badge-info">New</span>
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ stat.disease_condition }}</td>
+                                      <td>{{ stat.total_cases }}</td>
+                                      <td>{{ stat.percentage_increase|floatformat:2 }}%</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                      <td colspan="4">No Case For Today</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+
+                      <div>{{ age_group_chart_1D|safe }}</div>
+                      <div>{{ gender_chart_1D|safe }}</div>
+                      <div>{{ severity_chart_1D|safe }}</div>
+                      <div>{{ time_series_chart_1D|safe }}</div>
+                    </div>
+                  </div>
+                  <div id="healthcenter" class="tabs_content" style="display: none;">
+                    <!-- Content for Health Center Disease Statistics tab -->
+                    <div class="tabs_wrap">
+                      <ul>
+                          <li data-tabs2="all_time" data-title="Disease Statistics of {{ doctor.health_center.name }} Healthcenters" class="active">All Time</li>
+                          <li data-tabs2="30_days" data-title="Disease Statistics of {{ doctor.health_center.name }} Healthcenters">30D</li>
+                          <li data-tabs2="7_days" data-title="Disease Statistics of {{ doctor.health_center.name }} Healthcenters">7D</li>
+                          <li data-tabs2="1_day" data-title="Disease Statistics of {{ doctor.health_center.name }} Healthcenters">1D</li>
+                      </ul>
+                    </div>
+                    <!-- Content for All Time tab -->
+                    <div id="all_time" class="tabs_content1" style="display: block; margin-left: 0; margin-right: 0;">
+                      <div class="col-md-12">
+                        <div id="all_bar-race-chart" style="width:100%; height:400px;"></div>
+                      </div>
+
+                      <!-- Disease Ranking Table -->
+                      <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Change</th>
+                                    <th>Name of Disease</th>
+                                    <th>Cases (All Time)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for stat, change in all_overall_stats_current|zip_lists:all_ranking_difference_all_time %}
+                              <tr>
+                                      <td>
+                                          {% if change == 'up' %}
+                                              <i class="fas fa-arrow-up text-danger"></i>
+                                          {% elif change == 'down' %}
+                                              <i class="fas fa-arrow-down text-success"></i>
+                                          {% elif change == 'same' %}
+                                              <i class="fas fa-minus"></i>
+                                          {% else %}
+                                              <span class="badge badge-info">New</span>
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ stat.disease_condition }}</td>
+                                      <td>{{ stat.total_cases }}</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                      <td colspan="4">No Case For Today</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+
+                      <div>{{ all_age_group_chart_all_time|safe }}</div>
+                      <div>{{ all_gender_chart_all_time|safe }}</div>
+                      <div>{{ all_severity_chart_all_time|safe }}</div>
+                      <div>{{ all_time_series_chart_all_time|safe }}</div>
+                    </div>
+
+                    <!-- Content for 30 Days tab -->
+                    <div id="30_days" class="tabs_content1" style="display: none; margin-left: 0; margin-right: 0;">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <!-- Chart showing the cases for each disease currently -->
+                          <div id="all_current-cases-chart-30D"></div>
+                        </div>
+                        <div class="col-md-6">
+                          <!-- Chart showing the % of increase/disease in the past 30 days -->
+                          <div id="all_percentage-increase-chart-30D"></div>
+                        </div>
+                      </div>
+
+                      <!-- Disease Ranking Table -->
+                      <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Change</th>
+                                    <th>Name of Disease</th>
+                                    <th>Cases (30 Days)</th>
+                                    <th>Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for stat, change in all_percentage_increase_past_30_days|zip_lists:all_ranking_difference_past_30_days %}
+                              <tr>
+                                      <td>
+                                          {% if change == 'up' %}
+                                              <i class="fas fa-arrow-up text-danger"></i>
+                                          {% elif change == 'down' %}
+                                              <i class="fas fa-arrow-down text-success"></i>
+                                          {% elif change == 'same' %}
+                                              <i class="fas fa-minus"></i>
+                                          {% else %}
+                                              <span class="badge badge-info">New</span>
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ stat.disease_condition }}</td>
+                                      <td>{{ stat.total_cases }}</td>
+                                      <td>{{ stat.percentage_increase|floatformat:2 }}%</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                      <td colspan="4">No Case For Today</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+
+                      <div>{{ all_age_group_chart_30D|safe }}</div>
+                      <div>{{ all_gender_chart_30D|safe }}</div>
+                      <div>{{ all_severity_chart_30D|safe }}</div>
+                      <div>{{ all_time_series_chart_30D|safe }}</div>
+                    </div>
+
+                    <!-- Content for 7 Days tab -->
+                    <div id="7_days" class="tabs_content1" style="display: none; margin-left: 0; margin-right: 0;">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <!-- Chart showing the cases for each disease currently -->
+                          <div id="all_current-cases-chart-7D"></div>
+                        </div>
+                        <div class="col-md-6">
+                          <!-- Chart showing the % of increase/disease in the past 30 days -->
+                          <div id="all_percentage-increase-chart-7D"></div>
+                        </div>
+                      </div>
+
+                      <!-- Disease Ranking Table -->
+                      <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Change</th>
+                                    <th>Name of Disease</th>
+                                    <th>Cases (7 days)</th>
+                                    <th>Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for stat, change in all_percentage_increase_past_7_days|zip_lists:all_ranking_difference_past_7_days %}
+                                  <tr>
+                                      <td>
+                                          {% if change == 'up' %}
+                                              <i class="fas fa-arrow-up text-danger" ></i>
+                                          {% elif change == 'down' %}
+                                              <i class="fas fa-arrow-down text-success"></i>
+                                          {% elif change == 'same' %}
+                                              <i class="fas fa-minus"></i>
+                                          {% else %}
+                                              <span class="badge badge-info">New</span>
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ stat.disease_condition }}</td>
+                                      <td>{{ stat.total_cases }}</td>
+                                      <td>{{ stat.percentage_increase|floatformat:2 }}%</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                      <td colspan="4">No Case For Today</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+
+                      <div>{{ all_age_group_chart_7D|safe }}</div>
+                      <div>{{ all_gender_chart_7D|safe }}</div>
+                      <div>{{ all_severity_chart_7D|safe }}</div>
+                      <div>{{ all_time_series_chart_7D|safe }}</div>
+                    </div>
+
+                    <!-- Content for 1 Day tab -->
+                    <div id="1_day" class="tabs_content1" style="display: none; margin-left: 0; margin-right: 0;">
+                      <div class="col-md-12">
+                        <!-- Chart showing the cases for each disease currently -->
+                        <div id="all_current-cases-chart-1D"></div>
+                      </div>
+
+                      <!-- Disease Ranking Table -->
+                      <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Change</th>
+                                    <th>Name of Disease</th>
+                                    <th>Cases (24 Hours)</th>
+                                    <th>Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for stat, change in all_percentage_increase_past_24_hours|zip_lists:all_ranking_difference_past_1_day %}
+                              <tr>
+                                      <td>
+                                          {% if change == 'up' %}
+                                              <i class="fas fa-arrow-up text-danger"></i>
+                                          {% elif change == 'down' %}
+                                              <i class="fas fa-arrow-down text-success"></i>
+                                          {% elif change == 'same' %}
+                                              <i class="fas fa-minus"></i>
+                                          {% else %}
+                                              <span class="badge badge-info">New</span>
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ stat.disease_condition }}</td>
+                                      <td>{{ stat.total_cases }}</td>
+                                      <td>{{ stat.percentage_increase|floatformat:2 }}%</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                      <td colspan="4">No Case For Today</td>
+                                  </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+
+                      <div>{{ all_age_group_chart_1D|safe }}</div>
+                      <div>{{ all_gender_chart_1D|safe }}</div>
+                      <div>{{ all_severity_chart_1D|safe }}</div>
+                      <div>{{ all_time_series_chart_1D|safe }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /Disease Statistics Content -->
+            </div>
+          </div>
+        </div>
+        <!-- /Page Content -->
+
+
+      </div>
+      <!-- /Main Wrapper -->
+
+      <!-- jQuery -->
+      <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+      <!-- Bootstrap Core JS -->
+      <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+      <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+      <!-- Sticky Sidebar JS -->
+      <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+      <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+      <!-- Select2 JS -->
+      <script src="{% static 'Mediqs/plugins/Normal/select2/js/select2.min.js' %}"></script>
+
+      <!-- Dropzone JS -->
+      <script src="{% static 'Mediqs/plugins/Normal/dropzone/dropzone.min.js' %}"></script>
+
+      <!-- Bootstrap Tagsinput JS -->
+      <script src="{% static 'Mediqs/plugins/Normal/bootstrap-tagsinput/js/bootstrap-tagsinput.js' %}"></script>
+
+      <!-- Profile Settings JS -->
+      <script src="{% static 'Mediqs/js/Normal/doctor-profile-settings.js' %}"></script>
+
+      <!-- Custom JS -->
+      <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+      <!-- Searchbar JS -->
+      <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+      <!-- Chart JS -->
+      <script src="{% static 'Mediqs/js/Normal/chart.js' %}"></script>
+
+      <script src="{% static 'Mediqs/js/Normal/disease.js' %}"></script>
+      
+      
+      <script>
+      // All Healthcenter script
+      // Prepare data for the bar race chart
+      var barRaceData = [
+          {% for stat in overall_stats_current %}
+            {
+              name: "{{ stat.disease_condition }}",
+              y: {{ stat.total_cases }}
+            },
+          {% endfor %}
+        ];
+
+        // Sort the data by total cases
+        barRaceData.sort(function(a, b) {
+          return b.y - a.y;
+        });
+
+        // Initialize the bar race chart
+        var barRaceChart = Highcharts.chart('bar-race-chart', {
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'All-time Disease Cases'
+          },
+          xAxis: {
+            type: 'category',
+            labels: {
+              rotation: 0
+            }
+          },
+          yAxis: {
+            title: {
+              text: 'Total Cases'
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          series: [{
+            name: 'Total Cases',
+            data: barRaceData
+          }]
+        });
+
+        //1D
+        var currentCasesData1D = [
+            {% for stat in overall_stats_past_24_hours %}
+                {
+                    name: "{{ stat.disease_condition }}",
+                    y: {{ stat.total_cases }}
+                },
+            {% endfor %}
+        ];
+        
+        // Options for the "Cases for each disease currently" chart
+        var currentCasesOptions1D = {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Cases for each disease in the past 24 hours'
+            },
+            series: [{
+                name: 'Cases',
+                data: currentCasesData1D
+            }]
+        };
+        
+        //7D
+        // Data for the "Cases for each disease currently" chart
+        var currentCasesData7D = [
+            {% for stat in overall_stats_past_7_days %}
+                {
+                    name: "{{ stat.disease_condition }}",
+                    y: {{ stat.total_cases }}
+                },
+            {% endfor %}
+        ];
+        
+        // Options for the "Cases for each disease currently" chart
+        var currentCasesOptions7D = {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Cases for each disease in the past 7 days'
+            },
+            series: [{
+                name: 'Cases',
+                data: currentCasesData7D
+            }]
+        };
+        
+        // Data for the "% of increase/disease in the past 7 days" chart
+        var percentageIncreaseData7D = [
+            {% for increase in percentage_increase_past_7_days %}
+                {
+                    name: "{{ increase.disease_condition }}",
+                    y: {{ increase.percentage_increase }}
+                },
+            {% endfor %}
+        ];
+        
+        // Options for the "% of increase/disease in the past 30 days" chart
+        var percentageIncreaseOptions7D = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '% of increase/disease in the past 7 days'
+            },
+            xAxis: {
+                categories: [{% for increase in percentage_increase_past_7_days %}"{{ increase.disease_condition }}",{% endfor %}]
+            },
+            yAxis: {
+                title: {
+                    text: 'Percentage increase'
+                }
+            },
+            series: [{
+                name: '% increase',
+                data: percentageIncreaseData7D
+            }]
+        };
+        
+        // Render the "% of increase/disease in the past 7 days" chart
+        Highcharts.chart('percentage-increase-chart-7D', percentageIncreaseOptions7D);
+
+        //30D
+        // Data for the "Cases for each disease currently" chart
+        var currentCasesData30D = [
+            {% for stat in overall_stats_past_30_days %}
+                {
+                    name: "{{ stat.disease_condition }}",
+                    y: {{ stat.total_cases }}
+                },
+            {% endfor %}
+        ];
+        
+        // Options for the "Cases for each disease currently" chart
+        var currentCasesOptions30D = {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Cases for each disease in the past 30 days'
+            },
+            series: [{
+                name: 'Cases',
+                data: currentCasesData30D
+            }]
+        };
+                
+        // Data for the "% of increase/disease in the past 30 days" chart
+        var percentageIncreaseData30D = [
+            {% for increase in percentage_increase_past_30_days %}
+                {
+                    name: "{{ increase.disease_condition }}",
+                    y: {{ increase.percentage_increase }}
+                },
+            {% endfor %}
+        ];
+        
+        // Options for the "% of increase/disease in the past 30 days" chart
+        var percentageIncreaseOptions30D = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '% of increase/disease in the past 30 days'
+            },
+            xAxis: {
+                categories: [{% for increase in percentage_increase_past_30_days %}"{{ increase.disease_condition }}",{% endfor %}]
+            },
+            yAxis: {
+                title: {
+                    text: 'Percentage increase'
+                }
+            },
+            series: [{
+                name: '% increase',
+                data: percentageIncreaseData30D
+            }]
+        };
+        
+        // Render the "% of increase/disease in the past 30 days" chart
+        Highcharts.chart('percentage-increase-chart-30D', percentageIncreaseOptions30D);
+
+      let allTimeInterval, _30DInterval, _7DInterval, _1DInterval;
+
+      function clearAllIntervals() {
+        clearInterval(allTimeInterval);
+        clearInterval(_30DInterval);
+        clearInterval(_7DInterval);
+        clearInterval(_1DInterval);
+      }
+
+      function startFetchingAllTime() {
+        clearAllIntervals();
+        allTimeInterval = setInterval(updateBarRace, 25000);
+      }
+
+      function startFetching30D() {
+        clearAllIntervals();
+        _30DInterval = setInterval(update30DCharts, 25000);
+      }
+
+      function startFetching7D() {
+        clearAllIntervals();
+        _7DInterval = setInterval(update7DCharts, 25000);
+      }
+
+      function startFetching1D() {
+        clearAllIntervals();
+        _1DInterval = setInterval(update1DCharts, 25000);
+      }
+
+      // All time
+      async function updateBarRace() {
+        updateChartData('{% url "fetch_alltime_data" %}', barRaceChart);
+      }
+
+      //1D
+      // ...
+
+      // Render the "Cases for each disease currently" chart
+      var currentCasesChart1D = Highcharts.chart('current-cases-chart-1D', currentCasesOptions1D);
+
+      // Function to update the 1D chart
+      async function update1DCharts() {
+        updateChartData('{% url "fetch_1D_data" %}', currentCasesChart1D);
+      }
+
+      //7D
+      // ...
+
+      // Render the "Cases for each disease currently" chart
+      var currentCasesChart7D = Highcharts.chart('current-cases-chart-7D', currentCasesOptions7D);
+
+      // Function to update the 7D chart
+      async function update7DCharts() {
+        updateChartData('{% url "fetch_7D_data" %}', currentCasesChart7D);
+      }
+
+      //30D
+      // ...
+
+      // Render the "Cases for each disease currently" chart
+      var currentCasesChart30D = Highcharts.chart('current-cases-chart-30D', currentCasesOptions30D);
+
+      // Function to update the 30D chart
+      async function update30DCharts() {
+        updateChartData('{% url "fetch_30D_data" %}', currentCasesChart30D);
+      }
+
+      // Function to update chart data with a given URL and chart instance
+      async function updateChartData(url, chart) {
+        try {
+          const response = await fetch(url);
+          const updatedData = await response.json();
+          chart.series[0].setData(updatedData);
+        } catch (error) {
+          console.error('Error fetching updated data:', error);
+        }
+      }
+
+      // ...
+
+      // Add event listeners to tab elements
+      document.querySelector('[data-tabs1="all_time"]').addEventListener('click', startFetchingAllTime);
+      document.querySelector('[data-tabs1="30_days"]').addEventListener('click', startFetching30D);
+      document.querySelector('[data-tabs1="7_days"]').addEventListener('click', startFetching7D);
+      document.querySelector('[data-tabs1="1_day"]').addEventListener('click', startFetching1D);
+
+      // Start fetching data for the All Time tab initially
+      startFetchingAllTime();
+      </script>
+
+<script>
+  // Specific Healthcenter script
+  // Prepare data for the bar race chart
+  var all_barRaceData = [
+      {% for stat in all_overall_stats_current %}
+        {
+          name: "{{ stat.disease_condition }}",
+          y: {{ stat.total_cases }}
+        },
+      {% endfor %}
+    ];
+
+    // Sort the data by total cases
+    all_barRaceData.sort(function(a, b) {
+      return b.y - a.y;
+    });
+
+    // Initialize the bar race chart
+    var all_barRaceChart = Highcharts.chart('all_bar-race-chart', {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: 'All-time Disease Cases'
+      },
+      xAxis: {
+        type: 'category',
+        labels: {
+          rotation: 0
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Total Cases'
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        name: 'Total Cases',
+        data: all_barRaceData
+      }]
+    });
+
+    //1D
+    var all_currentCasesData1D = [
+        {% for stat in all_overall_stats_past_24_hours %}
+            {
+                name: "{{ stat.disease_condition }}",
+                y: {{ stat.total_cases }}
+            },
+        {% endfor %}
+    ];
+    
+    // Options for the "Cases for each disease currently" chart
+    var all_currentCasesOptions1D = {
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: 'Cases for each disease in the past 24 hours'
+        },
+        series: [{
+            name: 'Cases',
+            data: all_currentCasesData1D
+        }]
+    };
+    
+    //7D
+    // Data for the "Cases for each disease currently" chart
+    var all_currentCasesData7D = [
+        {% for stat in all_overall_stats_past_7_days %}
+            {
+                name: "{{ stat.disease_condition }}",
+                y: {{ stat.total_cases }}
+            },
+        {% endfor %}
+    ];
+    
+    // Options for the "Cases for each disease currently" chart
+    var all_currentCasesOptions7D = {
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: 'Cases for each disease in the past 7 days'
+        },
+        series: [{
+            name: 'Cases',
+            data: all_currentCasesData7D
+        }]
+    };
+    
+    // Data for the "% of increase/disease in the past 7 days" chart
+    var all_percentageIncreaseData7D = [
+        {% for increase in all_percentage_increase_past_7_days %}
+            {
+                name: "{{ increase.disease_condition }}",
+                y: {{ increase.percentage_increase }}
+            },
+        {% endfor %}
+    ];
+    
+    // Options for the "% of increase/disease in the past 30 days" chart
+    var all_percentageIncreaseOptions7D = {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '% of increase/disease in the past 7 days'
+        },
+        xAxis: {
+            categories: [{% for increase in all_percentage_increase_past_7_days %}"{{ increase.disease_condition }}",{% endfor %}]
+        },
+        yAxis: {
+            title: {
+                text: 'Percentage increase'
+            }
+        },
+        series: [{
+            name: '% increase',
+            data: all_percentageIncreaseData7D
+        }]
+    };
+    
+    // Render the "% of increase/disease in the past 7 days" chart
+    Highcharts.chart('all_percentage-increase-chart-7D', all_percentageIncreaseOptions7D);
+
+    //30D
+    // Data for the "Cases for each disease currently" chart
+    var all_currentCasesData30D = [
+        {% for stat in all_overall_stats_past_30_days %}
+            {
+                name: "{{ stat.disease_condition }}",
+                y: {{ stat.total_cases }}
+            },
+        {% endfor %}
+    ];
+    
+    // Options for the "Cases for each disease currently" chart
+    var all_currentCasesOptions30D = {
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: 'Cases for each disease in the past 30 days'
+        },
+        series: [{
+            name: 'Cases',
+            data: all_currentCasesData30D
+        }]
+    };
+            
+    // Data for the "% of increase/disease in the past 30 days" chart
+    var all_percentageIncreaseData30D = [
+        {% for increase in all_percentage_increase_past_30_days %}
+            {
+                name: "{{ increase.disease_condition }}",
+                y: {{ increase.percentage_increase }}
+            },
+        {% endfor %}
+    ];
+    
+    // Options for the "% of increase/disease in the past 30 days" chart
+    var all_percentageIncreaseOptions30D = {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '% of increase/disease in the past 30 days'
+        },
+        xAxis: {
+            categories: [{% for increase in all_percentage_increase_past_30_days %}"{{ increase.disease_condition }}",{% endfor %}]
+        },
+        yAxis: {
+            title: {
+                text: 'Percentage increase'
+            }
+        },
+        series: [{
+            name: '% increase',
+            data: all_percentageIncreaseData30D
+        }]
+    };
+    
+    // Render the "% of increase/disease in the past 30 days" chart
+    Highcharts.chart('all_percentage-increase-chart-30D', all_percentageIncreaseOptions30D);
+
+  let all_allTimeInterval, all_30DInterval, all_7DInterval, all_1DInterval;
+
+  function all_clearAllIntervals() {
+    clearInterval(all_allTimeInterval);
+    clearInterval(all_30DInterval);
+    clearInterval(all_7DInterval);
+    clearInterval(all_1DInterval);
+  }
+
+  function all_startFetchingAllTime() {
+    all_clearAllIntervals();
+    all_allTimeInterval = setInterval(all_updateBarRace, 25000);
+  }
+
+  function all_startFetching30D() {
+    all_clearAllIntervals();
+    all_30DInterval = setInterval(all_update30DCharts, 25000);
+  }
+
+  function all_startFetching7D() {
+    all_clearAllIntervals();
+    all_7DInterval = setInterval(all_update7DCharts, 25000);
+  }
+
+  function all_startFetching1D() {
+    all_clearAllIntervals();
+    all_1DInterval = setInterval(all_update1DCharts, 25000);
+  }
+
+  // All time
+  async function all_updateBarRace() {
+    all_updateChartData('{% url "all_fetch_alltime_data" %}', all_barRaceChart);
+  }
+
+  //1D
+  // ...
+
+  // Render the "Cases for each disease currently" chart
+  var all_currentCasesChart1D = Highcharts.chart('all_current-cases-chart-1D', all_currentCasesOptions1D);
+
+  // Function to update the 1D chart
+  async function all_update1DCharts() {
+    all_updateChartData('{% url "all_fetch_1D_data" %}', all_currentCasesChart1D);
+  }
+
+  //7D
+  // ...
+
+  // Render the "Cases for each disease currently" chart
+  var all_currentCasesChart7D = Highcharts.chart('all_current-cases-chart-7D', all_currentCasesOptions7D);
+
+  // Function to update the 7D chart
+  async function all_update7DCharts() {
+    all_updateChartData('{% url "all_fetch_7D_data" %}', all_currentCasesChart7D);
+  }
+
+  //30D
+  // ...
+
+  // Render the "Cases for each disease currently" chart
+  var all_currentCasesChart30D = Highcharts.chart('all_current-cases-chart-30D', all_currentCasesOptions30D);
+
+  // Function to update the 30D chart
+  async function all_update30DCharts() {
+    all_updateChartData('{% url "all_fetch_30D_data" %}', all_currentCasesChart30D);
+  }
+
+  // Function to update chart data with a given URL and chart instance
+  async function all_updateChartData(url, chart) {
+    try {
+      const response = await fetch(url);
+      const updatedData = await response.json();
+      chart.series[0].setData(updatedData);
+    } catch (error) {
+      console.error('Error fetching updated data:', error);
+    }
+  }
+
+  // ...
+
+  // Add event listeners to tab elements
+  document.querySelector('[data-tabs2="all_time"]').addEventListener('click', all_startFetchingAllTime);
+  document.querySelector('[data-tabs2="30_days"]').addEventListener('click', all_startFetching30D);
+  document.querySelector('[data-tabs2="7_days"]').addEventListener('click', all_startFetching7D);
+  document.querySelector('[data-tabs2="1_day"]').addEventListener('click', all_startFetching1D);
+
+  // Start fetching data for the All Time tab initially
+  all_startFetchingAllTime();
+  </script>
+      
+    {% if messages %}
+      <script>
+          {% for message in messages %}
+              $(document).ready(function () {
+                  $('.toast').toast('show');
+              });
+          {% endfor %}
+      </script>
+    {% endif %}
+    
+      
+    </body>
+  </html>

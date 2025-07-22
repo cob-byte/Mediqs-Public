@@ -1,0 +1,645 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- HealthStack/booking.html  30 Nov 2019 04:12:16 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+  <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- Booking CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/booking.css' %}"
+    />
+    
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/timedropper.css' %}"
+    />
+    <link href="{% static 'Mediqs/css/Normal/date_dropper.css' %}" rel="stylesheet"/>   
+    <link href="{% static 'Mediqs/css/Normal/my_style.css' %}" rel="stylesheet"/>
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
+    <!-- datedropper -->
+    <!-- <script src="{% static 'Mediqs/js/Normal/datedropper-jquery.js' %}"></script> -->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">{% include 'patient_navbar.html' %}</header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'patient-dashboard' %}">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Booking
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Booking</h2> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Profile Sidebar -->
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              {% include 'message.html' %}
+              <div>{% include 'patient-sidebar.html' %}</div>
+            </div>
+            <!-- / Profile Sidebar -->
+            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9">
+              <div class="card"  style="margin-bottom: 10px;">
+                <div class="card-body" style="background-color: #065242;">
+                  <div class="booking-doc-info">
+                    <a href="{% url 'healthcenter-profile' pk=healthcenter.healthcenter_id%}" class="booking-doc-img">
+                      <img
+                        src="{{ healthcenter.featured_image.url | adjust_image_url }}"
+                        alt="User Image"
+                      />
+                    </a>
+                    <div class="booking-info">
+                      <h3 class="doc-name">{{healthcenter.name}}</h3>
+                      <div class="clinic-details mb-0" style="color: #fff">
+                        <i class=" doc- location fas fa-map-marker-alt"></i>{{healthcenter.street}} {{healthcenter.barangay}} {{healthcenter.city}}<br>
+                        <i class=" doc- location fa-solid fa-phone"></i> {{healthcenter.phone_number}}<br>
+                        <i class=" doc- location fa-solid fa-user-doctor"></i>{{healthcenter.head_facility}}
+  
+                        <ul class="clinic-gallery" style="margin:10px ;">
+                          <li>
+                            <a href="{% static 'Mediqs/images/Normal/features/feature-01.jpg'%}" data-fancybox="gallery">
+                              <img src="{% static 'Mediqs/images/Normal/features/feature-01.jpg'%}" alt="Feature">
+                            </a>
+                          </li>
+                          <li>
+                            <a href="{% static 'Mediqs/images/Normal/features/feature-02.jpg'%}" data-fancybox="gallery">
+                              <img  src="{% static 'Mediqs/images/Normal/features/feature-02.jpg'%}" alt="Feature">
+                            </a>
+                          </li>
+                          <li>
+                            <a href="{% static 'Mediqs/images/Normal/features/feature-03.jpg'%}" data-fancybox="gallery">
+                              <img src="{% static 'Mediqs/images/Normal/features/feature-03.jpg'%}" alt="Feature">
+                            </a>
+                          </li>
+                          <li>
+                            <a href="{% static 'Mediqs/images/Normal/features/feature-04.jpg'%}" data-fancybox="gallery">
+                              <img src="{% static 'Mediqs/images/Normal/features/feature-04.jpg'%}" alt="Feature">
+                            </a>
+                          </li>
+                        </ul> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="schedule widget-boxed mt-33 mt-0">
+                    <div class="widget-boxed-header">
+                        <h4 style="color:#416F83 !important"><i class="fas fa-calendar-plus pr-3 padd-r-10 text-center"></i>Schedule an Appointment</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="tile row">
+                                <div class="col-md-12">
+                                    <div id="calendar"></div>
+                                </div>
+                                <div class="modal fade show" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h5 class="modal-title text-white" id="exampleModalLongTitle">Create an Appointment</h5>
+                                                <button id="modalClose1" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <!-- Waitlist note, initially hidden -->
+                                            <div class="col-md-12" id="waitlistPad" style="display: none; text-align: center; margin-top: 10px;">
+                                              <div class="alert alert-danger" role="alert" id="waitlistNote" style="display: none; text-align: center; margin-top: 10px;">
+                                                <p style="padding-top: 15px;">The selected time slot is full. You can still submit your appointment request to be added to the waitlist.</p>
+                                              </div>
+                                              <div class="alert alert-info" id="waitlistCount" style="display: none; text-align: center; margin-top: 10px;"></div>
+                                              <div class="alert alert-warning" id="userWaitlistedNote" style="display: none; text-align: center; margin-top: 10px;">
+                                                <p style="padding-top: 15px;">You are in the waitlist for the selected time slot. We will notify you if a slot becomes available.</p>
+                                              </div>
+                                            </div> 
+                                            <form id="appointmentForm" method="post" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-12 book">
+                                                            <label>Appointment Date</label>
+                                                            <input type="date" name="appoint_date" id="appointmentDate" data-large-mode="true" data-lock="from" data-theme="my-style" class="form-control" readonly/>
+            
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 book2">
+                                                          <label>Appointment Time</label>
+                                                          <select name="appoint_time" id="appointmentTime" class="form-control" onchange="updateWaitlistNote(this)"></select>
+                                                        </div>                                                      
+                                                        <div class="col-lg-6 col-md-12">
+                                                          <div class="form-group">
+                                                              <label>Purpose of Visit</label>
+                                                              <select class="form-control select" style="background-color: white;color: #416F83;padding-right: 10px;" name="appointment_type">
+                                                                <option value="Consultation">Consultation</option>
+                                                                <option value="Dental">Dental</option>
+                                                                <option value="Immunization">Immunization</option>
+                                                                <option value="Animal_bite_treatment">Animal Bite Treatment</option>
+                                                                <option value="Tb_prevention_treatment">TB Prevention and Treatment</option>
+                                                                <option value="Post_partum_newborn">Post-Partum/Newborn</option>
+                                                                <option value="Covid_vaccination">Covid Vaccination</option>
+                                                                <option value="Milk_letting">Milk Letting</option>
+                                                                <option value="Essential_medicines">Provision of Essential Medicines</option>
+                                                                <option value="Prenatal_checkup">Pre-natal Check-up</option>                                                                                                                                     
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                       <!-- Urgency field -->
+                                                       <div class="col-lg-6 col-md-12" id="urgencyField">
+                                                        <div class="form-group">
+                                                            <label>Urgency</label>
+                                                            <select class="form-control select" style="background-color: white;color: #416F83;padding-right: 10px;" name="urgency">
+                                                                <option value="low">Non-urgent</option>
+                                                                <option value="medium">Routine</option>
+                                                                <option value="high">Urgent</option>
+                                                            </select>
+                                                        </div>
+                                                      </div>
+  
+                                                        <div class="col-lg-6 col-md-12 book2"> 
+                                                          <label>Initial Symptoms</label>
+                                                            <br>
+                                                            <textarea placeholder="e.g., dry cough, runny nose" name="symptoms" style="width: 100%;"></textarea>
+                                                        </div> 
+                                                        <div class="col-lg-6 col-md-12 book">
+                                                          <label>Other Concerns</label>
+                                                          <br>
+                                                          <textarea placeholder="If none type 'NA'" name="message" style="width: 100%;"></textarea>
+                                                        </div>
+
+                                                        <!-- Waitlist note, initially hidden -->
+                                                        <div class="col-lg-6 col-md-12 book" id="waitlistNote" style="display: none;">
+                                                          <p>The selected time slot is full. You can still submit your appointment request to be added to the waitlist.</p>
+                                                        </div>                                                                                                       
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="modalClose2" type="button" class="btn btn-danger">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+      <!-- /Page Content -->
+
+      <!-- Footer -->
+      <!-- /Footer -->
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- booking js -->
+    <script src="{% static 'Mediqs/js/Normal/timedropper.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/date_dropper.js' %}"></script>
+
+    <script>
+      var selectedDate;
+      var healthcenterId = "{{ pk }}";
+      document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var today = new Date();
+      var endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);  // Get last day of current month
+      
+      window.updateWaitlistNote = function(timeSelectElement) {
+          var dateInput = document.getElementById('appointmentDate');
+          checkFullSlot(dateInput.value, timeSelectElement);
+      }
+
+      function checkFullSlot(date, timeSelect) {
+          var waitlistPad = document.getElementById('waitlistPad');
+          var waitlistNote = document.getElementById('waitlistNote');
+          var waitlistCount = document.getElementById('waitlistCount');
+          if(timeSelect.options[timeSelect.selectedIndex].text.includes('(Full)')) {
+              waitlistPad.style.display = 'block';
+              var time = timeSelect.value;
+              fetch(`/get_waitlist_count/?date=${date}&time=${time}`)
+              .then(response => response.json())
+              .then(data => {
+                  waitlistCount.textContent = `Number of waitlisted patients for this slot: ${data.count}`;
+                  waitlistCount.style.display = 'block';
+
+                  // If the user is in the waitlist, display a message
+                  if (data.user_in_waitlist) {
+                    userWaitlistedNote.style.display = 'block';
+                    waitlistNote.style.display = 'none';
+                  } else {
+                    userWaitlistedNote.style.display = 'none';
+                    waitlistNote.style.display = 'block';
+                  }
+              });
+          } else {
+              waitlistPad.style.display = 'none';
+              waitlistCount.style.display = 'none';
+              userWaitlistedNote.style.display = 'none';
+          }
+      }
+
+      function isTimePast(currentTime, checkTime) {
+          // Convert times to 24-hour format
+          currentTime = convertTo24Hour(currentTime);
+          checkTime = convertTo24Hour(checkTime);
+
+          // Split the hours and minutes
+          var [currentHours, currentMinutes] = currentTime.split(':').map(Number);
+          var [checkHours, checkMinutes] = checkTime.split(':').map(Number);
+
+          // Compare the times
+          if (checkHours < currentHours) return true;
+          else if (checkHours === currentHours && checkMinutes < currentMinutes) return true;
+          else return false;
+      }
+
+      function convertTo24Hour(timeStr) {
+          var [hour, minutePart] = timeStr.split(":");
+          var minute = minutePart.split(" ")[0];
+          var period = minutePart.split(" ")[1];
+
+          if (period === 'PM' && hour !== '12') {
+              hour = parseInt(hour) + 12;
+          } else if (period === 'AM' && hour === '12') {
+              hour = '00';
+          }
+
+          return `${hour}:${minute}`;
+      }
+
+      fetch(`/get_appointments_data/${healthcenterId}/`)
+      .then(response => response.json())
+      .then(data => {
+          var times = ['8:00 am - 9:00 am', '10:00 am - 11:00 am', '1:00 pm - 2:00 pm', '3:00 pm - 4:00 pm'];
+          var batches = ['Batch 1', 'Batch 2', 'Batch 3', 'Batch 4'];
+          var timeToBatch = {};
+          times.forEach((time, i) => {
+              timeToBatch[time] = batches[i];
+          });
+          var events = data.map(appointment => {
+              var date = new Date(appointment.date);
+              var now = new Date();  // Get the current date and time in local timezone
+
+              // Strip off the time part of both dates
+              date.setHours(0, 0, 0, 0);
+              now.setHours(0, 0, 0, 0);
+
+              // Skip Saturdays, Sundays, and today
+              if (date.getDay() === 0 || date.getDay() === 6 || date.getTime() === now.getTime()) {
+                  return null;
+              }
+              // Get the current date and time
+              var now = new Date();  // Get the current date and time in local timezone
+
+              // Get the end time for the appointment
+              var endTimeStr = appointment.time.split(" - ")[1];
+              var [hour, minutePart] = endTimeStr.split(":");
+              var minute = minutePart.split(" ")[0];
+              var period = minutePart.split(" ")[1];
+
+              // Convert the hour to 24-hour format
+              if (period === 'PM' && hour !== '12') {
+                  hour = parseInt(hour) + 12;
+              } else if (period === 'AM' && hour === '12') {
+                  hour = '00';
+              }
+
+              // Create a Date object for the end time of the time slot on the selected day
+              var date = new Date(appointment.date);
+              var endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute);
+
+              var isPastDue = now > endTime;  // Check if the appointment is past due
+
+              return {
+                  start: appointment.date,
+                  end: appointment.date,
+                  // Set the color to 'grey' if the appointment is past due
+                  backgroundColor: isPastDue ? 'grey' : (appointment.total >= 4 ? 'red' : 'green'),
+                  // Change the title to 'Past Due' if the appointment is past due
+                  title: timeToBatch[appointment.time]
+              };
+          }).filter(Boolean);  // Remove null events
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+              height: 'auto',  // Adjusts the calendar's height automatically
+              events: events,
+              headerToolbar: {
+                  left: 'today',
+                  center: 'title',
+                  right: 'dayGridMonth'
+              },
+              validRange: {
+                start: today,
+                end: new Date(today.getFullYear(), today.getMonth() + 3, 0),  // Get last day of next three months
+              },
+              selectAllow: function(selectInfo) {
+                  return selectInfo.start.getDay() !== 0 && selectInfo.start.getDay() !== 6;  // disallow Saturdays and Sundays
+              },
+              navLinks: false, // can click day/week names to navigate views
+              selectable: true,
+              eventContent: function(arg) {
+                  var color = arg.event.backgroundColor;
+                  var text = color === 'grey' ? 'Past Due' : (color === 'red' ? 'Full' : 'Available');
+                  var date = new Date(arg.event.startStr);
+                  if (date.getDay() === 0 || date.getDay() === 6) {  // If Sunday/Saturday, return empty content
+                      return { html: `<div></div>` };
+                  }
+                  return { html: `<div class="custom-event" style="text-align: center;">${arg.event.title} - ${text}</div>` };
+              },
+              select: function(arg) {
+                  selectedDate = arg.startStr;
+
+                  // Get all events for the selected date
+                  var selectedDateEvents = events.filter(event => event.start === selectedDate);
+
+                  // Check if all events for the selected date are past due
+                  if (selectedDateEvents.every(event => event.backgroundColor === 'grey')) {
+                    alert('All time slots for this day have passed. Please select another day.');
+                    return;
+                  }
+                  
+                  fetch(`/get_appointments_data/${healthcenterId}/?date=${arg.startStr}`)
+                  .then(response => response.json())
+                  .then(data => {
+                      var modal = document.getElementById('eventModal');
+                      var timeSelect = document.getElementById('appointmentTime');
+                      timeSelect.options.length = 0;  // Clear the previous options
+
+                      var times = ['8:00 am - 9:00 am', '10:00 am - 11:00 am', '1:00 pm - 2:00 pm', '3:00 pm - 4:00 pm'];
+                      times.forEach(time => {
+                        var count = data.find(appointment => appointment.time === time)?.total || 0;
+
+                        var option = document.createElement('option');
+                        option.value = time;
+
+                        // Get the current date and time
+                        var now = new Date();  // Get the current date and time in local timezone
+
+                        // Parse the end time of the time slot
+                        var endTimeStr = time.split(" - ")[1];
+                        var [hour, minutePart] = endTimeStr.split(":");
+                        var minute = minutePart.split(" ")[0];
+                        var period = minutePart.split(" ")[1];
+
+                        // Convert the hour to 24-hour format
+                        if (period === 'PM' && hour !== '12') {
+                          hour = parseInt(hour) + 12;
+                        } else if (period === 'AM' && hour === '12') {
+                          hour = '00';
+                        }
+
+                        // Create a Date object for the end time of the time slot on the selected day
+                        var date = new Date(selectedDate);
+                        var endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute);
+
+                        if (now > endTime) { // If the end time of the time slot is in the past
+                          // Set the option text to indicate that the time slot is past due
+                          option.text = `${time} (Past Due)`;
+                          // Disable the option
+                          option.disabled = true;
+                        } else {
+                          // Set the option text to show the availability of the time slot as before
+                          option.text = count < 4 ? `${time} (${4 - count} slots available)` : `${time} (Full)`;
+                        }
+                        
+                        timeSelect.add(option);
+                      });
+
+                      // Check for full slot for initially selected time
+                      checkFullSlot(selectedDate, timeSelect);
+
+                      // Set the date input to the clicked date
+                      var dateInput = document.getElementById('appointmentDate');
+                      dateInput.value = arg.startStr;
+
+                      modal.style.display = 'block';
+                  });
+                  calendar.unselect();
+              },
+              eventClick: function(arg) {
+                // Get the event's date
+                selectedDate = arg.event.startStr;
+                var eventDate = arg.event.startStr;
+                var eventTitle = arg.event.title; // Get the event's title (Batch)
+
+                // Map batch to timeslot
+                var batchToTime = {
+                    'Batch 1': '8:00 am - 9:00 am',
+                    'Batch 2': '10:00 am - 11:00 am',
+                    'Batch 3': '1:00 pm - 2:00 pm',
+                    'Batch 4': '3:00 pm - 4:00 pm'
+                };
+
+                // The following logic is the same as the select callback
+                fetch(`/get_appointments_data/${healthcenterId}/?date=${eventDate}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var modal = document.getElementById('eventModal');
+                        var timeSelect = document.getElementById('appointmentTime');
+                        timeSelect.options.length = 0;  // Clear the previous options
+
+                        var times = ['8:00 am - 9:00 am', '10:00 am - 11:00 am', '1:00 pm - 2:00 pm', '3:00 pm - 4:00 pm'];
+                        times.forEach(time => {
+                          var count = data.find(appointment => appointment.time === time)?.total || 0;
+
+                          var option = document.createElement('option');
+                          option.value = time;
+
+                          // Get the current date and time
+                          var now = new Date();  // Get the current date and time in local timezone
+
+                          // Parse the end time of the time slot
+                          var endTimeStr = time.split(" - ")[1];
+                          var [hour, minutePart] = endTimeStr.split(":");
+                          var minute = minutePart.split(" ")[0];
+                          var period = minutePart.split(" ")[1];
+
+                          // Convert the hour to 24-hour format
+                          if (period === 'PM' && hour !== '12') {
+                            hour = parseInt(hour) + 12;
+                          } else if (period === 'AM' && hour === '12') {
+                            hour = '00';
+                          }
+
+                          // Create a Date object for the end time of the time slot on the selected day
+                          var date = new Date(selectedDate);
+                          var endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute);
+
+                          if (now > endTime) { // If the end time of the time slot is in the past
+                            // Set the option text to indicate that the time slot is past due
+                            option.text = `${time} (Past Due)`;
+                            // Disable the option
+                            option.disabled = true;
+                          } else {
+                            // Set the option text to show the availability of the time slot as before
+                            option.text = count < 4 ? `${time} (${4 - count} slots available)` : `${time} (Full)`;
+                          }
+                          
+                          timeSelect.add(option);
+                        });
+
+                        // Set the time input to the clicked batch's corresponding time
+                        timeSelect.value = batchToTime[eventTitle];
+
+                        // Check for full slot for initially selected time
+                        checkFullSlot(selectedDate, timeSelect);
+
+                        // Set the date input to the clicked date
+                        var dateInput = document.getElementById('appointmentDate');
+                        dateInput.value = eventDate;
+
+                        modal.style.display = 'block';
+                    });
+            },
+          });
+
+          calendar.render();
+      });
+
+      const closeBtn1 = document.getElementById('modalClose1');
+      const closeBtn2 = document.getElementById('modalClose2');
+      closeBtn1.addEventListener('click',()=>{
+          const eventModal = document.getElementById('eventModal');
+          eventModal.style.display = 'none';
+      });
+      closeBtn2.addEventListener('click',()=>{
+          const eventModal = document.getElementById('eventModal');
+          eventModal.style.display = 'none';
+      });
+  });
+  </script>
+
+    <!-- Date Dropper Script-->
+    <script>
+      $('#reservation-date').dateDropper();
+    </script>
+  <!-- Time Dropper Script-->
+    <script>
+      this.$('#reservation-time').timeDropper({
+          setCurrentTime: false,
+          meridians: true,
+          primaryColor: "blue",
+          borderColor: "blue",
+          minutesInterval: '15'
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+          $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+              disableOn: 700,
+              type: 'iframe',
+              mainClass: 'mfp-fade',
+              removalDelay: 160,
+              preloader: false,
+              fixedContentPos: false
+          });
+      });
+    </script>
+
+    <script>
+      $('.slick-carousel').each(function() {
+          var slider = $(this);
+          $(this).slick({
+              infinite: true,
+              dots: false,
+              arrows: false,
+              centerMode: true,
+              centerPadding: '0'
+          });
+
+          $(this).closest('.slick-slider-area').find('.slick-prev').on("click", function() {
+              slider.slick('slickPrev');
+          });
+          $(this).closest('.slick-slider-area').find('.slick-next').on("click", function() {
+              slider.slick('slickNext');
+          });
+      });
+    </script>
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+    {% endif %}
+  </body>
+
+  <!-- doccure/booking.html  30 Nov 2019 04:12:16 GMT -->
+</html>

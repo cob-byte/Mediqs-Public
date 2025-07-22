@@ -1,0 +1,349 @@
+{%load static%}
+{% load cloud %}
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:46 GMT -->
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Mediqs</title>
+
+    	<!-- Favicon -->
+
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  />
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"> 
+		
+		<!-- Fontawesome CSS 
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">  
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}"> 
+		
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+		
+			<!-- Header -->
+			<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header>
+
+			<!-- /Header -->
+			<!-- Sidebar -->
+
+			<!-- /Sidebar -->
+			<aside class="sidebar" id="sidebar">
+				{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %} </aside>
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+					
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col">
+								<h3 class="page-title">Admin Profile</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Dashboard</a></li>
+									<li class="breadcrumb-item active">Admin Profile</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					{% include 'message.html' %}
+					<!-- /Page Header -->
+					<div class="content">
+					<div class="container-fluid" style="background-color: #D9D9D9;padding: 2%;">
+					<div class="container mx-auto">
+						<div class="row">
+						  <div class="col-md-12">
+							<div class="card-table">
+							  <div class="card-header text-center align-middle" style="background-color: #065242;">
+								<h2 class="card-title text-center" style="margin-top: 10px;">Admin Information</h2>
+							  </div>
+							  <div class="card-body">
+								<table class="table table-striped">
+								  <tbody>
+									<tr>
+									  <td rowspan="6" class="text-center align-middle">
+										<img class="rounded-circle" alt="User Image" src="{{ admin.featured_image.url | adjust_image_url }}" style="width: 120px;margin-left: -40px;margin-right: -40px;">
+									  </td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-user fa-lg" style="margin-right:10px"></i> Name</th>
+									  <td>{{ admin.first_name }} {{admin.last_name}}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-envelope fa-lg" style="margin-right:10px"></i>Email Address</th>
+									  <td>{{ admin.email }}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-phone fa-lg" style="margin-right:10px"></i>Phone Number</th>
+									  <td>{{ admin.phone_number }}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-map-location fa-lg" style="margin-right:10px"></i>Address</th>
+									  <td>{{ admin.address }} {{ admin.city }}, {{ admin.state }} {{ admin.country }}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-hospital fa-lg" style="margin-right:10px"></i>Date of Birth</th>
+									  <td>{{ admin.date_of_birth }}</td>
+									</tr>
+									<tr>
+									  <td colspan="3">
+										<div class="justify-content-between text-center">
+										  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit_personal_details"><i class="fa-solid fa-user-pen fa-lg"style="margin-right:10px"></i> Edit Personal Details</button>
+										  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#change_password_modal"><i class="fa-solid fa-unlock-keyhole fa-lg"style="margin-right:10px"></i>Change Password</button>
+										</div>
+									  </td>
+									</tr>
+								  </tbody>
+								</table>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  
+											<!-- Edit Details Modal -->
+											<div class="modal fade" id="edit_personal_details" aria-hidden="true" role="dialog">
+												<div class="modal-dialog modal-dialog-centered" role="document" >
+													<div class="modal-content"style="background-color:white">
+														<div class="modal-header"style="background-color:#065242;border-radius: 0%;margin:10px">
+															<h4 class="modal-title">Personal Details</h4>
+															<button type="button" class="close" style="color: white;font-size: 30px;" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															{% csrf_token %}
+															<form method="POST" action="{% url 'healthcenter-admin-profile' pk=admin.user_id %}">
+																<input type="hidden" name="form_type" value="update_personal_details">
+																<div class="row form-row">
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group" style="margin-top:-5%;">
+																			<label>First Name</label>
+																			<input type="text" class="form-control" name="first_name" value="{{admin.first_name}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group" style="margin-top:-5%;">
+																			<label>Last Name</label>
+																			<input type="text"  class="form-control" name="last_name" value="{{admin.last_name}}">
+																		</div>
+																	</div>
+																	<div class="col-12">
+																		<div class="form-group" style="margin-top:0%;">
+																			<label>Date of Birth</label>
+																			<div>
+																				<input type="date" class="form-control" name="date_of_birth" value="{{admin.date_of_birth|date:'Y-m-d'}}">
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>Email Address</label>
+																			<input type="email" class="form-control" name="email" value="{{admin.email}}" readonly>
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>Mobile</label>
+																			<input type="text" name="phone_number" value="{{admin.phone_number}}" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-12" style="padding: 0;">
+																		<div class="modal-header" style="background-color:#065242; margin-left: 0; margin-right: 0;border-radius: 0%;">
+																		  <h4 class="modal-title">Address</h4>
+																		</div>
+																	  </div>
+																	<div class="col-12">
+																		<div class="form-group">
+																		<label> Street Address</label>
+																			<input type="text" name="address" class="form-control" value="{{admin.address}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>City</label>
+																			<input type="text" name="city" class="form-control" value="{{admin.city}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>State/Province</label>
+																			<input type="text" name="state" class="form-control" value="{{admin.state}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>Zip Code</label>
+																			<input type="text" name="zip_code" class="form-control" value="{{admin.zip_code}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>Barangay</label>
+																			<input type="text" name="country" class="form-control" value="{{admin.country}}">
+																		</div>
+																	</div>
+																</div>
+																<button type="submit" class="btn btn-primary btn-block text-center">Save Changes</button>
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- /Edit Details Modal -->
+
+								<!-- Change Password Modal -->
+											<div class="modal fade" id="change_password_modal" tabindex="-1" role="dialog" aria-labelledby="change_password_modal_label" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered" role="document">
+													<div class="modal-content">
+														<div class="modal-header" style="background-color:#065242;border-radius: 0%">
+															<h4 class="modal-title" id="change_password_modal_label">Change Password</h4>
+															<button type="button" class="close" style="color: white;font-size: 30px;" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															<form action="{% url 'healthcenter-admin-profile' pk=admin.user_id %}" method="POST">
+																{% csrf_token %}
+																<input type="hidden" name="form_type" value="change_password">
+																<div class="form-group">
+																	<label for="old_password_input">Old Password</label>
+																	<div class="input-group">
+																		<input type="password" class="form-control" id="old_password_input" name="old_password_input">
+																		<div class="input-group-append">
+																			<span class="input-group-text password-toggle" id="old_password_toggle">
+																				<i class="fa fa-eye" aria-hidden="true"></i>
+																			</span>
+																		</div>
+																	</div>
+																</div>
+
+																<div class="form-group">
+																	<label for="new_password_input">New Password</label>
+																	<div class="input-group">
+																		<input type="password" class="form-control" id="new_password_input" name="new_password_input">
+																		<div class="input-group-append">
+																			<span class="input-group-text password-toggle" id="new_password_toggle">
+																				<i class="fa fa-eye" aria-hidden="true"></i>
+																			</span>
+																		</div>
+																	</div>
+																</div>
+
+																<div class="form-group">
+																	<label for="confirm_password_input">Confirm Password</label>
+																	<div class="input-group">
+																		<input type="password" class="form-control" id="confirm_password_input" name="confirm_password_input">
+																		<div class="input-group-append">
+																			<span class="input-group-text password-toggle" id="confirm_password_toggle">
+																				<i class="fa fa-eye" aria-hidden="true"></i>
+																			</span>
+																		</div>
+																	</div>
+																</div>
+																<button type="submit" class="btn btn-primary btn-block text-center">Save Changes</button>
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- /Change Password Modal -->
+							</div>
+						</div>
+					</div>
+				
+				</div>			
+			</div>
+			<!-- /Page Wrapper -->
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+        <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+		
+		<!-- Bootstrap Core JS -->
+        <script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script> 
+        <script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script> 
+		
+		<!-- Slimscroll JS -->
+        <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+		
+		{% if messages %}
+		<script>
+			{% for message in messages %}
+				$(document).ready(function () {
+					$('.toast').toast('show');
+				});
+			{% endfor %}
+		</script>
+		{% endif %} 
+
+		<!--<script>
+			$(document).ready(function() {
+				$("#old_password_toggle").click(function() {
+					togglePasswordVisibility("#old_password_input");
+				});
+		
+				$("#new_password_toggle").click(function() {
+					togglePasswordVisibility("#new_password_input");
+				});
+		
+				$("#confirm_password_toggle").click(function() {
+					togglePasswordVisibility("#confirm_password_input");
+				});
+		
+				function togglePasswordVisibility(inputId) {
+					var passwordInput = $(inputId);
+					var passwordFieldType = passwordInput.attr('type');
+		
+					if (passwordFieldType === 'password') {
+						passwordInput.attr('type', 'text');
+					} else {
+						passwordInput.attr('type', 'password');
+					}
+				}
+			});
+		</script> -->
+
+			<script>
+				$(document).ready(function() {
+					$(".password-toggle").click(function() {
+						var passwordInput = $(this).closest('.input-group').find('input');
+						var passwordFieldType = passwordInput.attr('type');
+
+						if (passwordFieldType === 'password') {
+							passwordInput.attr('type', 'text');
+							$(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+						} else {
+							passwordInput.attr('type', 'password');
+							$(this).find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+						}
+					});
+				});
+			</script>
+    </body>
+
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:46 GMT -->
+</html>

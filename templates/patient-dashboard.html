@@ -1,0 +1,431 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+  <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <link
+    rel="stylesheet"
+    href="{% static 'Mediqs/css/Normal/modal.css' %}"
+  />
+  
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->  
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">{% include 'patient_navbar.html' %}</header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'patient-dashboard' %}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Patient Dashboard
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Patient Dashboard</h2>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+      
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Profile Sidebar -->
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              {% include 'message.html' %}
+              <div>{% include 'patient-sidebar.html' %}</div>
+            </div>
+            <!-- / Profile Sidebar -->
+
+            <div class="col-md-7 col-lg-8 col-xl-9 dct-appoinment ">
+              <div class="card">
+                <div class="nav-tabs nav-tabs-solid pt-0">
+                        <!-- Tab Menu -->
+                    <nav class="user-tabs">
+                      <ul class="nav nav-tabs nav-tabs-bottom nav-justified flex-wrap">
+
+                        <li class="nav-item">
+                          <a class="nav-link active" href="#pat_appointments" data-toggle="tab" >Appointments</a>
+                        </li>
+
+                        <li class="nav-item">
+                          <a class="nav-link " href="#pat_walkin" data-toggle="tab" >Walk-In</a>
+                        </li>
+
+                        <li class="nav-item">
+                          <a class="nav-link " href="#pat_prescriptions" data-toggle="tab" >Prescriptions</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  <!-- /Tab Menu -->
+                  <!-- Tab Content -->
+                  <div class="tab-content pt-0">
+                    <!-- Appointment Tab -->
+                    <div id="pat_appointments" class="tab-pane show active">
+                      <div class="card card-table mb-0">
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-center mb-0 ">
+                              <thead>
+                                <tr>
+                                  <th>Healthcenter</th>
+                                  <th>Appointment Date</th>
+                                  <th>Type</th>
+                                  <th>Appointment Ticket</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for appointment in appointments %}
+                                <tr>
+                                  <td>
+                                    <h2 class="table-avatar">
+                                      <a
+                                      href="{% url 'healthcenter-profile' pk=appointment.healthcenter.healthcenter_id %}"
+                                        class="avatar avatar-sm mr-2"
+                                      >
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src="{{ appointment.healthcenter.featured_image.url | adjust_image_url }}"
+                                          alt="User Image"
+                                        />
+                                      </a>
+                                      <a href="{% url 'healthcenter-profile' pk=appointment.healthcenter.healthcenter_id %}" >{{ appointment.healthcenter.name }}</a>
+                                    </h2>
+                                  </td>
+                                  <td style="color: black;">
+                                    {{appointment.date}}
+                                    <span class="d-block text-info"style="color: black !important;">{{appointment.time}}</span
+                                    >
+                                  </td>
+                                  <td style="color: black;">{{appointment.appointment_type}}</td>
+
+                                  <td>
+                                   <!-- Button to trigger the modal -->
+                                   <div class="modal-container">
+                                    <input id="modal-toggle" type="checkbox">
+                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#appointmentModal{{appointment.serial_number}}">
+                                          <i class="fa-solid fa-eye" style="margin-right: 3%;"></i>View Appointment Ticket
+                                      </button> 
+                                    </div> 
+
+                                    <!-- Modal Structure for each appointment -->
+                                    <div class="modal fade" id="appointmentModal{{appointment.serial_number}}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                          <div class="modal-content">
+                                              <div class="modal-header text-center">
+                                                  <h4 class="modal-title w-100 font-weight-bold">Appointment Ticket</h4>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                              </div>
+                                              <div class="modal-body mx-2" style="color: black;">
+                                                  <b>Patient Info</b>
+                                                  <p>Patient Name: {{appointment.patient.name}}</p>
+                                                  <p>Patient ID: {{appointment.patient_id}}</p>
+                                                  <p>Healthcenter: {{appointment.healthcenter.name}}</p>
+                                                  <b>Appointment Details</b>
+                                                  <p>Appointment Date: {{appointment.date}}</p>
+                                                  <p>Appointment Type: {{appointment.appointment_type}}</p>
+                                                  <p>Appointment ID/Number: {{appointment.serial_number}}</p>
+                                                  <b>Checkup Information</b>
+                                                  <p>Initial Symptoms: {{appointment.symptoms}}</p>
+                                                  <p>Other Concerns: {{appointment.message}}</p>                                
+                                              </div>
+                                              <div class="modal-footer d-flex justify-content-center">
+                                                  <button class="btn btn-default" data-dismiss="modal">OK</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                  </td>
+
+                                  <td>
+                                    <div class="appointment-action">
+                                        {% if appointment.appointment_status == 'cancelled' %}
+                                            <a class="btn btn-sm bg-danger-light" disabled>Cancelled</a>
+                                        {% elif appointment.appointment_status == 'approved' %}
+                                            <a class="btn btn-sm bg-success-light" disabled>Finished</a>
+                                        {% else %}
+                                            {% if appointment.time_diff >= 15 %}
+                                                <a href="{% url 'cancel-appointment' pk=appointment.id %}" onclick="return confirm('Are you sure you want to cancel your appointment?');" class="btn btn-sm bg-danger" style="color: white;"><i class="fas fa-times"></i> Cancel</a>
+                                            {% else %}
+                                                <a class="btn btn-sm" style="background-color: grey;" onclick="return alert('You cannot cancel this appointment anymore.');"><i class="fas fa-times"></i> Cancel</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </td>                                                            
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                  <td colspan="6">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h4>No Appointment Record</h4>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Walk-In Tab -->
+                    <div class="tab-pane" id="pat_walkin">
+                      <div class="card card-table mb-0">
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-center mb-0 text-center">
+                              <thead>
+                                <tr>
+                                  <th>Healthcenter</th>
+                                  <th>Walk-In Date</th>
+                                  <th>Purpose of Visit</th>
+                                  <th>Initial Symptoms</th>
+                                  <th>Other Concerns</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for walkin in walkin %}
+                                <tr>
+                                  <td>
+                                    <h2 class="table-avatar">
+                                      <a
+                                      href="{% url 'healthcenter-profile' pk=walkin.healthcenter.healthcenter_id %}"
+                                        class="avatar avatar-sm mr-2"
+                                      >
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src="{{ walkin.healthcenter.featured_image.url | adjust_image_url }}"
+                                          alt="User Image"
+                                        />
+                                      </a>
+                                      <a href="{% url 'healthcenter-profile' pk=walkin.healthcenter.healthcenter_id %}" >{{ walkin.healthcenter.name }}</a>
+                                    </h2>
+                                    <span class="d-block text-info"style="color: black !important;">#{{walkin.serial_number}}</span>
+                                  </td>
+                                  <td style="color: black;">
+                                    {{walkin.date}}
+                                    <span class="d-block text-info"style="color: black !important;">{{walkin.time}}</span>
+                                  </td>
+                                  <td style="color: black;">{{walkin.walk_in_type}}</td>
+                                  <td style="color: black;">{{walkin.symptoms}}</td>
+                                  <td style="color: black;">{{walkin.reason}}</td>
+                                {% empty %}
+                                <tr>
+                                  <td colspan="5">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h4>No Walk-In Record</h4>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /Walk-In Tab -->
+
+                    <!-- Prescription Tab -->
+                    <div class="tab-pane" id="pat_prescriptions">
+                      <div class="card card-table mb-0">
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-center mb-0 text-center">
+                              <thead>
+                                <tr>
+                                  <th>Prescription ID</th>
+                                  <!-- <th>Attachment</th> -->
+                                  <th>Doctor</th>
+                                  <th>Date of Creation</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for prescription in prescription %}
+                                <tr>
+                                  <td style="color: black;">
+                                    <a href="javascript:void(0);" style="color: black;">#{{prescription.serial_number}}</a>
+                                  </td>
+                                      
+
+                                  <!-- <td><a href="#">dental-test.pdf</a></td> -->
+
+                                  <td>
+                                    <h2 class="table-avatar">
+                                      <a
+                                        href="{% url 'doctor-profile' pk=prescription.doctor_id %}"
+                                        class="avatar avatar-sm mr-2"
+                                      >
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src="{{ prescription.doctor.featured_image.url | adjust_image_url }}"
+                                          alt="User Image"
+                                        />
+                                      </a>
+                                      <a href="{% url 'doctor-profile' pk=prescription.doctor_id %}"
+                                        >Dr.{{prescription.doctor.name}}</a
+                                      >
+                                    </h2>
+                                  </td>
+                                  <td style="color: black;">
+                                    <a href="javascript:void(0);" style="color: black;">{{prescription.create_date}}</a>
+                                  </td>
+                                  <td>
+                                    <div class="table-action">
+                                      <a
+                                        href="{% url 'prescription-view' pk=prescription.prescription_id%}"
+                                        class="btn btn-primary"
+                                      >
+                                        <i class="far fa-eye"></i> View
+                                      </a>
+                                    </div>
+                                  </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                  <td colspan="5">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h4>No Prescription Record</h4>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /Prescription Tab -->
+                  </div>
+                  <!-- Tab Content -->
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Page Content -->
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- <div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+      <div class="modal-dialog modal-dialog-centered text-center" role="document" >
+        <div class="modal-content">
+        	<div class="modal-header">
+            <h5 class="modal-title">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-content p-2">
+              <h4 class="modal-title">Delete</h4>
+              <p class="mb-4">Are you sure want to delete?</p>
+              <button type="button" class="btn btn-primary">Save </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- Searchbar JS -->
+    <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+
+  <script>
+    $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+  });
+  </script>
+  </body>
+
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+</html>

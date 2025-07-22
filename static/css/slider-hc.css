@@ -1,0 +1,163 @@
+.moviewpb-section {
+  background-color: #ffffff;
+  margin-top: -5%;
+}
+.moviewpb-section .owl-carousel {
+  position: relative;
+  margin-top: 30px;
+}
+.moviewpb-section .owl-nav>div {
+    background: transparent!important;
+    width: 20px;
+    height: 20px;
+    margin: 0!important;
+    padding: 0!important;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.moviewpb-section .owl-nav>div>span {
+    color: #000;
+    font-size: 40px;
+}
+.moviewpb-section .owl-nav:after {
+    content: '';
+    height: 35px;
+    background: #000;
+    width: 1px;
+    display: block;
+    position: absolute;
+    right: 49%;
+    top: 20%;
+  margin-top:10px;
+}
+.moviewpb-section .owl-nav {
+    position: absolute;
+    right: 30px;
+    bottom: 1px;
+}
+.moviewpb-section .owl-dots {
+  margin-top: 30px;
+}
+.moviewpb-section .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+    background: #09dca4;
+}
+
+.moviewpb-section .owl-theme .owl-dots .owl-dot span {
+    width: 10px;
+    height: 10px;
+    margin: 5px 7px;
+    background: rgba(0, 0, 0, 0.25);
+    display: block;
+    -webkit-backface-visibility: visible;
+    transition: opacity 200ms ease;
+    border-radius: 30px;
+}
+.moviewpb-section .genrecard.card1 .data {
+    padding-left: 185px;
+}
+
+.moviewpb-section .genrecard.card1 {
+    min-height: 285px;
+}
+.moviewpb-section .genrecard.card1 .wrapper {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: row;
+    padding: 25px;
+    margin: 10px 5px;
+    min-height: 200px;
+    border-radius: 30px;
+  position: relative;
+}
+.moviewpb-section .genrecard.card1 .wrapper img {
+    width: 175px!important;
+    height: 190px;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    position: relative;
+    object-fit: cover;
+    position: absolute;
+    overflow: hidden;
+}
+.moviewpb-section .genrecard.card1 .cardheader {
+    display: flex;
+    flex-direction: column;
+}
+
+.moviewpb-section .genrecard.card1 .cardheader .headertitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.moviewpb-section .genrecard.card1 span.genre {
+    color: #bcbcbc;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 20px;
+    font-weight: bold;
+}
+
+.moviewpb-section .genrecard.card1 span.rating {
+    min-width: 30px;
+    min-height: 30px;
+    background: #fac500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 3px;
+}
+.moviewpb-section .genrecard.card1 .moviefooter {
+    width: 100%;
+    text-align: right;
+      position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 23px;
+    margin-right: 15px;
+}
+.moviewpb-section .genrecard.card1 a.button {
+    color: #000;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 10px;
+    padding: 10px;
+  font-weight:700;
+  
+}
+.moviewpb-section .genrecard.card1 h1.title {
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    text-align: left;
+    font-size: 20px;
+    letter-spacing: 1px;
+    width: 80%;
+}
+.moviewpb-section .genrecard.card1 h1.title a {
+    color: #000;
+    text-decoration: none;
+}
+
+.moviewpb-section .genrecard.card1 p.text {
+    color: #686868;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    height: 100px;
+    margin: 0;
+    text-overflow: ellipsis;
+    text-align: justify;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+  margin-top: 20px;
+}

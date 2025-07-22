@@ -1,0 +1,245 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mediqs</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Favicons -->
+    <link
+    type="image/x-icon"
+    href="{% static 'images/circle-logo.png' %}"
+    rel="icon"
+    />
+
+    <!-- Select2 CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/select2/css/select2.min.css' %}"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/bootstrap-tagsinput/css/bootstrap-tagsinput.css' %}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/dropzone/dropzone.min.css' %}"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+
+    <!-- Fancybox CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/fancybox/jquery.fancybox.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+    rel="stylesheet"
+    href="{% static 'Mediqs/css/Normal/tab.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">{% include 'doctor-navbar.html' %}</header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="chat-patient">
+          <ul>
+           <p><a href="{% url 'inventory' %}" style="color: black;">Inventory</a><br>
+            <a href="{% url 'chat-home' pk=user.id %}" style="color: black;">Chat with Patients</a></p>
+          </ul>
+        </div>
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'doctor-dashboard' %}">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Dengue Predictive Analytics
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Dengue Predictive Analytics</h2>{% include 'message.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              <!-- Profile Sidebar -->
+              <div>{% include 'doctor-sidebar.html' %}</div>
+              <!-- /Profile Sidebar -->
+            </div>
+            <div class="col-md-7 col-lg-8 col-xl-9">
+              <div class="card">
+                  <div class="card-body">
+                      <div class="breadcrumb-title">
+                        <select onchange="location = this.value;">
+                          <option value="{% url 'forecasting' 'Hepatitis A' %}" {% if disease_name == 'Hepatitis A' %}selected{% endif %}>Hepatitis A Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Dengue' %}" {% if disease_name == 'Dengue' %}selected{% endif %}>Dengue Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Chikungunya' %}" {% if disease_name == 'Chikungunya' %}selected{% endif %}>Chikungunya Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Typhoid Fever' %}" {% if disease_name == 'Typhoid Fever' %}selected{% endif %}>Typhoid Fever Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Acute bloody diarrhea' %}" {% if disease_name == 'Acute bloody diarrhea' %}selected{% endif %}>Acute bloody diarrhea Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Leptospirosis' %}" {% if disease_name == 'Leptospirosis' %}selected{% endif %}>Leptospirosis Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Measles' %}" {% if disease_name == 'Measles' %}selected{% endif %}>Measles Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Cholera' %}" {% if disease_name == 'Cholera' %}selected{% endif %}>Cholera Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Influenza-like illness' %}" {% if disease_name == 'Influenza-like illness' %}selected{% endif %}>Influenza-like illness Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Covid-19' %}" {% if disease_name == 'Covid-19' %}selected{% endif %}>Covid-19 Predictive Analytics</option>
+                          <option value="{% url 'forecasting' 'Rotavirus' %}" {% if disease_name == 'Rotavirus' %}selected{% endif %}>Rotavirus Predictive Analytics</option>Bacterial Meningitis
+                          <option value="{% url 'forecasting' 'Bacterial Meningitis' %}" {% if disease_name == 'Bacterial Meningitis' %}selected{% endif %}>Bacterial Meningitis Predictive Analytics</option>
+                        </select>                                          
+                      </div>  
+                      <br>
+
+                      <h4 class="card-title text-center">Plot Data for {{ disease_name }}</h4>
+                      <img src="{% static 'forecasting/'|add:disease_name|add:'.svg' %}" style="width: 100%;" alt="{{ disease_name }} Forecast" id="Plot_{{ disease_name }}">
+
+                      <h4 class="card-title text-center">Forecasted {{ disease_name }} Cases</h4>
+                      <img src="{% static 'forecasting/Forecast_'|add:disease_name|add:'.svg' %}" style="width: 100%;" alt="{{ disease_name }} Forecast" id="Forecast_{{ disease_name }}">
+                      <div class="container">
+                        <h2 class="text-center">Forecasted Outbreak (minimum of {{ min_cases }} cases)</h2>
+                        <div class="table-responsive">
+                            {% if outbreak_dict %}
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Forecasted Cases</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for date, forecast in outbreak_dict.items %}
+                                            <tr>
+                                                <td>{{ date }}</td>
+                                                <td>{{ forecast }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                              <table class="table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th><h4 style="text-align: center; color: white;">No Forecasted Outbreak</h4></th>
+                                  </tr>
+                                </thead>
+                              </table>
+                            {% endif %}
+                        </div>                      
+                      </div>                    
+
+                      <h4 class="card-title text-center">Seasonal and Residual Components</h4>
+                      <img src="{% static 'forecasting/STL_'|add:disease_name|add:'.svg' %}" style="width: 100%;" alt="{{ disease_name }} STL" id="Components_{{ disease_name }}">
+
+                      <h4 class="card-title text-center">Visualize Posterior Samples and Seasonal Effects</h4>
+                      <img src="{% static 'forecasting/STS_'|add:disease_name|add:'.svg' %}" style="width: 100%;" alt="{{ disease_name }} STS" id="Visual_{{ disease_name }}">
+                  </div>
+              </div>
+                <h5 style="color: black; text-align: center;">Note: This data is gathered from Epidemiology Bureau from January 1, 2016 to May 22, 2023</h5>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Page Content -->
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Select2 JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/select2/js/select2.min.js' %}"></script>
+
+    <!-- Dropzone JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/dropzone/dropzone.min.js' %}"></script>
+
+    <!-- Bootstrap Tagsinput JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/bootstrap-tagsinput/js/bootstrap-tagsinput.js' %}"></script>
+
+    <!-- Profile Settings JS -->
+    <script src="{% static 'Mediqs/js/Normal/doctor-profile-settings.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- Searchbar JS -->
+    <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+    <!-- Chart JS -->
+    <script src="{% static 'Mediqs/js/Normal/chart.js' %}"></script>
+    
+  {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+  </body>
+</html>

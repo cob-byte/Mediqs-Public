@@ -1,0 +1,392 @@
+{%load static%}
+{% load cloud %}
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/doctor-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:51 GMT -->
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Mediqs</title>
+
+    	<!-- Favicon -->
+
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  />
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"> 
+		
+		<!-- Fontawesome CSS 
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+		
+		<!-- Datatables CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/admin/datatables/datatables.min.css'%}"> 
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}"> 
+		
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+			<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header>
+				<!-- Logo -->
+
+            
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+			<aside class="sidebar" id="sidebar">
+				{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %}
+			</aside>
+			<!-- /Sidebar -->
+			
+			<!-- Page Wrapper -->
+			
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+
+                <div class="content container-fluid">
+
+<!-- Breadcrumb -->
+			<div class="breadcrumb-bar">
+				<div class="container-fluid">
+					<div class="row align-items-center">
+						<div class="col-md-12 col-12">
+							<nav aria-label="breadcrumb" class="page-breadcrumb">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="index-2.html">Home</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Edit Clinical Laboratory Technician</li>
+								</ol>
+							</nav>
+							<h2 class="breadcrumb-title black text-center">Edit Midwife Information</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /Breadcrumb -->
+			
+			<!-- Page Content -->
+			<div class="content">
+				<div class="container-fluid">
+				  <div class="row">
+					<div class="col-md-7 col-lg-8 col-xl-12">
+					  <div class="card-table text-center align-items-center">
+						<div class="card-header">
+						  <!-- Profile Settings Form -->
+						  <form action="{% url 'edit-lab-worker' pk=lab_worker.technician_id %}" method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
+							<!--FIRST LINE-->
+							<div class="row form-row">
+								<div class="col-md-4">
+									<div class="change-avatar"></div>
+									<div class="card card-table">
+										<div class="card-body">
+											<div class="table-responsive">
+												<table class="table table-hover table-center">
+													<thead>
+														<tr>
+															<th style="min-width: 100px">Image</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<input type="file" class="upload" name="featured_image">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-md-8">
+									<div class="change-avatar"></div>
+									<div class="card card-table">
+										<div class="card-body">
+											<div class="table-responsive">
+												<table class="table table-hover table-center">
+													<thead>
+														<tr>
+															<th style="min-width: 100px">User Name</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<input class="form-control" type="text" readonly value="{{lab_worker.username}}">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--END OF FIRST LINE-->
+							<!--SECOND LINE-->
+							<div class="row form-row">
+								<div class="col-xl-12">
+									<div class="card card-table">
+										<div class="card-body">
+											<div class="table-responsive">
+												<table class="table table-hover table-center">
+													<thead>
+														<tr>
+															<th style="min-width: 100px">First Name</th>
+															<th style="min-width: 100px">Middle Name</th>
+															<th style="min-width: 100px">Surname</th>
+															<th style="min-width: 100px">Suffix</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<input class="form-control" type="text" name="first_name" value="{{lab_worker.first_name}}">
+															</td>
+															<td>
+																<input class="form-control" type="text" name="middle_name" value="{{lab_worker.middle_name}}">
+															</td>
+															<td>
+																<input class="form-control" type="text" name="last_name" value="{{lab_worker.last_name}}">
+															</td>
+															<td>
+																<input class="form-control" type="text" name="suffix" value="{{lab_worker.suffix}}">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--END OF SECOND LINE-->
+							<!--Third LINE-->
+							<div class="row form-row">
+								<div class="col-md-4">
+									<div class="card card-table">
+										<div class="card-body">
+											<div class="table-responsive">
+												<table class="table table-hover table-center">
+													<thead>
+														<tr>
+															<th style="min-width: 100px">E-mail</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<input class="form-control" type="email" name="email" value="{{lab_worker.email}}">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+					
+								<div class="col-md-4">
+									<div class="card card-table">
+										<div class="card-body">
+											<div class="table-responsive">
+												<table class="table table-hover table-center">
+													<thead>
+														<tr>
+															<th style="min-width: 100px">Phone Number</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<input class="form-control" type="text" name="phone_number" value="{{lab_worker.phone_number}}">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-md-4">
+									<div class="card card-table">
+										<div class="card-body">
+											<div class="table-responsive">
+												<table class="table table-hover table-center">
+													<thead>
+														<tr>
+															<th style="min-width: 100px">Age</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<input class="form-control" type="text" name="age" value="{{lab_worker.age}}">
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--END OF SECOND LINE-->
+					<!--Password-->
+					<div class="row form-row">
+						<div class="col-md-4">
+							<div class="card card-table">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-hover table-center">
+											<thead>
+												<tr>
+													<th style="min-width: 100px">Current Password</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														<input class="form-control" type="email" name="email" value="{{lab_worker.password1}}">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card card-table">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-hover table-center">
+											<thead>
+												<tr>
+													<th style="min-width: 100px">New Password</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														<input class="form-control" type="email" name="email" value="{{lab_worker.email}}">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+			
+						<div class="col-md-4">
+							<div class="card card-table">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-hover table-center">
+											<thead>
+												<tr>
+													<th style="min-width: 100px">Password Confirmation</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														<input class="form-control" type="text" name="phone_number" value="{{lab_worker.phone_number}}">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--End of Password-->
+					<div class="row form-row">
+						<div class="col-md-12">
+							<div class="card card-table">
+								<div class="card-body">
+								  <div class="table-responsive">
+									<table class="table table-hover table-center">
+									  <thead>
+									<tr>
+									  <th style="min-width: 100px">Health Center</th>
+									</tr>
+								  </thead>
+								  <tbody>
+									<tr>
+									  <td>
+										<select class="form-control" name="healthcenter">
+											{% for center in healthcenters %}
+												<option value="{{ center.healthcenter_id }}" {% if center.id == lab_worker.health_center %}selected{% endif %}>{{ center.name }}</option>
+											{% endfor %}
+										</select>
+									  </td>
+									</tr>
+								  </tbody>
+								</table>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					</div>
+					<div class="submit-section">
+						<button type="submit" class="btn btn-primary submit-btn">
+							<i class="fa-regular fa-floppy-disk fa-2xs" style="font-size: 20px; margin-right: 5px;vertical-align: middle""></i>
+							Save Changes
+						</button>
+					</div>
+			</form>
+					<!-- /Profile Settings Form -->
+		</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+<!-- /Page Content -->
+
+			
+		   
+		</div>
+		<!-- /Main Wrapper -->
+	  
+		<!-- jQuery -->
+		<script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+		
+		<!-- Bootstrap Core JS -->
+        <script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script> 
+        <script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script> 
+		
+		<!-- Slimscroll JS -->
+        <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+		
+		<!-- Datatables JS -->
+		<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+		<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+		
+	</body>
+
+</html>

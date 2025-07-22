@@ -1,0 +1,118 @@
+{% load static %}
+{% load cloud %}
+
+    <div class="profile-sidebar">
+      <div class="widget-profile pro-widget-content">
+        <div class="profile-info-widget">
+          <a class="booking-doc-img">
+            <img src="{{ patient.featured_image.url | adjust_image_url }}" alt="User Image" />
+          </a>
+          <div class="profile-det-info">
+            <h3>
+              {% if user.is_authenticated and user.is_patient and patient.is_verified %}
+              <i class="fa-solid fa-circle-check" style="color: #ffffff;"></i>
+              {% endif %}
+              {{ patient.name }}
+            </h3>
+            <div class="patient-details">
+              <h5><i class="fas fa-birthday-cake"></i> {{ patient.dob }}</h5>
+              <h5 class="mb-0">
+                <i class="fas fa-map-marker-alt"></i>
+                {{ patient.address }}
+              </h5>
+              {% if user.is_authenticated and user.is_patient %}
+                  {% if not patient.is_verified %}
+                      {% if patient.verificationrequest.status == 'Pending' %}
+                      <h5 class="mb-0" style="text-align: center; margin-top: 10px;">
+                        <span style="background-color: #ffffff; color: #ff0000; padding: 5px 10px; border-radius: 20px; display: inline-flex; align-items: center;">
+                          <b style="margin: auto;">Verification in Progress</b>
+                        </span>
+                      </h5>
+                      {% elif patient.verificationrequest.status == 'Rejected' %}
+                      <h5 class="mb-0" style="text-align: center; margin-top: 10px;">
+                        <span style="background-color: #ffffff; color: #ff0000; padding: 5px 10px; border-radius: 20px; display: inline-flex; align-items: center;">
+                          <b style="margin: auto;">Verification Rejected</b>
+                        </span>
+                          <a href="{% url 'patient-verification' %}" class="btn btn-primary btn-block mt-3"><b>Try Verification Again</b></a>
+                      {% else %}
+                      <h5 class="mb-0" style="text-align: center; margin-top: 10px;">
+                        <span style="background-color: #ffffff; color: #e9d700; padding: 5px 10px; border-radius: 20px; display: inline-flex; align-items: center;">
+                          <b style="margin: auto;">Not Verified</b>
+                        </span>
+                      </h5>
+                          <a href="{% url 'patient-verification' %}" class="btn btn-primary btn-block mt-3">Get Verified</a>
+                      {% endif %}
+                  {% else %}
+                      <h5 class="mb-0" style="text-align: center; margin-top: 10px;">
+                        <span style="background-color: #ffffff; color: #49F054; padding: 5px 10px; border-radius: 20px; display: inline-flex; align-items: center;">
+                          <b style="margin: auto;">Verified</b>
+                        </span>
+                      </h5>
+                  {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-widget">
+        <nav class="dashboard-menu sidebar">
+          <ul>
+            <li {% url 'patient-dashboard' as patient_dashboard_url %}{% if request.path == patient_dashboard_url %}class="active"{% endif %}>
+              <a href="{% url 'patient-dashboard' %}">
+                <i class="fas fa-columns"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li {% url 'patient-records' as patient_record_url %}{% if request.path == patient_record_url %}class="active"{% endif %}>
+              <a href="{% url 'patient-records' %}">
+                <i class="fas fa-user-md"></i>
+                <span>Records</span>
+              </a>
+            </li>
+            <li {% url 'search' as search_url %}{% if request.path == search_url %}class="active"{% endif %}>
+              <a href="{% url 'search' %}">
+                <i class="fas fa-user-md"></i>
+                <span>View Doctor</span>
+              </a>
+            </li>
+            <li {% url 'multiple-healthcenter' as multiple_healthcenter_url %}{% if request.path == multiple_healthcenter_url %}class="active"{% endif %}>
+              <a href="{% url 'multiple-healthcenter' %}">
+                <i class="fas fa-hospital"></i>
+                <span>View Health Center</span>
+              </a>
+            </li>
+            <li {% url 'healthcenter-profile' as healthcenter_url %}{% if request.path == healthcenter_url %}class="active"{% endif %}>
+              <a href="{% url 'healthcenter-profile' pk=patient.health_center.healthcenter_id %}">
+                <i class="fas fa-hospital"></i>
+                <span>My Health Center</span>
+              </a>
+            </li>
+           <!-- <li {% url 'doctor-test-list' as doctor_test_list_url %}{% if request.path == doctor_test_list_url %}class="active"{% endif %}>
+              <a href="{% url 'doctor-test-list' %}">
+                <i class="fas fa-hourglass-start"></i>
+                <span>Test Information</span>
+              </a>
+            </li>-->
+            <li {% url 'profile-settings' as profile_settings_url %}{% if request.path == profile_settings_url %}class="active"{% endif %}>
+              <a href="{% url 'profile-settings' %}">
+                <i class="fas fa-user-cog"></i>
+                <span>Profile Settings</span>
+              </a>
+            </li>
+            <li {% url 'change-password' user.id as change_password_url %}{% if request.path == change_password_url %}class="active"{% endif %}>
+              <a href="{% url 'change-password' pk=user.id %}">
+                <i class="fas fa-lock"></i>
+                <span>Change Password</span>
+              </a>
+            </li>
+            <li {% url 'logout' as logout_url %}{% if request.path == logout_url %}class="active"{% endif %}>
+              <a href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>      
+    </div>
+

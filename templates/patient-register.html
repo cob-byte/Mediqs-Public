@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/login.html  30 Nov 2019 04:12:20 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <title>Mediqs</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+
+    <!-- Favicons -->
+    <link
+    type="image/x-icon"
+    href="{% static 'images/circle-logo.png' %}"
+    rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/mediqs-css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animated.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="account-page"style="background-image: url('{% static 'Mediqs/images/Normal/big-green.png' %}');background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;z-index: -1;">
+
+    <!-- Main Wrapper -->
+
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header" style="z-index: 1000; position: relative;">
+        <a href="{% url 'healthcenter_home' %}">
+          <img src="{% static 'Mediqs/images/Normal/mediqs_logo.png' %}" alt="Header Image" class="img-fluid login-logo" style="width: 20%; height: auto; margin-top: 1%; z-index:1;">
+        </a>
+      </header>
+    
+  
+      <!-- Page Content --> 
+      <div class="content">
+        <div class="center-left-image">
+          <img src="{% static 'Mediqs/images/Normal/Patient.png' %}" alt="Left Image">
+        </div>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8 offset-md-2" style="z-index:4;margin-top: -6%;">
+              <!-- Register Content -->
+              <div class="account-content" style="margin: 10px;">
+                <div class="row-right">
+                  <div class="col-md-12 col-lg-6 login-right">
+                    <div class="login-header">
+                      <div class="d-flex align-items-center"style="margin-left:20px">
+                        <div class="me-3">
+                          <img src="{% static 'Mediqs/images/Normal/patient profile.png' %}" style="width: 100px; height: 100px; object-fit: contain;">
+                        </div>
+                        <div>
+                          <h1 class="log">Patient Registration</h1>
+                          <h3>Register New Patient Account</h3>
+                        </div>
+                      </div>
+                  </div>
+                    <!-- Register Form -->
+                    <form action="{% url 'patient-register' %}" method="POST"> 
+                      {% csrf_token %} 
+
+                      {% include 'message.html' %}
+                      <div class="tab">Personal Information:
+                        <div class="form-group form-focus">
+                          {{patient_form.name}}
+                          <label class="focus-label">{{ patient_form.name.label }}</label>
+                          {% if patient_form.name.errors %}
+                            <div class="invalid-feedback">
+                              {{ patient_form.name.errors }}
+                            </div>
+                          {% endif %}
+                        </div>
+                        <div class="form-group form-focus">
+                          {{patient_form.age}}
+                          <label class="focus-label">{{ patient_form.age.label }}</label>
+                          {% if patient_form.age.errors %}
+                          <div class="invalid-feedback">
+                            {{ patient_form.age.errors }}
+                          </div>
+                        {% endif %}
+                        </div>
+                        <div class="form-group form-focus">
+                          {{patient_form.dob}}
+                          <label class="focus-label">{{ patient_form.dob.label }}</label>
+                          {% if patient_form.dob.errors %}
+                            <div class="invalid-feedback">
+                              {{ patient_form.dob.errors }}
+                            </div>
+                          {% endif %}
+                        </div>
+                        <div class="form-group form-focus">
+                          {{patient_form.gender}}
+                          <label class="focus-label">{{ patient_form.gender.label }}</label>
+                          {% if patient_form.gender.errors %}
+                            <div class="invalid-feedback">
+                              {{ patient_form.gender.errors }}
+                            </div>
+                          {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="tab">Contact Info:
+                      <div class="form-group form-focus">
+                        {{ patient_form.phone_number }}
+                        <label class="focus-label">{{ patient_form.phone_number.label }}</label>
+                        {% if patient_form.phone_number.errors %}
+                          <div class="invalid-feedback">
+                            {{ patient_form.phone_number.errors }}
+                          </div>
+                        {% endif %}
+                      </div>
+                      <div class="form-group form-focus">
+                        {{patient_form.address}}
+                        <label class="focus-label">{{ patient_form.address.label }}</label>
+                        {% if patient_form.address.errors %}
+                          <div class="invalid-feedback">
+                            {{ patient_form.address.errors }}
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                    
+                    <div class="tab">Login Info:
+                      {% for field in user_form %}
+                        <div class="form-group form-focus">
+                          {{field}} {{ field.errors }}
+                          <label class="focus-label">{{ field.label }}</label>
+                        </div>
+                      {% endfor %}
+                    </div> 
+
+                    <div class="tab">
+                        <input type="checkbox" class="checkme" id="check" name="check" style="transform: scale(1.5);">
+                        By clicking "Sign up", you are confirming that you have read and agree to Mediqs’ <a style="color: #2a7b66;" target="_blank" href="{% static 'Mediqs/privacy/HealthPrivacyCode.pdf' %}">Terms of Use and Privacy Policy.</a>
+                      </label>
+                    </div>               
+
+                    <!-- Circles which indicates the steps of the form: -->
+                    <div style="text-align:center;margin-top:40px;">
+                      <span class="step"></span>
+                      <span class="step"></span>
+                      <span class="step"></span>
+                      <span class="step"></span>
+                    </div>
+
+                      <div class="text-right">
+                        <a class="forgot-link" href="{% url 'login'%}"
+                          >Already have an account?</a
+                        >
+                      </div>
+
+                      <div style="display: flex; justify-content: space-between; margin-top: 3%;">
+                        <div>
+                            <button class="btn btn-primary btn-lg" type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary btn-lg" type="submit" id="submitBtn" style="display: none;">Signup</button>
+                            <button class="btn btn-primary btn-lg" type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                        </div>
+                      </div>  
+                    </form>
+                    <div class="text-center dont-have"><a href="{%url 'healthcenter_home' %}">Return to Homepage</a></div>
+                    <!-- /Register Form -->
+                  </div>
+                </div>
+              </div>
+              <!-- /Register Content -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Page Content -->
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+    <script src="{% static 'js/register.js' %}"></script>
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+
+  </body>
+</html>

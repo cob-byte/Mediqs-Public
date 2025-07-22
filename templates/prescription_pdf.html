@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+  <head>
+    <meta charset="UTF-8"/>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+	<style>
+    .invoice-info,
+    .invoice-info2 {
+        border: none;
+    }
+
+    .medical-results-table {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .medical-results-table th,
+    .medical-results-table td {
+        border: 1px solid #272b41;
+        padding: 8px 12px;
+    }
+
+    .medical-results-table tr:first-child th {
+        border-top: 0;
+    }
+
+    .medical-results-table tr:last-child td {
+        border-bottom: 1;
+    }
+
+    .medical-results-table tr th:first-child,
+    .medical-results-table tr td:first-child {
+        border-left: 0;
+    }
+
+    .medical-results-table tr th:last-child,
+    .medical-results-table tr td:last-child {
+        border-right: 0;
+    }
+
+    .medical-results-table tr:nth-child(even) {
+        background-color: #e0e7f2;
+    }
+
+    .medical-results-table tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    .medical-results-table th {
+        background-color: #3DD6B7;
+        color: #ffffff;
+    }  
+    .invoice-content {
+		background-color: white;
+		border: 1px solid #f0f0f0;
+		border-radius: 4px;
+		margin: 30px;
+		padding: 30px;
+	}
+	.invoice-item .invoice-logo {
+		margin: 20px;
+	}
+	.invoice-item .invoice-logo img {
+		width: auto;
+		max-height: 52px;
+	}
+	.invoice-item .invoice-text h2 {
+		color:#272b41;
+		font-size:36px;
+		font-weight:600;
+	}
+	.invoice-item .invoice-details {
+		text-align:right;
+		color:#000;
+		font-weight:500;
+		margin: 15px;
+	}
+	.invoice-item .invoice-details strong {
+		color:#272b41
+	}
+	.invoice-item .invoice-details-two {
+		text-align:left
+	}
+	.invoice-item .invoice-text {
+		padding-top:42px;
+		padding-bottom:36px
+	}
+	.invoice-item .invoice-text h2 {
+		font-weight:400
+	}
+	.invoice-info {
+		margin: 15px;
+	}
+	.invoice-info p {
+		margin-bottom: 0;
+	}
+	.invoice-info.invoice-info2 {
+		text-align: right;
+	}
+	.invoice-item .customer-text {
+		font-size: 18px;
+		color: #272b41;
+		font-weight: 600;
+		margin-bottom: 8px;
+		display: block
+	}
+	.invoice-table tr th,
+	.invoice-table tr td,
+	.invoice-table-two tr th,
+	.invoice-table-two tr td {
+		color: #272b41;
+		font-weight: 600;
+		padding: 10px 20px;
+		line-height: inherit;
+		border: 1px solid #000; /* Added border color */
+	}
+	.invoice-table tr td,
+	.invoice-table-two tr td {
+		color: #757575;
+		font-weight: 500;
+	}
+	.invoice-table-two {
+		margin-bottom:0
+	}
+	.invoice-table-two tr th,
+	.invoice-table-two tr td {
+		border-top: 0;
+	}
+	.invoice-table-two tr td {
+		text-align: right
+	}
+	.invoice-info h5 {
+		font-size: 16px;
+		font-weight: 500;
+	}
+	.other-info {
+		margin-top: 10px;
+	}
+	.signature-field {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	text-align: right;
+	}
+    .doctor-name {
+	text-align: right;
+	font-size: 16px;
+	font-weight: bold;
+	}
+</style>
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+    <!-- Page Content -->
+    <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="row" style="font-size:14px ;">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="invoice-content">
+                        <div class="invoice-item">
+                            <div class="row">
+                                <table style="width: 100%; border: 0px; padding-bottom: 7px; padding-top: 5px;">
+                                    <tr>
+                                        <td style="width: 50%;">
+                                        <div class="invoice-logo">
+                                            <img style="float: left; width: 220px;"src="static/Mediqs/images/Normal/DARK LOGO.png" alt="logo">
+                                        </div>
+                                        </td>
+                                        <td style="width: 50%;">
+                                        <p class="invoice-details">
+                                            <strong>Medical ID:</strong>{{prescription.prescription_id}} <br>
+                                            <strong>Patient ID:</strong> {{prescription.patient.patient_id }} <br>
+                                            <strong>Date:</strong> {{prescription.create_date}}
+                                        </p>
+                                        </td>
+                                    </tr>
+                                    </table>
+                            </div>
+                        </div>				
+                        <!-- Invoice Item -->
+                        <!-- Invoice Item -->
+                        <div class="invoice-item" style="border: 0px; padding: 0px;">
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="invoice-info">
+                                <h1><strong class="customer-text">Doctor Information:</strong></h1>
+                                <p class="invoice-details invoice-details-two">
+                                    <b>Name: </b>{{prescription.doctor.name}} <br>
+                                    <b>Health Center: </b>{{prescription.doctor.health_center.name}}<br>
+                                    <b>Email: </b>{{prescription.doctor.email}} <br>
+                                    <!-- <b>Doctor Ph: </b>{{report.doctor.phone_number}}<br> -->
+                                </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="invoice-info invoice-info2">
+                                    <strong class="customer-text">Prescription To:</strong>
+                                    <p class="invoice-details">
+                                    <b>Name: </b>{{prescription.patient.name}} <br>
+                                    <b>Address: </b>{{prescription.patient.address}}<br>
+                                    <b>Email: </b>{{prescription.patient.email}} <br>
+                                </p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>  
+                        <!-- /Invoice Item -->
+                        <!-- Invoice Item -->
+                        <div class="invoice-item invoice-table-wrap">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <hr>
+                                        <table class="invoice-table table table-bordered text-center medical-results-table" style="border: 1px black;">
+                                            <tbody>
+                                                <tr style="background-color: rgb(84, 147, 199);">
+                                                    <th colspan="6" class="text-center" style="padding:8px;">Medicine</th>
+                                                </tr>
+                                                <tr style="background-color: rgb(84, 147, 199);">
+
+                                                    <th style="padding:8px;">Medicine Name</th>
+                                                    <th style="padding:8px;">Quantity</th>
+                                                    <th style="padding:8px;">Frequency</th>
+                                                    <th style="padding:8px;">Duration</th>
+                                                    <th style="padding:8px;">Relation with meal</th>
+                                                    <th style="padding:8px;">Instruction</th>	
+                                                </tr>
+                                                {% for pm in prescription_medicine %}
+                                                <tr">
+                                                    <td class="text-center">{{pm.medicine_name}}</td>
+                                                    <td class="text-center">{{pm.quantity}}</td>
+                                                    <td class="text-center">{{pm.frequency}}</td>
+                                                    <td class="text-center">{{pm.duration}}</td>
+                                                    <td class="text-center">{{pm.relation_with_meal}}</td>
+                                                    <td class="text-center">{{pm.instruction}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                <tr style="background-color: rgb(84, 147, 199);">
+                                                    <th colspan="6" class="text-center" style="padding:8px;">Test</th>
+                                                </tr>
+                                                <tr style="background-color: rgb(84, 147, 199);">
+                                                    <th colspan="2" class="text-center"> Test ID </th>
+                                                    <th colspan="2" class="text-center">Test Name</th>
+                                                    <th colspan="2" class="text-center">Description</th>
+                                                </tr>
+                                                {% for pt in prescription_test %}
+                                                <tr>
+                                                    <td colspan="2" class="text-center">{{pt.test_info_id}}</td>
+                                                    <td colspan="2" class="text-center">{{pt.test_name}}</td>
+                                                    <td colspan="2" class="text-center">{{pt.test_description}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                <tr style="background-color: rgb(84, 147, 199)">
+                                                    <th colspan="6" class="text-center" style="padding:8px;">Advice/Recommendation</th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">{{prescription.extra_information}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="signature-field" style="border: 0; padding: 0;">
+                                            ___________________________
+                                        </div>
+                                        <p class="doctor-name" style="border: 0; padding: 0; margin-right: 65px;">
+                                            Signature 
+                                        </p>		
+                                        <p class="doctor-name" style="border: 0; padding: 0; margin-right: 55px;">
+                                            {{prescription.doctor.name}}
+                                        </p>												  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                
+                        <!-- /Invoice Information -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>		
+    <!-- /Page Content -->
+
+			
+		   
+		</div>
+		<!-- /Main Wrapper -->
+	  
+		<!-- jQuery -->
+		<script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/js/Normal/script.js' %}"></script>
+  </body>
+
+<!-- doccure/invoice-view.html  30 Nov 2019 04:12:20 GMT -->
+</html>

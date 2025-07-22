@@ -1,0 +1,604 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Mirrored from dreamguys.co.in/demo/doccure/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:20 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    	<!-- Favicon -->
+
+      <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+		
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    </head>
+    <body>
+	
+	
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"
+    />
+
+    <!-- Fontawesome CSS 
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}"
+    /> -->
+<!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Feathericon CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/admin/morris/morris.css'%}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/admin/style.css'%}"
+    />
+
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+        <div class="main-wrapper">
+      <!-- Header -->
+			<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header>            
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+			<aside class="sidebar" id="sidebar">
+				{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %} </aside>
+			<!-- /Sidebar -->
+			
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+			
+                <div class="content container-fluid">
+					
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">Welcome Admin!</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item active"><a href="{% url 'admin-dashboard' %}"></a>Dashboard</li>
+								</ul>
+                {% include 'message.html' %}
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+          <!--Total Doctor-->
+          <div class="dash-card-container">
+            <div class="dash-card-wrapper">
+              <div class="dash-card">
+                <div class="dash-card-body">
+                  <div class="dashboard-widget-header">
+                    <span class="dashboard-widget-icon text-primary border-primary">
+                      <i class="fa-solid fa-user-doctor"></i>
+                    </span>
+                    <div class="dashboard-widget-text"></div>
+                  </div>
+                  <div class="dashboard-widget-info">
+                    <h3 class="dashboard-text-muted">{{total_doctor_count.count}}</h3>
+                    <h6 class="dashboard-text-muted">Total Doctors</h6>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar bg-primary w-50"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Total Doctor END-->
+            <!--Total Patients-->
+              <div class="dash-card-wrapper">
+              <div class="dash-card">
+                <div class="dash-card-body">
+                  <div class="dashboard-widget-header">
+                    <span class="dashboard-widget-icon text-success">
+                      <i class="fa-solid fa-user-injured"></i>
+                    </span>
+                  </div>
+                  <div class="dashboard-widget-info">
+                    <h3 class="dashboard-text-muted">{{total_patient_count.count}}</h3>
+                    <h6 class="dashboard-text-muted">Total Patients</h6>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar bg-success w-50"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Total Patients END-->
+             <!--Total Health Centers-->
+            <div class="dash-card-wrapper">
+              <div class="dash-card">
+                <div class="dash-card-body">
+                  <div class="dashboard-widget-header">
+                    <span class="dashboard-widget-icon text-danger border-danger">
+                      <i class="fa-regular fa-hospital"></i>
+                    </span>
+                  </div>
+                  <div class="dashboard-widget-info">
+                    <h3 class="dashboard-text-muted">{{total_healthcenter_count.count}}</h3>
+                    <h6 class="dashboard-text-muted">Total Health Centers</h6>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar bg-danger w-50"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+             <!--Total Health Centers END-->
+             <!--Total Health Centers-->
+            <div class="dash-card-wrapper">
+              <div class="dash-card">
+                <div class="dash-card-body">
+                  <div class="dashboard-widget-header">
+                    <span class="dashboard-widget-icon text-danger border-danger">
+                      <i class="fa-solid fa-user-nurse"></i>
+                    </span>
+                  </div>
+                  <div class="dashboard-widget-info">
+                    <h3 class="dashboard-text-muted">{{total_staff_count.count}}</h3>
+                    <h6 class="dashboard-text-muted">Total Health Center Staff</h6>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar bg-danger w-50"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+             <!--Total Health Centers END-->
+
+             <!--Total Inventory Manager-->
+             <div class="dash-card-wrapper">
+              <div class="dash-card">
+                <div class="dash-card-body">
+                  <div class="dashboard-widget-header">
+                    <span class="dashboard-widget-icon text-warning border-warning">
+                      <i class="fa-solid fa-user-gear"></i>
+                    </span>
+                  </div>
+                  <div class="dashboard-widget-info">
+                    <h3 class="dashboard-text-muted">{{total_inventorymanager_count.count}}</h3>
+                    <h6 class="dashboard-text-muted">Total Inventory Manager</h6>
+                    <div class="progress progress-sm">
+                      <div class="progress-bar bg-warning w-50"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!--Total Inventory Manager END-->
+          <div class="dash-card-container custom-container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card" style="margin: 0;">
+                <div class="card-headers">
+                  <h4 class="card-title black">Appointment Bar Chart</h4>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                  <canvas id="barChart_2"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-table flex-fill">
+                <div class="card-headers">
+                  <h4 class="card-title black">Health Center List</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive" style="max-width: 750px; overflow-x: auto;">
+                    <table class="datatable table table-hover table-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>Hospital Name</th>
+                          <th>Address</th>
+                          <th>Email</th>
+                          <th>Phone Number</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for healthcenter in healthcenters%}
+                        <tr>
+                          <td>
+                            <h2 class="table-avatar">
+                              <a href="{% url 'admin-healthcenter-profile' pk=healthcenter.healthcenter_id %}" class="avatar avatar-sm mr-2">
+                                <img class="avatar-img rounded-circle" src="{{ healthcenter.featured_image.url | adjust_image_url }}" alt="User Image">
+                              </a>
+                              <a href="{% url 'admin-healthcenter-profile' pk=healthcenter.healthcenter_id %}">{{healthcenter.name}}</a>
+                            </h2>
+                          </td>
+                          <td>{{healthcenter.city}}</td>
+                          <td>{{healthcenter.email}}</td>
+                          <td>{{healthcenter.phone_number}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>          
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-table flex-fill">
+                <div class="card-headers">
+                  <h4 class="card-title black">Doctors List</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive" style="max-width: 750px; overflow-x: auto;">
+                    <table class="datatable table table-hover table-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>Doctor Name</th>
+                          <th>Contact Number</th>
+                          <th>E-mail</th>
+                          <th>Health Center</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for doctor in doctors%}
+                        <tr>
+                          <td>
+                            <h2 class="table-avatar">
+                              <a
+                                href="{%url 'admin-doctor-profile' pk=doctor.doctor_id%}"
+                                class="avatar avatar-sm mr-2"
+                                ><img
+                                  class="avatar-img rounded-circle"
+                                  src="{{ doctor.featured_image.url | adjust_image_url }}"
+                                  alt="User Image"
+                              /></a>
+                              <a href="{%url 'admin-doctor-profile' pk=doctor.doctor_id%}">{{doctor.name}}</a>
+                            </h2>
+                          </td>
+                          <td>{{doctor.phone_number}}</td>
+                          <td>{{doctor.email}}</td>
+                          <td>{{doctor.health_center}}</td>
+
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- /Recent Orders -->
+            </div>
+
+            <div class="col-md-6">
+              <div class="card card-table flex-fill">
+                <div class="card-headers">
+                  <h4 class="card-title black">Patients List</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive" style="max-width: 750px; overflow-x: auto;">
+                    <table class="datatable table table-hover table-center mb-0">
+											<thead>
+												<tr>													
+													<th>Patient Name</th>
+													<th>Contact Number</th>
+													<th>Email</th>
+													<th>Address</th>													
+												</tr>
+											</thead>
+											<tbody>
+                        {% for patient in patients%}
+												<tr>
+													<td>
+														<h2 class="table-avatar">
+															<a href="#" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{ patient.featured_image.url | adjust_image_url }}" alt="User Image"></a>
+															<a style="color:black">{{patient.name}}</a>
+														</h2>
+													</td>
+													<td>{{patient.phone_number}}</td>
+													<td>{{patient.email}}</td>
+													<td>{{patient.address}}</td>
+												</tr>
+                        {% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<!-- /Feed Activity -->
+							
+						</div>
+            
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-table flex-fill">
+                <div class="card-headers">
+                  <h4 class="card-title black">Inventory Manager List</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive" style="max-width: 750px; overflow-x: auto;">
+                    <table class="datatable table table-hover table-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>Inventory Manager Name</th>
+                          <th>Contact Number</th>
+                          <th>Email</th>
+                          <th>Health Center</th>
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in inventorymanager %}
+                        <tr>
+                          <td>
+                            <h2 class="table-avatar">
+                              <a href="{% url 'manager-profile' pk=i.inventorymanager_id %}" class="avatar avatar-sm mr-2">
+                                <img
+                                  class="avatar-img rounded-circle"
+                                  src="{{ i.featured_image.url | adjust_image_url }}"
+                                  alt="User Image"
+                              /></a>
+                              <a href="{% url 'manager-profile' pk=i.inventorymanager_id %}" >{{i.username}}</a>
+                            </h2>
+                          </td>
+                          <td>{{i.phone_number}}</td>
+                          <td>{{i.email}}</td>
+                          <td>{{i.health_center}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-table flex-fill">
+                <div class="card-headers">
+                  <h4 class="card-title black">Healthcenter Staff List</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive" style="max-width: 750px; overflow-x: auto;">
+                    <table class="datatable table table-hover table-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>Staff Name</th>
+                          <th>Contact Number</th>
+                          <th>Email</th>
+                          <th>Health Center</th> 
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for s in staff %}
+                        <tr>
+                          <td>
+                            <h2 class="table-avatar">
+                              <a href="{% url 'admin-staff-profile' pk=s.staff_id %}" class="avatar avatar-sm mr-2">
+                                <img
+                                  class="avatar-img rounded-circle"
+                                  src="{{ s.featured_image.url | adjust_image_url }}"
+                                  alt="User Image"
+                              /></a>
+                              <a href="{% url 'admin-staff-profile' pk=s.staff_id %}">{{s.username}}</a>
+                            </h2>
+                          </td>
+                          <td>{{s.phone_number}}</td>
+                          <td>{{s.email}}</td>
+                          <td>{{s.health_center}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+            <!--
+            <div class="col-md-6 d-flex">
+              <div class="card card-table flex-fill">
+                <div class="card-headers">
+                  <h4 class="card-title black">Health Center Staff List</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="datatable table table-hover table-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>Staff Name</th>
+                          <th>Username</th>
+                          <th>Email</th>
+                          <th>Phone Number</th>
+                          <th>Health Center</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tbody>
+                          {% for s in staff %}
+                          <tr>
+                            <td>
+                              <h2 class="table-avatar">
+                                <a href="{% url 'admin-staff-profile' pk=s.staff_id %}" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{ s.featured_image.url | adjust_image_url }}" alt="User Image"></a>
+                                <a href="{% url 'admin-staff-profile' pk=s.staff_id %}">{{s.name}}</a>
+                              </h2>
+                            </td>
+                            <td>{{s.username}}</td>
+                            
+                            <td>{{s.email}}</td>
+                            
+                            <td>{{s.phone_number}}</td>
+
+                            <td>{{s.health_center}}</td>
+                         </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            -->
+            
+          <!--Hide Midwife
+            <div class="col-md-6 d-flex">
+							<div class="card  card-table flex-fill">
+								<div class="card-headers">
+									<h4 class="card-title black">Midwives List</h4>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-hover table-center mb-0">
+											<thead>
+												<tr>													
+													<th>Midwife Name</th>
+													<th>Contact Number</th>
+													<th>Email</th>
+													<th>Health Center</th>													
+												</tr>
+											</thead>
+											<tbody>
+                        {% for lab_worker in lab_workers%}
+												<tr>
+													<td>
+														<h2 class="table-avatar">
+															<a href="#" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{ lab_worker.featured_image.url | adjust_image_url }}" alt="User Image"></a>
+															<a href="#">{{lab_worker.name}}</a>
+														</h2>
+													</td>
+													<td>{{lab_worker.phone_number}}</td>
+													<td>{{lab_worker.email}}</td>
+													<td>{{lab_worker.healthcenter}}</td>
+												</tr>
+                        {% endfor %}
+												
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div> -->	
+						</div>
+          </div>
+        </div>
+      </div>
+      <!-- /Page Wrapper -->
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js'%}"></script>
+
+
+    </body>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/admin/popper.min.js'%}"></script>
+    <script src="{% static 'Mediqs/js/admin/bootstrap.min.js'%}"></script>
+
+    <!-- Slimscroll JS -->
+
+    <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js'%}"></script>
+
+    <!-- Datatables JS -->
+		<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+		<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+    
+
+    <!-- <script src="{% static 'Mediqs/plugins/admin/raphael/raphael.min.js'%}"></script> -->
+
+    <!-- <script src=" {% static 'Mediqs/plugins/admin/morris/morris.min.js'%}"></script> -->
+    <!-- <script src="{% static 'Mediqs/js/admin/chart.morris.js'%}"></script> -->
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/js/admin/script.js'%}"></script>
+
+    <!-- Chart JS -->
+
+    <script>
+      var total_patient_count = "{{total_patient_count.count}}";
+      var total_labworker_count= "{{total_labworker_count.count}}";
+      var total_healthcenter_count= "{{total_healthcenter_count.count}}";
+      var total_inventorymanager_count= "{{total_inventorymanager_count.count}}";
+      var total_staff_count= "{{total_staff_count.count}}";
+
+      var sat= "{{sat}}";
+      var sat_count= "{{sat_count}}";
+
+      var sun= "{{sun}}";
+      var sun_count= "{{sun_count}}";
+
+      var mon= "{{mon}}";
+      var mon_count= "{{mon_count}}";
+
+      var tues= "{{tues}}";
+      var tues_count= "{{tues_count}}";
+
+      var wed= "{{wed}}";
+      var wed_count= "{{wed_count}}";
+
+      var thurs= "{{thurs}}";
+      var thurs_count= "{{thurs_count}}";
+
+      var fri= "{{fri}}";
+      var fri_count= "{{fri_count}}";
+    </script>
+
+    <script src="{% static 'Mediqs/js/admin/Chart.bundle.min.js'%}"></script>
+
+    <script src="{% static 'Mediqs/js/admin/raphael.min.js'%}"></script>
+
+    <script src="{% static 'Mediqs/js/admin/morris.min.js'%}"></script>
+
+    <script src="{% static 'Mediqs/js/admin/morris-init.js'%}"></script>
+
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+
+  </body>
+
+
+  <!-- Mirrored from dreamguys.co.in/demo/doccure/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:34 GMT -->
+</html>

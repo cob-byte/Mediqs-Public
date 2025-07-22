@@ -1,0 +1,354 @@
+{% load static %}
+{% load cloud %}
+<!DOCTYPE html> 
+<html lang="en">
+	
+<!-- doccure/admin-healthcenter-profile.html  30 Nov 2019 04:12:16 GMT -->
+<head>
+		<meta charset="utf-8">
+		<title>Mediqs</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		
+		<!-- Favicons -->
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  	/>		
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"/>
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}">
+
+   <!-- Fontawesome CSS 
+        <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"/>
+	
+		<!-- Fancybox CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fancybox/jquery.fancybox.min.css'%}">
+
+		<!-- Feathericon CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}" />
+	    <link rel="stylesheet" href="{% static 'Mediqs/plugins/admin/morris/morris.css'%}"/>
+		
+		<!-- Main CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css' %}">
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css' %}">
+	
+	</head>
+	<body>
+		<!-- Main Wrapper -->
+		<div class="main-wrapper">
+		
+			<!-- Header -->
+			<header class="header">
+						{% include 'healthcenter-admin-navbar.html' %}
+			</header>
+
+			<!-- Sidebar -->
+			<aside class="sidebar" id="sidebar">
+			{% include 'healthcenter-admin-sidebar.html' %} 
+		    </aside>
+			<!-- /Sidebar -->
+			<div class="page-wrapper">
+				<div class="content container-fluid">
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12" style="margin-top: -20px;">	
+								<h3 class="page-title">Healthcenter Profile</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Dashboard</a></li>
+									<li class="breadcrumb-item active">Healthcenter Profile</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+	<div class="col-md-8 col-lg-12 col-xl-12">
+			<!-- Page Content -->
+							<!-- Doctor Widget -->						
+							<div class="card">
+							  <div class="card-profile">
+								<div class="doctor-widget">
+								  <div class="doc-info-left">
+									<div class="doctor-img">
+										<img src="{{ healthcenters.featured_image.url | adjust_image_url }}"
+										  class="img-fluid"
+										  alt="User Image"
+										/>
+									</div>
+									
+									<div class="doc-info-cont">
+										<h4 class="doc-name">{{healthcenters.name}}</h4>
+										<p class="doc-speciality">{{healthcenters.healthcenter_type}} HealthCare Center</p>
+									  
+										<div class="clinic-details">
+											<p class="doc-location"><i class="fas fa-map-marker-alt"></i>{{healthcenters.street}} {{healthcenters.barangay}} {{healthcenters.city}}</p>
+
+											<ul class="clinic-gallery">
+												<li>
+													<a href="{% static 'Mediqs/images/Normal/features/feature-01.jpg'%}" data-fancybox="gallery">
+														<img src="{% static 'Mediqs/images/Normal/features/feature-01.jpg'%}" alt="Feature">
+													</a>
+												</li>
+												<li>
+													<a href="{% static 'Mediqs/images/Normal/features/feature-02.jpg'%}" data-fancybox="gallery">
+														<img  src="{% static 'Mediqs/images/Normal/features/feature-02.jpg'%}" alt="Feature">
+													</a>
+												</li>
+												<li>
+													<a href="{% static 'Mediqs/images/Normal/features/feature-03.jpg'%}" data-fancybox="gallery">
+														<img src="{% static 'Mediqs/images/Normal/features/feature-03.jpg'%}" alt="Feature">
+													</a>
+												</li>
+												<li>
+													<a href="{% static 'Mediqs/images/Normal/features/feature-04.jpg'%}" data-fancybox="gallery">
+														<img src="{% static 'Mediqs/images/Normal/features/feature-04.jpg'%}" alt="Feature">
+													</a>
+												</li>
+											</ul> 
+										</div>
+									</div>
+								  </div>
+			  
+								  <!--<div class="doc-info-right col-xl-3">
+									<div class="clinic-booking">
+										<a class="apt-btn" href="{% url 'healthcenter-doctor-list' pk=healthcenters.healthcenter_id %}">Doctor List</a>
+									</div>
+								</div>-->
+							  </div>
+							</div>
+							
+							<!-- Doctor Details Tab -->
+								<div class="card-profile-body pt-0">
+								
+									<!-- Tab Menu -->
+									<nav class="user-tabs mb-4">
+										<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+											<li class="nav-item">
+												<a class="nav-link active" href="#doc_overview" data-toggle="tab" style="color:rgb(255, 255, 255);">Overview</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#doc_locations" data-toggle="tab" style="color:rgb(255, 255, 255);">Locations and Contact</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#doc_emergency" data-toggle="tab" style="color:rgb(255, 255, 255);">Emergency Info</a>
+											</li>
+											{% if user.is_authenticated and user.is_doctor and doctor.health_center != healthcenters %}
+											<li class="nav-item">
+												<a class="nav-link" href="#patient_record" data-toggle="tab" style="color:rgb(255, 255, 255);">Patient Record</a>
+											</li>
+											{% endif %}	
+										</ul>
+									</nav>
+									<!-- /Tab Menu -->
+									
+									<!-- Tab Content -->
+									<div class="tab-content pt-0">
+									
+										<!-- Overview Content -->
+										<div role="tabpanel" id="doc_overview" class="tab-pane fade show active">
+											<div class="row">
+												<div class="card-body">
+												<div class="col-md-12 col-lg-9">
+												
+													<!-- About Details -->
+													<div class="widget about-widget">
+														<h5 class="widget-title"><b>About Our HealthCare Center</b></h5>
+														<h6>{{healthcenters.description}}</h6>
+													</div>
+													<!-- /About Details -->
+													
+													<!-- Services List -->
+													<div class="service-list">
+														<h5 class="widget-title"><b>Services </b></h5>
+														<ul class="clearfix" style="color: #fff;">
+															{% for service in services %}
+															<p>{{service.service_name}}</p>
+															{% endfor %}
+															
+														</ul>
+													</div>
+													<!-- /Services List -->
+													
+													<!-- Specializations List -->
+													<div class="service-list">
+														<h5 class="widget-title"><b>Specializations</b></h5>
+														<ul class="clearfix">
+															{% for specialization in specializations %}
+															<p>{{specialization.specialization_name}}</p>
+															{% endfor %}	
+
+														</ul>
+													</div>
+													<!-- /Specializations List -->
+		
+												</div>
+											</div>
+											</div>
+										</div>
+										<!-- /Overview Content -->
+										
+										<!-- Locations Content -->
+										<div role="tabpanel" id="doc_locations" class="tab-pane fade">
+										
+											<!-- Location List -->
+											<div class="location-list">
+												<div class="row">
+												
+													<!-- Clinic Content -->
+													<div class="col-md-4">
+														<div class="clinic-content">
+															<h4 class="clinic-name"><a href="#">{{healthcenters.name}}</a></h4>
+															<p class="doc-speciality">{{healthcenter.healthcenter_type}}</p>
+															
+															<div class="clinic-details mb-0">
+																<h5 class="clinic-direction"> <i class="fas fa-map-marker-alt"></i> {{healthcenters.street}} {{healthcenters.barangay}} {{healthcenters.city}} <br><a href="javascript:void(0);">Get Directions</a></h5>
+																<ul>
+																	<li>
+																		<a href="{% static 'Mediqs/images/Normal/features/feature-01.jpg' %}" data-fancybox="gallery2">
+																			<img src="{% static 'Mediqs/images/Normal/features/feature-01.jpg' %}" alt="Feature Image">
+																		</a>
+																	</li>
+																	<li>
+																		<a href="{% static 'Mediqs/images/Normal/features/feature-02.jpg' %}" data-fancybox="gallery2">
+																			<img src="{% static 'Mediqs/images/Normal/features/feature-02.jpg' %}" alt="Feature Image">
+																		</a>
+																	</li>
+																	<li>
+																		<a href="{% static 'Mediqs/images/Normal/features/feature-03.jpg' %}" data-fancybox="gallery2">
+																			<img src="{% static 'Mediqs/images/Normal/features/feature-03.jpg' %}" alt="Feature Image">
+																		</a>
+																	</li>
+																	<li>
+																		<a href="{% static 'Mediqs/images/Normal/features/feature-04.jpg' %}" data-fancybox="gallery2">
+																			<img src="{% static 'Mediqs/images/Normal/features/feature-04.jpg' %}" alt="Feature Image">
+																		</a>
+																	</li>
+																</ul> 
+															</div>
+														</div>
+													</div>
+													<!-- /Clinic Content -->
+													
+													<!-- Clinic Timing -->
+													<div class="col-md-4">
+														<div class="clinic-timing">
+															<div>
+																<p class="timings-days" >
+																	<h6> Email </h6>
+																</p>
+																<p class="timings-times">
+																	<h6>{{healthcenters.email}}</h6>
+																	<!-- <span>care@gmail.com</span> -->
+																</p>
+															</div>
+															<div>
+															<p class="timings-days">
+																<span>Contact</span>
+															</p>
+															<p class="timings-times">
+																<h6>{{healthcenters.phone_number}}</h6>
+															</p>
+															</div>
+														</div>
+													</div>
+													<!-- /Clinic Timing -->
+												</div>
+											</div>
+											<!-- /Location List -->
+											
+											
+		
+										</div>
+										<!-- /Locations Content -->
+											
+										<!-- Overview Content -->
+										<div role="tabpanel" id="doc_emergency" class="tab-pane fade show">
+											<div class="card card-table text-center" style="margin: 3%">
+												<div class="card-body">
+													<div class="row">
+														<div class="col-md-12 col-lg-12">
+															<div class="table-responsive">
+																<table class="table table-hover table-center mb-0" style="color: #000;">
+																<tr style="background-color: #416F83;">
+																	<th style="color: #ffffff;">Facility Types</th>
+																	<th style="color: #ffffff;">Number of Units</th>
+																</tr>
+																<tr>
+																	<td><b>General Bed</b></td>
+																	<td>{{healthcenters.general_bed_no}}</td>
+																</tr>
+																<tr>
+																	<td><b>Regular Cabin</b></td>
+																	<td>{{healthcenters.regular_cabin_no}}</td>
+																</tr>
+																<tr>
+																	<td><b>ICU</b></td>
+																	<td>{{healthcenters.available_icu_no}}</td>
+																</tr>
+																<tr>
+																	<td><b>Emergency Cabin</b></td>
+																	<td>{{healthcenters.emergency_cabin_no}}</td>
+																</tr>
+																<tr>
+																	<td><b>VIP room</b></td>
+																	<td>{{healthcenters.vip_cabin_no}}</td>
+																</tr>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								<!-- Doctor Widget -->
+								
+								<!-- /Doctor Details Tab -->
+
+								</div>
+			</div>		
+			<!-- /Page Content -->
+
+		   
+		</div>
+		<!-- /Main Wrapper -->
+
+	
+		<!-- jQuery -->
+		<script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+		
+		<!-- Bootstrap Core JS -->
+		<script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+		<script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+		
+		
+		<!-- Fancybox JS -->
+		<script src="{% static 'Mediqs/plugins/Normal/fancybox/jquery.fancybox.min.js'%}"></script>
+		
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+		<!--Admin-->
+
+		<!-- Bootstrap Core JS -->
+		<script src="{% static 'Mediqs/js/admin/popper.min.js'%}"></script>
+		<script src="{% static 'Mediqs/js/admin/bootstrap.min.js'%}"></script>
+
+		<!-- Slimscroll JS -->
+
+		<script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js'%}"></script>
+
+		<!-- Datatables JS -->
+			<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+			<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/js/admin/script.js'%}"></script>
+		
+	</body>
+
+<!-- doccure/admin-healthcenter-profile.html  30 Nov 2019 04:12:16 GMT -->
+</html>

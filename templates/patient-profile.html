@@ -1,0 +1,558 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/patient-profile.html  30 Nov 2019 04:12:09 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+    type="image/x-icon"
+    href="{% static 'images/circle-logo.png' %}"
+    rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/search2.css' %}"
+    />
+  
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/healthcenter.css' %}"
+    />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+       <!-- Header -->
+       <header class="header">{% include 'doctor-navbar.html' %}</header>
+       <!-- /Header -->
+ 
+     
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-6 col-6">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'doctor-dashboard'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Profile
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Patient Profile</h2>{% include 'message.html' %}
+            </div>
+            {% if user.is_doctor %}
+            <div class="col-md-6 col-6 text-right">
+							<ul>
+							  <p><a href="{% url 'inventory' %}" style="color: black;">Inventory</a><br>
+							   <a href="{% url 'chat-home' pk=user.id %}" style="color: black;">Chat with Patients</a></p>
+							 </ul>
+							
+						  </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div
+              class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft"
+            >
+              <!-- Profile Widget -->
+              <div class="card-profile-body widget-profile pat-widget-profile">
+                <div class="card-body">
+                  <div class="pro-widget-content">
+                    <div class="profile-info-widget">
+                      <a href="#" class="booking-doc-img">
+                        <img
+                          src="{{ patient.featured_image.url | adjust_image_url }}"
+                          alt="User Image"
+                        />
+                      </a>
+                      <div class="profile-det-info">
+                        <h3><a href="#">{{patient.name}}</a></h3>
+
+
+                        <div class="patient-details">
+                          <h5><b>ID :</b> {{ patient.patient_id }}</h5>
+                          <h5 class="mb-0">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ patient.address }}
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="patient-info">
+                    <ul>
+                      <li style="text-align: center; font-weight: bold;">Patient Info:</li>
+                      <li style="font-weight: bold;">Phone <span>{{patient.phone_number}}</span></li>
+                      <li style="font-weight: bold;">Age <span>{{patient.age}}</span></li>
+                      <li style="font-weight: bold;">Blood Group <span>{{patient.blood_group}}</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="card-profile-body widget-profile pat-widget-profile">
+                <div class="card-body">
+                  <div class="patient-info">
+                    <ul>
+                      <li style="text-align: center; font-weight: bold;">Brief Medical History:</li>
+                        <li style="font-weight: bold;">Disease/Condition <span style="font-weight: bold;" > Date</span></li>
+                        {% for record in brief %}
+                          <li>{{record.disease_condition}} <span>{{record.create_date}}</span></li>
+                        {% empty %}
+                          <br>
+                          <li style="text-align: center;">No Past Medical History</li>
+                        {% endfor %}
+                        {% if brief %}
+                          <div style="text-align: center;">
+                            <br>
+                            <a href="{% url 'doctor-view-history' pk=patient.patient_id %}" class="btn btn-primary">
+                                <i class="far fa-eye"></i> View All
+                            </a>
+                          </div>
+                        {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- /Profile Widget -->
+
+              <!-- Last Booking -->
+              <!-- <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Last Booking</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="media align-items-center">
+                      <div class="mr-3">
+                        <img
+                          alt="Image placeholder"
+                          src="{% static 'Mediqs/images/Normal/doctors/doctor-thumb-02.jpg' %}"
+                          class="avatar rounded-circle"
+                        />
+                      </div>
+                      <div class="media-body">
+                        <h5 class="d-block mb-0">Dr. Darren Elder</h5>
+                        <span class="d-block text-sm text-muted">Dentist</span>
+                        <span class="d-block text-sm text-muted"
+                          >14 Nov 2019 5.00 PM</span
+                        >
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="media align-items-center">
+                      <div class="mr-3">
+                        <img
+                          alt="Image placeholder"
+                          src="{% static 'Mediqs/images/Normal/doctors/doctor-thumb-02.jpg' %}"
+                          class="avatar rounded-circle"
+                        />
+                      </div>
+                      <div class="media-body">
+                        <h5 class="d-block mb-0">Dr. Darren Elder</h5>
+                        <span class="d-block text-sm text-muted">Dentist</span>
+                        <span class="d-block text-sm text-muted"
+                          >12 Nov 2019 11.00 AM</span
+                        >
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div> -->
+              <!-- /Last Booking -->
+            </div>
+
+            <div class="col-md-7 col-lg-8 col-xl-9 dct-appoinment">
+              <div class="card">
+                
+           <div class="nav-tabs nav-tabs-solid pt-0">
+                    <div class="user-tabs">
+                      <ul
+                        class="nav nav-tabs nav-tabs-bottom nav-justified flex-wrap"
+                      >
+                        <li class="nav-item">
+                          <a
+                            class="nav-link active"
+                            href="#pat_appointments"
+                            data-toggle="tab"
+                            >Appointments</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#pres" data-toggle="tab"
+                            ><span>Prescription</span></a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#medical_records" data-toggle="tab"
+                            ><span> Medical Records</span></a
+                          >
+                        </li>
+                  
+                      </ul>
+                    </div>
+
+                  <div class="tab-content pt-0">
+                      <!-- Appointment Tab -->
+                      <div id="pat_appointments" class="tab-pane fade show active">
+                          <div class="card card-table mb-0">
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <table class="table table-center" style="color: black;">
+
+                                        <thead class="table table-center mb-0 ">
+                                            <tr>
+                                                <th>Serial Number</th>
+                                                <th>Date</th>
+                                                <th>Purpose</th>
+                                                <th>Contact</th>
+                                                {% if user.is_authenticated and user.is_doctor %}
+                                                  <th>Prescription</th>
+                                                  <th>Medical Record</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+
+                                        <tbody style="color: black!important;" >
+                                          {% if not appointments and not walkins %}
+                                          <tr>
+                                              <td colspan="6">
+                                                  <div class="card">
+                                                      <div class="card-body">
+                                                          <h4>No Appointment</h4>
+                                                      </div>
+                                                  </div>
+                                              </td>
+                                          </tr>
+                                          {% else %}
+                                            {% for appointment in appointments %}
+                                            <tr>
+                                                <td>
+                                                    <a style="color: black;">#PT{{appointment.serial_number}}</a>
+                                                </td>
+                                                <td style="color: black;" >
+                                                    {{appointment.date}}
+                                                    <span class="d-block text-info" style="color: black !important" >{{appointment.time}}</span>
+                                                </td>
+                                                <td style="color:black">{{ appointment.appointment_type }}</td>
+                                                <td>
+                                                    {{appointment.patient.email}}
+                                                    <span class="d-block text-info" >Phone: {{appointment.patient.phone_number}}</span>
+                                                </td>
+                                                {% if user.is_authenticated and user.is_doctor %}
+                                                  <td class="text-center" style="color: black !important">
+                                                    <div class="table-action">
+                                                      {% if appointment.prescription %}
+                                                        <a href="{% url 'edit-prescription' appointment.prescription.pk %}" class="btn btn-primary">
+                                                          <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                        </a>
+                                                      {% else %}
+                                                        <a href="{% url 'create-prescription' type='appointment' pk=appointment.id %}" class="btn btn-primary">
+                                                          <i class="fa-solid fa-plus"></i> Create
+                                                        </a>
+                                                      {% endif %}
+                                                    </div>
+                                                  </td>
+                                                  <td class="text-center">
+                                                      <div class="table-action">
+                                                          {% if appointment.medical_record %}
+                                                          <a href="{% url 'edit-medical' appointment.medical_record.pk %}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                                                          {% else %}
+                                                          <a href="{% url 'create-medical' type='appointment' pk=appointment.id %}" class="btn btn-primary">
+                                                            <i class="fa-solid fa-plus"></i> Create
+                                                          </a>
+                                                          {% endif %}
+                                                      </div>
+                                                  </td>
+                                                {% endif %}
+                                            </tr>
+
+                                            {% endfor %}
+                        
+                                            {% for walkin in walkins %}
+                                            <tr>
+                                                <td>
+                                                    <a style="color: black;" >#WI{{walkin.serial_number}}</a>
+                                                </td>               
+                                                <td>
+                                                    {{walkin.date}}
+                                                </td>
+                                                <td>{{ walkin.walk_in_type }}</td>
+                                                <td>
+                                                    {{walkin.patient.email}}
+                                                    <span class="d-block text-info">Phone: {{walkin.patient.phone_number}}</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="table-action">
+                                                        {% if walkin.prescription %}
+                                                        <a href="{% url 'edit-prescription' walkin.prescription.pk %}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                                                        {% else %}
+                                                        <a href="{% url 'create-prescription' type='walkin' pk=walkin.id %}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Create</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="table-action">
+                                                        {% if walkin.medical_record %}
+                                                        <a href="{% url 'edit-medical' walkin.medical_record.pk %}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                                                        {% else %}
+                                                        <a href="{% url 'create-medical' type='walkin' pk=walkin.id %}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Create</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                          {% endif %}
+                                        </tbody>
+                                    </table> 
+                                </div>
+                            </div>
+                        </div>                  
+                      </div>
+                      <!-- /Appointment Tab -->
+
+                      <!-- Prescription Tab -->
+                      <div class="tab-pane fade show" id="pres">
+                        <div class="card card-table mb-0">
+                          <div class="card-body">
+                            <div class="table-responsive">
+                              <table class="table table-hover table-center mb-0">
+                                <thead>
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Serial Number</th>
+                                    <th>Patient</th>
+                                    <th>Contact</th>
+                                    {% if user.is_authenticated and user.is_doctor %}
+                                      <th>Action</th>
+                                    {% endif %}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for p in prescription %}
+                                  <tr style="color: black;" >
+                                    <td>{{p.create_date}}</td>
+                                    <td>#{{p.serial_number}}</td>
+                                    <td>
+                                      <h2 class="table-avatar">
+                                        <a
+                                          href="#"
+                                          class="avatar avatar-sm mr-2"
+                                        >
+                                          <img
+                                            class="avatar-img rounded-circle"
+                                            src="{{ p.patient.featured_image.url | adjust_image_url }}"
+                                            alt="User Image"
+                                          />
+                                        </a>
+                                        <a href="#"
+                                          >{{p.patient.name}} </a
+                                        >
+                                      </h2>
+                                    </td>
+                                    <td>
+                                      {{p.patient.email}}
+                                      <span class="d-block text-info"
+                                        >Phone: {{p.patient.phone_number}}</span
+                                      >
+                                    </td>
+                                    {% if user.is_authenticated and user.is_doctor %}
+                                      <td class="text-left">
+                                        <div class="table-action">
+                                          {% comment %}
+                                          <a href="{% url 'delete-prescription' pk=p.prescription_id %}" onclick="return confirm('Are you sure you want to Delete?');" class="btn btn-sm bg-danger" >
+                                            <i class="fas fa-trash"></i> Delete <td>
+                                          </a>{% endcomment %}
+                                          
+                                          
+                                          <a
+                                            href="{% url 'doctor-view-prescription' pk=p.prescription_id %}"
+                                            class="btn btn-primary">
+                                            <i class="far fa-eye"></i> View
+                                          </a>
+                                        </div>
+                                      </td>
+                                    {% endif %}
+                                  </tr>
+                                  {% empty %}
+                                            <tr>
+                                              <td colspan="5">
+                                                <div class="card">
+                                                  <div class="card-body">
+                                                    <h4>No Prescription</h4>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                  {% endfor %}
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /Prescription Tab -->
+
+                      <!-- Medical Records Tab -->
+                      <div class="tab-pane fade" id="medical_records">
+                        <div class="card card-table mb-0">
+                          <div class="card-body">
+                            <div class="table-responsive">
+                              <table class="datatable table table-hover table-center mb-0">
+                                <thead>
+                                  <tr style="color: rgb(255, 255, 255);" >
+                                    <th>Medical ID</th>
+                                    <th>Lab Name</th>
+                                    <th>Test Conducted</th>
+                                    <th>Test Date</th>
+                                    <th>Contact</th>
+                                    {% if user.is_authenticated and user.is_doctor %}
+                                      <th>Action</th>
+                                    {% endif %}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for record in record %}
+                                  <tr style="color: black;" >
+                                    <td>{{record.medical_id}}</td>
+                                    <td>{{record.lab_name}}</td>
+                                    <td>{{record.tests_conducted}}</td>
+                                    <td>{{record.test_date}}</td>
+
+                                    <td>
+                                      {{patient.email}}
+                                      <span class="d-block text-info"
+                                        >Phone: {{patient.phone_number}}</span>
+                                    </td>
+
+                                    {% if user.is_authenticated and user.is_doctor %}
+                                      <td class="text-right">
+                                        <div class="table-action">
+                                          {% comment %}
+                                          <a href="{% url 'delete-medical-record' pk=m.medical_record_id %}" onclick="return confirm('Are you sure you want to Delete?');" class="btn btn-sm bg-danger" >
+                                            <i class="fas fa-trash"></i> Delete <td>
+                                          </a>
+                                        {% endcomment %}
+                                          <a
+                                            href="{% url 'doctor-view-medical' pk=record.medical_id %}"
+                                            class="btn btn-primary"
+                                          >
+                                            <i class="far fa-eye"></i> View
+                                          </a>
+                                        </div>
+                                      </td>
+                                    {% endif %}
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                    <td colspan="6">
+                                      <div class="card">
+                                        <div class="card-body">
+                                          <h4>No Medical Records</h4>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </tr>        
+                                  {% endfor %}
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <!-- /Medical Records Tab -->
+                  </div>
+           </div>
+      </div>
+      <!-- /Page Content -->
+
+     
+            </div>
+        </div>
+        </div>
+      </div>
+    
+    </div>
+
+    <!-- /Main Wrapper -->
+
+    
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{% static 'Mediqs/js/Normal/moment.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap-datetimepicker.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+
+
+  </body>
+
+  <!-- doccure/patient-profile.html  30 Nov 2019 04:12:13 GMT -->
+</html>

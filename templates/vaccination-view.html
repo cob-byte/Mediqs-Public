@@ -1,0 +1,503 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+	<style>
+		/* CSS Media Queries */
+		@media only screen and (max-width: 1200px) {
+			.tabs.row {
+				flex-wrap: wrap;
+			}
+			.tabs.row > div {
+				width: 100%;
+				margin-bottom: 10px;
+			}
+			.tabcontent {
+				display: block;
+			}
+			/* Additional styles for small screens */
+			.invoice-item {
+				padding: 10px;
+			}
+			.invoice-content {
+				padding: 10px;
+			}
+			.row.d-flex.justify-content-center {
+				flex-direction: column;
+				align-items: center;
+			}
+			.d-flex.align-items-center {
+				flex-direction: column;
+			}
+			.image-container img{
+				display: none;
+			}
+			.text-center h2 {
+				font-size: 26px;
+			}
+			.text-center h4 {
+				font-size: 22px;
+			}
+			.text-center h5 {
+				font-size: 15px;
+			}
+			.text-center p {
+				font-size: 15px;
+			}
+			.col-md-6 hr {
+				width: 170px;
+			}
+		}
+		@media (max-width: 992px){
+			/* Additional styles for screens up to 1189px width */
+			.invoice-item {
+				padding: 20px;
+			}
+			.invoice-content {
+				padding: 20px;
+			}
+			/* Adjust table font size and wrap table headers */
+			.table-responsive table {
+				font-size: 14px;
+			}
+			.table-responsive th,
+			.table-responsive td {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.text-center h2 {
+				font-size: 26px;
+			}
+			.text-center h4 {
+				font-size: 22px;
+			}
+			.text-center h5 {
+				font-size: 15px;
+			}
+			.text-center p {
+				font-size: 15px;
+			}
+			.col-md-6 hr {
+				width: 100px;
+				margin-left: -5px;
+			}
+		}
+		@media only screen and (max-width: 768px) {
+			.tabs.row {
+				flex-wrap: wrap;
+			}
+			.tabs.row > div {
+				width: 100%;
+				margin-bottom: 10px;
+			}
+			.tabcontent {
+				display: block;
+			}
+			.col-md-6 hr {
+				width: 300px;
+				margin-left: 0px;
+			}
+			.col-md-4 img{
+				width: 35%;
+			}
+		}
+		@media only screen and (max-width: 460px) {
+			.text-center h2 {
+				font-size: 26px;
+			}
+			.text-center h4 {
+				font-size: 22px;
+			}
+			.text-center h5 {
+				font-size: 15px;
+			}
+			.text-center p {
+				font-size: 15px;
+			}
+			.col-md-6 hr {
+				width: 200px;
+			}
+		}
+		@media only screen and (max-width: 377px) {
+			.text-center h2 {
+				font-size: 26px;
+			}
+			.text-center h4 {
+				font-size: 22px;
+			}
+			.text-center h5 {
+				font-size: 15px;
+			}
+			.text-center p {
+				font-size: 15px;
+			}
+			.col-md-6 hr {
+				width: 100px;
+			}
+		}
+	</style>
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      	<!-- Header -->
+      	<header class="header">{% include 'patient_navbar.html' %}</header>
+      	<!-- /Header -->
+
+     	<!-- Breadcrumb -->
+      	<div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'patient-dashboard' %}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Patient Dashboard
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Patient Dashboard</h2>
+            </div>
+          </div>
+        </div>
+      	</div>
+      	<!-- /Breadcrumb -->
+					<!-- Page Content -->
+					<div class="content">
+						<div class="container-fluid">
+							<div class="row">
+								<!-- Profile Sidebar -->
+								<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+									<div>{% include 'patient-sidebar.html' %}</div>
+								</div>
+								<!-- / Profile Sidebar -->
+								<div class="col-md-7 col-lg-8 col-xl-9" style="background-color: rgb(237, 237, 237) ">
+									<!-- Tabs -->
+									<div class="tabs row" style="margin-top: 1%;">
+										<!--<style>
+											/* CSS Media Queries */
+											@media only screen and (max-width: 768px) {
+												.tabs.row {
+													flex-wrap: wrap;
+												}
+												.tabs.row > div {
+													width: 100%;
+													margin-bottom: 10px;
+												}
+												.tabcontent {
+													display: block;
+												}
+												/* Small Screens */
+												@media (max-width: 576px) {
+												/* CSS styles for small screens */		
+												}	
+
+												/* Medium screens */
+												@media (min-width: 576px) and (max-width: 992px) {
+												/* CSS styles for medium screens */
+												}
+
+												/* Large screens */
+												@media (min-width: 992px) {
+												/* CSS styles for large screens */
+												}
+											}
+										</style>-->
+										<div class="col-6">
+											<button class="tablink active btn btn-primary w-100" onclick="openTab(event, 'front')">Front ID</button>
+										</div>
+										<div class="col-6">
+											<button class="tablink btn btn-primary w-100" onclick="openTab(event, 'back')">Back ID</button>
+										</div>
+									</div>
+									<div class="tabcontent" id="front">
+										<div id="save-front">
+											<div class="invoice-content" style="background-color: white;">
+												<div style="border: 5px solid #065242; padding: 5px;">
+													<div class="invoice-item" style="padding: 30px;">
+														<div class="row d-flex justify-content-center">
+															<div class="d-flex align-items-center" style="width: 100%;">
+																<div>
+																	<img src="{% static 'Mediqs/images/Normal/manila_logo.png' %}" alt="logo" style="max-height: 90px !important;">
+																</div>
+																<div style="text-align: center; margin-left: 1%; margin-right: 1%;">
+																	<h1 style="color: black; font-weight: bold; font-size: 50px;">CITY OF MANILA</h1>
+																	<div style="display: flex; justify-content: center;">
+																		<p style="font-size: 20px; background: rgb(0,0,0);
+																		background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(128,7,9,1) 20%, rgba(212,9,11,1) 48%, rgba(213,9,11,1) 51%, rgba(250,2,3,1) 91%, rgba(255,0,1,1) 100%); color: rgb(255, 255, 255); padding: 5px; margin-right: 10px;">COVID-19</p>
+																		<p style="font-size: 20px; background: rgb(0,0,0);
+																		background: linear-gradient(96deg, rgba(0,0,0,1) 0%, rgba(81,181,255,1) 0%, rgba(8,110,196,1) 99%); color: white; padding: 5px;">VACCINATION ID</p>
+																	</div>
+																</div>
+																<div>
+																	<img src="{% static 'Mediqs/images/Normal/mhd_logo.png' %}" alt="logo" style="max-height: 90px !important;">
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- Vaccination Item -->
+													<div class="invoice-item" style="page-break-after: always;">
+														<div class="row">
+															<div class="col-md-10 offset-md-1 d-flex align-items-center justify-content-end">
+																<div class="invoice-info">
+																	<strong class="customer-text">Patient Information</strong>
+																	<p class="invoice-details invoice-details-two">
+																		<b>Name: </b>{{patient.name}}<br>
+																		<b>Birthday: </b>{{patient.dob}}<br>
+																		<b>Email: </b>{{patient.email}}<br>
+																		<b>Phone Number: </b>{{patient.phone_number}}<br>
+																	</p>
+																</div>
+																<div class="image-container">
+																	<img src="{{ patient.featured_image.url | adjust_image_url }}" alt="image" style="max-width: 115px; max-height: 115px;">
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- /Vaccination Item -->
+													<!-- Table -->
+													<div class="col-md-12">
+														<div class="table-responsive">
+															<table class="table" style="background-color: transparent; border: 2px solid black; margin-bottom: 3%;">
+																<tr style="color: black;">
+																	<th>Dose Number</th>
+																	<th>Date Given</th>
+																	<th>Given By</th>
+																	<th>Lot No.</th>
+																	<th>Expiry Date</th>
+																	<th>Brand/Vaccine Name</th>
+																</tr>
+																{% for vaccination in vaccinations %}
+																	<tr style="color: black;">
+																		<td>{{vaccination.get_dose_number_display}} Dose</td>
+																		<td>{{vaccination.date_given}}</td>
+																		<td>{{vaccination.given_by}}</td>
+																		<td>{{vaccination.lot_number}}</td>
+																		<td>{{vaccination.expiry_date}}</td>
+																		<td>{{vaccination.vaccine_name}}</td>
+																	</tr>
+																{% endfor %}
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+							<div class="col-md-12 text-center">
+								<button id="download-btn-front" style="margin-bottom: 2%;margin-left: 1%;" class="btn btn-primary"><i class="fas fa-download"></i> Download Vaccine ID</button>
+							</div>
+						</div>
+						<div class="tabcontent" id="back" style="display: none;">
+						<div id="save-back">
+							<div class="invoice-content" style="background-color: white; page-break-after: always;">
+								<div style="border: 5px solid #065242; padding: 5px;">
+									<div class="invoice-item" style=" padding: 30px;;">
+								<div class="col-md-12">
+									<h2 class="text-center" style="color: black;font-weight: bold;">City of Manila</h2>
+									<h4 class="text-center"style="color: black;">Covid 19 - Vaccination Passport</h4>
+
+									<div class="row" style="margin-top: 5%;">
+										<div class="col-md-6 text-center">
+											<div style="width: 300px; margin: auto;">
+												<hr style="border-top: 2px solid black;">
+											</div>
+											<i><h5 style="color: black">1st Dose Vaccinator</h5></i>
+											{% if vaccinations|length >= 1 %}
+											<p class="h3" style="font-weight: bold;">{{ vaccinations.0.given_by }}</p>
+											{% else %}
+											<p class="h3" style="font-weight: bold;">Not Available</p>
+											{% endif %}
+										</div>
+										<div class="col-md-6 text-center">
+											<div style="width: 300px; margin: auto;">
+												<hr style="border-top: 2px solid black;">
+											</div>
+											<i><h5 style="color: black" >2nd Dose Vaccinator</h5></i>
+											{% if vaccinations|length >= 2 %}
+											<p class="h3" style="font-weight: bold;">{{ vaccinations.1.given_by }}</p>
+											{% else %}
+											<p class="h3" style="font-weight: bold;">Not Available</p>
+											{% endif %}
+										</div>
+									</div>
+
+									<div class="row justify-content-center">
+										<div class="col-md-4 text-center" >
+											<img src="{{ patient.featured_image.url | adjust_image_url }}" alt="Patient Image" class="img-fluid rounded-circle" width="50%">
+											<h2 class="text-center" style="color: black; margin-top: 2%;margin-bottom: 5%;">{{ patient.name }}</h2>
+										</div>
+									</div>
+									<div class="col-md-12 text-center">
+										<h5 style="color: black;">This vaccination passport can be used for whatever legal purpose this may serve best.</h5>
+									</div>
+
+									<!-- Another table -->
+									<div class="col-md-12">
+									<div class="table-responsive">
+										<table class="table" style="background-color: transparent; border: 2px solid black;">
+											<tr style="color: black;">
+												<th>Dose Number</th>
+												<th>Date Given</th>
+												<th>Given By</th>
+												<th>Lot No.</th>
+												<th>Expiry Date</th>
+												<th>Brand/Vaccine Name</th>
+											</tr>
+											{% for vaccination in vaccinations %}
+											<tr style="color: black;">
+												<td>{{vaccination.get_dose_number_display}} Dose</td>
+												<td>{{vaccination.date_given}}</td>
+												<td>{{vaccination.given_by}}</td>
+												<td>{{vaccination.lot_number}}</td>
+												<td>{{vaccination.expiry_date}}</td>
+												<td>{{vaccination.vaccine_name}}</td>
+											</tr>
+											{% endfor %}
+										</table>
+									</div>
+								</div>
+									<!-- End of Another Table -->
+								</div>
+								</div>
+								</div>
+								</div>
+								</div>
+								<!-- End of Additional Section -->
+								<div class="col-md-12 text-center">
+									<button id="download-btn-back" style="margin-bottom: 2%;margin-left: 1%;" class="btn btn-primary"><i class="fas fa-download"></i> Download Vaccine ID</button>
+								</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Content -->
+	<!-- /Main Wrapper -->
+	</div>
+	  
+	<!-- jQuery -->
+	<script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+	<!-- html2canvas library -->
+   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+   <script>
+	function openTab(evt, tabName) {
+		var i, tabcontent, tablinks;
+	
+		// Get all elements with class="tabcontent" and hide them
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+	
+		// Get all elements with class="tablink" and remove the class "active"
+		tablinks = document.getElementsByClassName("tablink");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		}
+	
+		// Show the current tab, and add an "active" class to the link that opened the tab
+		document.getElementById(tabName).style.display = "block";
+		evt.currentTarget.className += " active";
+	}
+	</script>
+
+<script>
+	document.getElementById("download-btn-front").addEventListener("click", function() {
+	  // Display a confirmation message
+	  var confirmed = confirm("Are you sure you want to download the image?");
+	
+	  if (confirmed) {
+		// Capture the invoice-content element as an image
+		html2canvas(document.getElementById("save-front")).then(function(canvas) {
+		  // Convert the captured canvas to a data URL
+		  var imageData = canvas.toDataURL("image/png");
+	
+		  // Create a temporary link element
+		  var link = document.createElement("a");
+		  link.href = imageData;
+		  link.download = "Vaccine-ID_Front.png";
+		  
+		  // Simulate a click event to trigger the download
+		  link.click();
+		});
+	  }
+	});
+	</script>
+	
+<script>
+	document.getElementById("download-btn-back").addEventListener("click", function() {
+	  // Display a confirmation message
+	  var confirmed = confirm("Are you sure you want to download the image?");
+	
+	  if (confirmed) {
+		// Capture the invoice-content element as an image
+		html2canvas(document.getElementById("save-back")).then(function(canvas) {
+		  // Convert the captured canvas to a data URL
+		  var imageData = canvas.toDataURL("image/png");
+	
+		  // Create a temporary link element
+		  var link = document.createElement("a");
+		  link.href = imageData;
+		  link.download = "Vaccine-ID_Back.png";
+		  
+		  // Simulate a click event to trigger the download
+		  link.click();
+		});
+	  }
+	});
+	</script>
+  </body>
+
+<!-- doccure/invoice-view.html  30 Nov 2019 04:12:20 GMT -->
+</html>

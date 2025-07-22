@@ -1,0 +1,94 @@
+{% load static %}
+{% load cloud %}
+
+<div class="profile-sidebar">
+  <div class="widget-profile pro-widget-content">
+    <div class="profile-info-widget">
+      <a href="#" class="booking-doc-img">
+        <img
+          src="{{ staff.featured_image.url | adjust_image_url }}"
+          alt="User Image"
+        />
+      </a>
+      <div class="profile-det-info">
+        <h3>{{ staff.name }}</h3>
+
+        <div class="patient-details">
+          <h5 class="mb-0">{{staff.username}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard-widget">
+    <nav class="dashboard-menu sidebar">
+      <ul>
+        <li >
+          <a href="{% url 'staff-dashboard' %}">
+            <i class="fas fa-columns"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'walkin-registration'%}">
+            <i class="fas fa-user-circle"></i>
+            <span>Walk-In Patient</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'appointments'%}">
+            <i class="fas fa-user-circle"></i>
+            <span>Online Appointment</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'patient-accept-verifications' %}">
+            <i class="fas fa-user-check"></i>
+            <span>Patient Verification</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'doctor-medical-requests' %}">
+            <i class="fa-solid fa-file-waveform"></i>
+            <span>Doctor Medical Record Requests</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'patient-medical-requests' %}">
+            <i class="fa-solid fa-file-medical"></i>
+            <span>Patient Medical Record Requests</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'create-vaccination' %}">
+            <i class="fa-solid fa-file-medical"></i>
+            <span>Patient Vaccinations</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'create-immunization' %}">
+            <i class="fa-solid fa-file-medical"></i>
+            <span>Patient Immunization</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'staff-profile' pk=staff.staff_id %}">
+            <i class="fas fa-user-cog"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'doctor-logout'%}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

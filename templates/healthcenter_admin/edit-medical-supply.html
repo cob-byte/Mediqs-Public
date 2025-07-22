@@ -1,0 +1,351 @@
+{%load static%}
+{% load cloud %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Mediqs</title>
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}">
+
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}">
+	<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+	<!-- Feathericon CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+
+	<!-- Datatables CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/plugins/admin/datatables/datatables.min.css'%}">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}">
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/add-medicine.css'%}">
+
+
+	<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+		<header class="header">{% include 'healthcenter_admin/pharmacist-navbar.html' %}</header>
+		<!-- /Header -->
+
+		<!-- Sidebar -->
+		<aside class="sidebar" id="sidebar">
+			{% include 'healthcenter_admin/pharmacist-sidebar.html' %} </aside>
+		<!-- /Sidebar -->
+
+		<div class="page-wrapper">
+
+			<div class="content container-fluid">
+
+				<!-- Breadcrumb -->
+				<div class="breadcrumb-bar">
+					<div class="container-fluid">
+						<div class="row align-items-center">
+							<div class="col-md-12 col-12">
+								<nav aria-label="breadcrumb" class="page-breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item"><a href="{% url 'inventorymanager-dashboard' %}">Dashboard</a></li>
+										<li class="breadcrumb-item active" aria-current="page">Edit Medical Supply Information
+										</li>
+									</ol>
+								</nav>
+								<h2 class="breadcrumb-title text-center" style="color:black;font-weight: bolder;">Edit Medical Supply Information</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Breadcrumb -->
+
+				<!-- Page Content -->
+				<div class="content">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-7 col-lg-8 col-xl-12">
+								<div class="card">
+									<div class="card-header">
+
+										<!-- Medical Supply data entry Form -->
+										<form action="#" method="POST" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="row form-row">
+												<div class="col-md-12">
+													<div class="card-body text-center" style="padding:0">
+													  <div class="table-responsive">
+														<div class="profile-img" style="margin-top: 1%;">
+															<img id="preview-image" src="{{ medical_supply.featured_image.url  | adjust_image_url }}" alt="Medical Supply Image" width="185px">
+														</div>
+														<div class="upload-img"style="margin-top: 1%;">
+														  <label for="upload-photo-btn" class="btn btn-primary">
+															<span><i class="fa fa-upload"></i> Upload Photo</span>
+														  </label>
+														  <input type="file" id="upload-photo-btn" class="upload" name="featured_image" value="{{ medical_supply.featured_image.url }}" style="display:none;">
+														  <small class="form-text text-muted-black" style="margin-bottom: 1%;">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+														</div>
+													  </div>
+													</div>
+												  </div>
+												
+												<div class="col-12 col-md-12">
+													<div class="form-group">
+														<div class="change-avatar"></div>
+													</div>
+													<div class="card card-table">
+														<div class="card-body">
+															<div class="table-responsive">
+																<table class="table table-hover table-center">
+																	<thead>
+																		<tr>
+																			<th style="min-width: 300px">Supply Name</th>
+																			<th style="min-width: 300px">Item Code</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<input class="form-control" type="text" name="name" value="{{medical_supply.name}}">
+																			</td>
+																			<td>
+																				<input class="form-control" type="text" name="itemcode" value="{{medical_supply.item_code}}">
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+													<div class="card card-table">
+														<div class="card-body">
+															<div class="table-responsive">
+																<table class="table table-hover table-center">
+																	<thead>
+																		<tr>
+																			<th style="min-width: 300px">Supply Subcategory</th>
+																			<th style="min-width: 300px">Stock Quantity</th>
+																			<th style="min-width: 300px">Supplier</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<label for="cars">Choose supply subcategory:
+																				</label>
+																				<select id="type" name="subcategory" value="{{medical_supply.subcategory}}">
+																					<option value="PPEs">Personal Protective Equipments (PPEs)
+																					</option>
+																					<option value="Consumables">Medical Consumables
+																					</option>
+																					<option value="Wound Care">Wound Care Supplies
+																					</option>
+																					<option value="Surgical">Surgical Supplies
+																					</option>
+																					<option value="Diagnostic">Diagnostic Test Kits
+																					</option>
+																				</select>
+																			</td>
+																			<td>
+																				<input class="form-control" type="text" name="stock_quantity" value="{{medical_supply.stock_quantity}}" disabled onmouseover="showErrorMessage()">
+																				<span id="error-message" style="color: red; display: none;">Stock Quantity must be changed in manage to track properly</span>
+																			</td>
+																			<td>
+																				<input class="form-control" type="text" name="supplier" value="{{medical_supply.supplier}}">
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+													<!---->
+												<!--FOURTH LINE-->
+												<div class="row form-row w-100">
+													<div class="col-md-12">
+														<div class="card card-table">
+															<div class="card-body">
+																<div class="table-responsive">
+																	<table class="table table-center">
+																		<thead>
+																			<tr>
+																				<th style="min-width: 300px">Location</th>
+																				<th style="min-width: 300px">Sponsored by</th>	
+																				<th style="min-width: 300px">Received by</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr>
+																				<td>
+																					<input class="form-control" type="text" name="location" id="location" value="{{medical_supply.location}}">
+																				</td>
+																				<td>
+																					<input class="form-control" type="text" name="sponsoredby" id="sponsoredby" value="{{medical_supply.sponsoredby}}">
+																				</td>
+																				<td>
+																					<input class="form-control" type="text" name="receivedby" id="receivedby" value="{{medical_supply.receivedby}}">
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>						
+												<!--END OF FOURTH LINE-->
+
+												<!--FIFTH LINE-->
+												<div class="row form-row w-100">
+													<div class="col-md-12">
+														<div class="card card-table">
+															<div class="card-body">
+																<div class="table-responsive">
+																	<table class="table table-center">
+																		<thead>
+																			<tr>
+																				<th style="min-width: 300px">Date of Received</th>
+																				<th style="min-width: 300px">Time of Received</th>	
+																				<th style="min-width: 300px">Remarks</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr>
+																				<td class="text-danger">
+																					<input class="form-control" type="date" name="dor" id="dor" value="{{medical_supply.dor|date:'Y-m-d'}}">
+																				</td>
+																				<td class="text-danger">
+																					<input class="form-control" type="time" name="tor" id="tor" value="{{medical_supply.tor|time:''}}">
+																				</td>
+																				<td>
+																					<input class="form-control" type="text" placeholder="Add note" name="remarks" id="remarks" value="{{medical_supply.remarks}}">
+																				</td>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>						
+												<!--END OF FIFTH LINE-->
+													<!---->
+													<div class="card card-table">
+														<div class="card-body">
+															<div class="table-responsive">
+																<table class="table table-hover table-center">
+																	<thead>
+																		<tr>
+																			<th style="min-width: 300px">Price Per Unit</th>
+																			<th style="min-width: 300px">Expiration Date</th>	
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<input class="form-control" type="text" name="ppunit" value="{{medical_supply.price_per_unit}}">
+																			</td>
+                                                                            <td>
+																				<input class="form-control" type="date" name="expiration" value="{{ medical_supply.expiration_date|date:'Y-m-d' }}">
+																			</td>
+                                                                            
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+													
+													<div class="card card-table">
+														<div class="card-body">
+															<div class="table-responsive">
+																<table class="table table-hover table-center">
+																	<thead>
+																		<tr>
+																			<th style="min-width: 300px">Description
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<textarea class="form-control" rows="4" cols="50" name="description">{{ medical_supply.description }}</textarea>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+													
+												
+													<div class="submit-section">
+														<button type="submit" class="btn btn-primary" style="font-size: 20px;font-weight: bold;"><i class="fa-solid fa-floppy-disk" style="margin-right: 5px;font-size: 20px;"></i>
+															Save Changes
+														</button>
+													</div>
+											</div>
+										</form>
+
+										<!-- / Medical Supply data entry Form -->
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- /Page Content -->
+			</div>
+		</div>
+		<!-- /Page Wrapper -->
+
+	</div>
+	<!-- /Main Wrapper -->
+
+	<!-- jQuery -->
+	<script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script>
+
+	<!-- Bootstrap Core JS -->
+	<script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script>
+	<script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script>
+
+	<!-- Slimscroll JS -->
+	<script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+	<!-- Datatables JS -->
+	<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script>
+	<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+	<!-- Custom JS -->
+	<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+	<script src="{% static 'Mediqs/js/Normal/profile_Settings.js' %}"></script>
+
+	<script>
+		function showErrorMessage() {
+			var inputField = document.getElementsByName('stock_quantity')[0];
+			var errorMessage = document.getElementById('error-message');
+	
+			inputField.removeAttribute('disabled');
+			errorMessage.style.display = 'inline-block';
+		}
+	</script>
+</body>
+
+
+</html>

@@ -1,0 +1,416 @@
+{% load static %}
+{% load cloud %}
+<!DOCTYPE html> 
+<html lang="en">
+	
+<!-- doccure/doctor-profile.html  30 Nov 2019 04:12:16 GMT -->
+<head>
+		<meta charset="utf-8">
+		<title>Mediqs</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		
+		<!-- Favicons -->
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  />		
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}">
+		
+		<!-- Fontawesome CSS 
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}">
+	
+		<!-- Fancybox CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fancybox/jquery.fancybox.min.css'%}">
+		
+		<!-- Main CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css' %}">
+		<link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"/>
+		<link  rel="shortcut icon" type="image/x-icon" href="{% static 'Mediqs/images/Normal/favicon.png' %}"/>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}"
+    />
+
+    <!-- Feathericon CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/admin/morris/morris.css'%}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/admin/style.css'%}"
+    />
+
+</head>
+	<body>
+		<!-- Main Wrapper -->
+		<div class="main-wrapper">
+		
+				<!-- Header -->
+				<div class="main-wrapper">
+					<header class="header">
+					{% if user.is_healthcenter_admin%}
+						<link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}">
+					{% else %}
+						<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css'%}">
+					{% endif %}
+					<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header> 
+				<!-- /Header -->
+
+			<!-- Profile Sidebar -->
+			<aside class="sidebar" id="sidebar">
+				{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %} 
+			</aside>
+			<!-- /Profile Sidebar -->
+
+			<div class="page-wrapper">
+				<div class="content container-fluid">
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12" style="margin-top: -20px;">	
+								<h3 class="page-title">Doctor Profile</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Dashboard</a></li>
+									<li class="breadcrumb-item active">Doctor</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+
+					<div class="col-md-8 col-lg-12 col-xl-12">
+
+							<!-- Doctor Widget -->
+							<div class="card">
+								<div class="card-profile">
+									<div class="doctor-widget">
+										<div class="doc-info-left"style="margin-left:2%">
+											<div class="doctor-img">
+												<img src="{{ doctor.featured_image.url | adjust_image_url }}" class="docprofile-img" alt="User Image">
+											</div>
+											<div class="doc-info-cont" style="margin-left:2%;margin-top: 1%;">
+												<h4 class="doc-name">Dr. {{doctor.name}}</h4>
+												<h4 class="doc-healthcenter">{{doctor.health_center}}</h4>
+												<p class="doc-speciality">{{doctor.specialization.specialization_name}}</p>
+												
+												<div class="clinic-details">
+
+													<ul class="clinic-gallery">
+														<li>
+															<a href="{% static 'Mediqs/images/Normal/gyno1.jpg'%}" data-fancybox="gallery">
+																<img src="{% static 'Mediqs/images/Normal/gyno1.jpg'%}" alt="Feature">
+															</a>
+														</li>
+														<li>
+															<a href="{% static 'Mediqs/images/Normal/gyno2.jpg'%}" data-fancybox="gallery">
+																<img  src="{% static 'Mediqs/images/Normal/gyno2.jpg'%}" alt="Feature">
+															</a>
+														</li>
+														<li>
+															<a href="{% static 'Mediqs/images/Normal/gyno3.jpg'%}" data-fancybox="gallery">
+																<img src="{% static 'Mediqs/images/Normal/gyno3.jpg'%}" alt="Feature">
+															</a>
+														</li>
+														<li>
+															<a href="{% static 'Mediqs/images/Normal/gyno4.jpg'%}" data-fancybox="gallery">
+																<img src="{% static 'Mediqs/images/Normal/gyno4.jpg'%}" alt="Feature">
+															</a>
+														</li>
+													</ul> 
+
+												</div>
+												{% comment %} <div class="clinic-services">
+													<span>obgyn specialist</span>
+													<span>ultra sonogram</span>
+												</div> {% endcomment %}
+											</div>
+										</div>
+										<div class="doc-info-right col-xl-3">
+
+											{% if user.is_authenticated and user.is_patient %}
+											<div class="clinic-booking">
+												<a class="apt-btn" href="{% url 'booking' pk=doctor.doctor_id  %}">Book Your Appointment</a>
+											</div>
+											{% endif %}
+
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Doctor Widget -->
+					
+							<!-- Doctor Details Tab -->
+							<div class="card">
+								<div class="card-profile-body pt-0">
+								
+									<!-- Tab Menu -->
+									<nav class="user-tabs mb-4">
+										<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+											<li class="nav-item">
+												<a class="nav-link active " href="#doc_overview" data-toggle="tab" style="color:rgb(255, 255, 255)">Overview</a>
+											</li>
+											<li class="nav-item ">
+												<a class="nav-link" href="#doc_certificate" data-toggle="tab" style="color:rgb(255, 255, 255)">Certificate</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#doc_reviews" data-toggle="tab" style="color:rgb(255, 255, 255)">Reviews</a>
+											</li>
+											
+										</ul>
+									</nav>
+									<!-- /Tab Menu -->
+									
+									<!-- Tab Content -->
+									<div class="tab-content pt-0">
+									
+										<!-- Overview Content -->
+										<div role="tabpanel" id="doc_overview" class="tab-pane fade show active">
+											<div class="row" style="padding-left: 10px">
+												<div class="col-md-12 col-lg-11">
+												
+													<!-- About Details -->
+													<div class="widget about-widget">
+														<h5 class="widget-title"><b>About Me</b></h5>
+														<p style="color: #fff;">{{doctor.description}}</p>
+													</div>
+													<!-- /About Details -->
+												
+													<!-- Education Details -->
+													<div class="widget education-widget">
+														<h5 class="widget-title"><b>Education</b></h5>
+														<div class="experience-box">
+															<ul class="experience-list" style="color: #fff;">
+
+
+																{% for e in educations %}
+																<li>
+																	<div class="experience-user">
+																		<div class="before-circle"></div>
+																	</div>
+																	<div class="experience-content">
+																		<div class="timeline-content" >
+																			<a href="#/" class="name" style="color: rgb(255, 255, 255);">{{e.degree}}</a>
+																			<div>{{e.institute}}</div>
+																			<span class="time">{{e.year_of_completion}}</span>
+																		</div>
+																	</div>
+																</li>
+																{% endfor %}
+															
+
+															</ul>
+														</div>
+													</div>
+													<!-- /Education Details -->
+											
+													<!-- Experience Details -->
+													<div class="widget experience-widget">
+														<h5 class="widget-title"><b>Work & Experience</b></h5>
+														<div class="experience-box">
+															<ul class="experience-list" style="color: #fff;">
+
+																{% for e in experiences %}
+																<li>
+																	<div class="experience-user">
+																		<div class="before-circle"></div>
+																	</div>
+																	<div class="experience-content">
+																		<div class="timeline-content">
+																			<a href="#/" class="name">{{e.designation}}</a>
+																			<span class="time">{{ e.work_place_name }}</span>
+																			<span class="time">{{ e.from_year }} - {{e.to_year}}</span>
+																		</div>
+																	</div>
+																</li>
+																{% endfor %}
+
+
+														
+
+
+															</ul>
+														</div>
+													
+													<!-- /Experience Details -->
+										
+													
+													
+													
+													<!-- Specializations List -->
+													<div class="service-list">
+														<h5 class="widget-title"><b>Visiting Time</b></h5>
+														<ul class="clearfix" style="color: #fff;">
+															{{doctor.visiting_hour}}
+															
+														</ul>
+													</div>
+													<!-- /Specializations List -->
+												</div>
+												
+												</div>
+											</div>
+										</div>
+										<!-- /Overview Content -->
+
+										<!-- Certificate Content -->
+										<div role="tabpanel" id="doc_certificate" class="tab-pane fade">
+											<div class="row">
+
+												<div class="col-md-6 offset-md-3 zoom">
+													<img src="{{doctor.certificate_image.url}}" alt="logo" class="img-fluid">
+															
+												</div>
+												
+											</div>
+										</div>
+										<!-- /Certificate Content -->
+										
+										
+										
+										<!-- Reviews Content -->
+										<div role="tabpanel" id="doc_reviews" class="tab-pane fade">
+
+										
+											{% if user.is_authenticated and user.is_patient %}
+											<div class="write-review">
+												<h4>Write a review for <strong>Dr. {{doctor.name}}</strong></h4>
+												<form action="{% url 'doctor_review' pk=doctor.doctor_id %}" method="POST" enctype="multipart/form-data">
+													{% csrf_token %}
+												  <div class="card card-table">
+													<div class="card-body">
+														<h5 class="card-title"><b>Review</b></h5>
+														<div class="doctor_review-info">
+															<div class="row form-row doctor_review-cont">
+																<div class="col-12 col-md-10 col-lg-11">
+																	<div class="row form-row">	  
+																  <div class="col-12 col-md-6 col-lg-8">
+																	<div class="form-group">
+																		<label>Review Title</label>
+																		<input type="text" class="form-control" name="title" id="title">
+																	</div> 
+																  </div>
+																  <div class="col-12 col-md-6 col-lg-8">
+																	<div class="form-group">
+																		<label>Message</label>
+																		<textarea type="text" class="form-control" name="message" id="message" rows="5"></textarea>
+																	</div> 
+																  </div>  
+														        </div>
+													        </div>
+                                                        </div>
+                                                    </div>
+										           </div>
+												   <div class="submit-section submit-btn-bottom">
+													<button type="submit" class="btn btn-primary submit-btn">Save Review</button>
+												   </div>	
+											    </form>
+											</div>
+											{% endif %}
+
+											{% if user.is_authenticated and user.is_doctor %}
+											<!-- Review Listing -->
+											<div class="widget review-listing">
+												<ul class="comments-list">
+													<div class="invoice-item invoice-table-wrap">
+														<div class="widget education-widget">
+															<h5 class="widget-title"><b>REVIEWS</b></h5>
+															<div class="experience-box">
+																<ul class="experience-list">
+																	<div class="invoice-item">
+																		<div class="row-profile">
+																			<div class="invoice-info">
+																				<strong class="customer-text"></strong>
+																				{% for review in doctor_review %}
+																					<!-- Comment List -->
+																					<li>
+																						<div class="comment">
+																							<img class="avatar avatar-sm rounded-circle" alt="User Image" src="{{ review.patient.featured_image.url | adjust_image_url }}">
+																							<div class="comment-body">
+																								<div class="meta-data">
+																									<span class="comment-author">{{review.patient.name}}</span>
+																								</div>
+																								<p class="recommended"><i class="far fa-thumbs-up"></i> <b>REVIEW TITLE</b><br> {{review.title}}</p>
+																								<h4 class="comment-content"> <b>MESSAGE</b><br> {{review.message}}</h4>
+																							</div>
+																						</div>
+																					</li>
+																				{% endfor %}
+																			</div>
+																		</div>
+																	</div>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</ul>
+											</div>
+										{% else %}
+											<!-- Display empty content when the user is not a doctor -->
+											<div>
+												<div class="card text-center" style="background-color: #065242; color: white;margin-left: 2%;margin-right: 2%;">
+													<div class="card-body">
+													  <h4>No Reviews Found</h4>
+													</div>
+												  </div>
+											</div>
+										{% endif %}
+										</div>
+								<!-- /Reviews Content -->
+									</div>
+								</div>
+						</div>
+					</div>
+					<!-- /Doctor Details Tab -->
+
+				</div>
+			</div>		
+			<!-- /Page Content -->
+		</div>
+		
+	
+		<!-- jQuery -->
+        <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+		
+		<!-- Bootstrap Core JS -->
+		<script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+		<script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+		
+		<!-- Fancybox JS -->
+		<script src="{% static 'Mediqs/plugins/Normal/fancybox/jquery.fancybox.min.js'%}"></script>
+		
+		<script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+		<!-- Custom JS -->
+		<!-- <script src="{% static 'Mediqs/js/Normal/script.js' %}"></script> -->
+		<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+
+		<!-- Searchbar JS -->
+		<script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+
+	</body>
+
+<!-- doccure/doctor-profile.html  30 Nov 2019 04:12:16 GMT -->
+</html>

@@ -1,0 +1,438 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/create-medical.html GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+    
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+/>
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body onload="checkme()">
+    {% if user.is_authenticated %}
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header" style="width:100%">{% include 'staff-navbar.html' %} </header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+     
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'staff-dashboard'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Staff
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Dashboard
+                  </li>
+                  
+                  </div>
+                  
+                </ol>
+              </nav>
+             
+              <h2 class="breadcrumb-title">Staff Dashboard</h2>
+            </div>
+            {% include 'message.html' %}
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- /Breadcrumb -->
+
+<!-- Page Content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+        <!-- Profile Sidebar -->
+        <div>{% include 'staff-sidebar.html' %}</div>
+        <!-- /Profile Sidebar -->
+      </div>
+
+      <div class="col-md-7 col-lg-8 col-xl-9">
+        <div class="container-fluid">
+            <h2>Vaccination Registration</h2>
+            <form action="{% url 'create-vaccination' %}" method="POST">
+              {% csrf_token %}
+              <div class="card card-table mb-0">
+                <div class="card-body" style="background-color: #416F83;">
+                  <div class="table-responsive">
+
+                    <div class="form-group" id="selectPatient">
+                      <h3> <label for="patient_id">Select Patient:</label></h3>
+                      <select class="form-control" id="patient_id" name="patient_id">
+                        <option value="">-- Select a patient --</option>
+                        {% for patient in patients %}
+                        <option value="{{ patient.patient_id }}">{{ patient.name }} - {{ patient.email }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    
+                    <p style="color: #fff">
+                      <input type="checkbox" class="checkme" id="check" name="check" onclick="checkme()"> No Patients Record?
+                    </p>
+
+                    <div class="input" style="display:none; padding-left: 20px; padding-right: 30px;">            
+                      <div class="tab" style="padding-top:10px;">
+                        <h3 style="color: white;">Patient Information:</h3>
+                            <!-- Patient form fields -->
+                            <div class="form-group form-focus">
+                              {{patient_form.name}}
+                              <label class="focus-label">{{ patient_form.name.label }}</label>
+                              {% if patient_form.name.errors %}
+                                <div class="invalid-feedback">
+                                  {{ patient_form.name.errors }}
+                                </div>
+                              {% endif %}
+                            </div>
+
+                            <div class="form-group form-focus">
+                              {{patient_form.age}}
+                              <label class="focus-label">{{ patient_form.age.label }}</label>
+                              {% if patient_form.age.errors %}
+                              <div class="invalid-feedback">
+                                {{ patient_form.age.errors }}
+                              </div>
+                            {% endif %}
+                            </div>
+
+                            <div class="form-group form-focus">
+                              {{patient_form.dob}}
+                              <label class="focus-label">{{ patient_form.dob.label }}</label>
+                              {% if patient_form.dob.errors %}
+                                <div class="invalid-feedback">
+                                  {{ patient_form.dob.errors }}
+                                </div>
+                              {% endif %}
+                            </div>
+
+                            <div class="form-group form-focus">
+                              {{patient_form.gender}}
+                              <label class="focus-label">{{ patient_form.gender.label }}</label>
+                              {% if patient_form.gender.errors %}
+                                <div class="invalid-feedback">
+                                  {{ patient_form.gender.errors }}
+                                </div>
+                              {% endif %}
+                            </div>
+
+                             <div class="form-group form-focus"> 
+                                {{ patient_form.phone_number }}
+                                <label class="focus-label">{{ patient_form.phone_number.label }}</label>
+                                {% if patient_form.phone_number.errors %}
+                                  <div class="invalid-feedback">
+                                    {{ patient_form.phone_number.errors }}
+                                  </div>
+                                {% endif %}
+                              </div>
+
+                              <div class="form-group form-focus">
+                                <input type="email" class="form-control" id="email" name="email">
+                                <label class="focus-label" for="email">Email</label>
+                              </div>  
+
+                              <div class="form-group form-focus">
+                                {{patient_form.address}}
+                                <label class="focus-label">{{ patient_form.address.label }}</label>
+                                {% if patient_form.address.errors %}
+                                  <div class="invalid-feedback">
+                                    {{ patient_form.address.errors }}
+                                  </div>
+                                {% endif %}
+                              </div>
+                              <div class="tab h4"style="color:white">Additional Info:
+                                <div class="form-group form-focus">
+                                  {{patient_form.mother_name}}
+                                  <label class="focus-label">{{ patient_form.mother_name.label }}</label>
+                                  {% if patient_form.mother_name.errors %}
+                                    <div class="invalid-feedback">
+                                      {{ patient_form.mother_name.errors }}
+                                    </div>
+                                  {% endif %}
+                                </div>
+                                <div class="form-group form-focus">
+                                  {{patient_form.father_name}}
+                                  <label class="focus-label">{{ patient_form.father_name.label }}</label>
+                                  {% if patient_form.father_name.errors %}
+                                    <div class="invalid-feedback">
+                                      {{ patient_form.father_name.errors }}
+                                    </div>
+                                  {% endif %}
+                                </div>
+                                <div class="form-group form-focus">
+                                  {{patient_form.fam_num}}
+                                  <label class="focus-label">{{ patient_form.fam_num.label }}</label>
+                                  {% if patient_form.fam_num.errors %}
+                                    <div class="invalid-feedback">
+                                      {{ patient_form.fam_num.errors }}
+                                    </div>
+                                  {% endif %}
+                                </div>
+                                <div class="form-group form-focus">
+                                  {{patient_form.barangay_num}}
+                                  <label class="focus-label">{{ patient_form.barangay_num.label }}</label>
+                                  {% if patient_form.barangay_num.errors %}
+                                    <div class="invalid-feedback">
+                                      {{ patient_form.barangay_num.errors }}
+                                    </div>
+                                  {% endif %}
+                                </div>
+                                <div class="form-group form-focus">
+                                  {{patient_form.birth_weight}}
+                                  <label class="focus-label">{{ patient_form.birth_weight.label }}</label>
+                                  {% if patient_form.birth_weight.errors %}
+                                    <div class="invalid-feedback">
+                                      {{ patient_form.birth_weight.errors }}
+                                    </div>
+                                  {% endif %}
+                                </div>
+                                <div class="form-group form-focus">
+                                  {{patient_form.birth_height}}
+                                  <label class="focus-label">{{ patient_form.birth_height.label }}</label>
+                                  {% if patient_form.birth_height.errors %}
+                                    <div class="invalid-feedback">
+                                      {{ patient_form.birth_height.errors }}
+                                    </div>
+                                  {% endif %}
+                                </div>
+                                <div class="form-group form-focus">
+                                  {{patient_form.place_birth}}
+                                  <label class="focus-label">{{ patient_form.place_birth.label }}</label>
+                                  {% if patient_form.place_birth.errors %}
+                                    <div class="invalid-feedback">
+                                      {{ patient_form.place_birth.errors }}
+                                    </div>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+
+                          <div class="tab" style="padding-top:10px;">
+                            <h3 style="color: white;">Vaccination Information:</h3>
+                            <!-- Vaccination form fields -->
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Vaccine Name:</label>
+                              <select class="form-control" id="vaccine_name" name="vaccine_name" required>
+                                <option value="">-- Select a vaccine --</option>
+                                <option value="Pfizer-BioNTech">Pfizer-BioNTech</option>
+                                <option value="Moderna">Moderna</option>
+                                <option value="Johnson & Johnson">Johnson & Johnson</option>
+                                <option value="AstraZeneca">AstraZeneca</option>
+                                <option value="Covaxin">Covaxin</option>
+                                <option value="Sinovac">Sinovac</option>
+                                <option value="Sputnik V">Sputnik V</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Dose Number:</label>
+                              <select class="form-control" id="dose_number" name="dose_number" required>
+                                <option value="">-- Select a dose number --</option>
+                                <option value="1">First</option>
+                                <option value="2">Second</option>
+                                <option value="3">Third (Booster)</option>
+                                <option value="4">Fourth (Booster)</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Lot Number:</label>
+                              <input type="text" class="form-control" id="lot_number" name="lot_number">
+                            </div>
+
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Date Given:</label>
+                              <input type="date" class="form-control" id="date_given" name="date_given">
+                            </div>
+
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Expiry Date:</label>
+                              <input type="date" class="form-control" id="expiry_date" name="expiry_date">
+                            </div>
+
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Given By:</label>
+                              <input type="text" class="form-control" id="given_by" name="given_by">
+                            </div>
+                          </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="margin-top:0%;margin-bottom:1%">Submit
+                          <i class="fa-regular fa-paper-plane"></i> 
+                        </button>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Page Content-->
+
+      </body>
+    </div>
+    <!-- /Main Wrapper -->
+  {% else %} 
+  <p> You are not logged in </p> 
+  {% endif %}
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Slimscroll JS -->
+    <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+    <!-- Datetimepicker JS -->
+    <!-- <script src="{% static 'Mediqs/js/Normal/moment.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap-datetimepicker.min.js' %}"></script> -->
+
+    <!-- Prescription Settings JS -->
+    <script src="{% static 'Mediqs/js/Normal/prescription-settings.js' %}"></script>
+
+    	<!-- Datatables JS -->
+		<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+		<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <!-- <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script> -->
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <script>
+      function checkme() {
+      var check = document.getElementById("check");
+      var inputSections = document.getElementsByClassName("input");
+      var patientIdSelect = document.getElementById("patient_id");
+      var block = document.getElementById("selectPatient");
+      
+      for (var i = 0; i < inputSections.length; i++) {
+          var inputs = inputSections[i].getElementsByTagName('input');
+          if (check.checked) {
+              inputSections[i].style.display = "block";
+              for (var j = 0; j < inputs.length; j++) {
+                  inputs[j].required = true;
+              }
+          } else {
+              inputSections[i].style.display = "none";
+              for (var j = 0; j < inputs.length; j++) {
+                  inputs[j].required = false;
+              }
+          }
+      }
+
+      if (check.checked) {
+          patientIdSelect.style.display = "none";
+          block.style.display = "none";
+      } else {
+          patientIdSelect.style.display = "block";
+          block.style.display = "block";
+      }
+  }
+  </script>
+    
+      <script>
+      $(document).ready(function() {
+          $('#patient_id').select2({
+              placeholder: "Select a patient",
+              allowClear: true
+          });
+      
+          $('#patient_search').on('input', function() {
+              let searchText = $(this).val().toLowerCase();
+              $('#patient_id option').each(function() {
+                  let patientName = $(this).text().toLowerCase();
+                  if (patientName.includes(searchText)) {
+                      $(this).show();
+                  } else {
+                      $(this).hide();
+                  }
+              });
+          });
+      });
+      </script>
+
+      <!--<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+    
+            today = dd + '/' + mm + '/' + yyyy;
+    
+            document.getElementById('create_date').value = today;
+        });
+    </script>-->
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+
+  {% endif %}
+  </body>
+   
+
+  <!-- doccure/patient-profile.html  30 Nov 2019 04:12:13 GMT -->
+</html>

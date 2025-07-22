@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mediqs - Revolutionizing Electronic Medical Records with Predictive Analytics</title>
+         <!-- Main CSS -->
+    <link
+    rel="stylesheet"
+    href="{% static 'Mediqs/css/Normal/roles.css' %}"
+  />
+        <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css>
+    </head>
+
+        <!-- style.css -->
+    
+        <header>
+
+            <div class="navbar-logo">
+                <a href="">
+                    <img src="logo-main.png" alt="logo">
+                </a>
+            </div>
+            <div class="idk">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>  
+        </header>
+
+    <body>
+            <div class="hospital">
+                <img src="health-center.png" alt="hospital" >
+            </div>
+
+            <div class="circle">
+                <img src="green-circle.png" alt="circle">
+            </div>
+
+        
+        <div class="choose-roles">
+                <div class="choose">
+                    <p> <b>CHOOSE YOUR ROLE</b> 
+                </div>
+                <div class="choose-roles-container">
+                    <div class="choose-roles-first">
+                      <ul>
+                        <li>
+                          <a href="{% url 'doctor-login' %}">
+                            <button class="choose-roles-btn">
+                              <i class="fa-solid fa-user-doctor fa-4x"></i>
+                              <span>Doctor</span>
+                            </button>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <button class="choose-roles-btn">
+                              <i class="fa-solid fa-hospital-user fa-4x"></i>
+                              <span>Patient</span>
+                            </button>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <button class="choose-roles-btn">
+                              <i class="fa-solid fa-user-nurse fa-4x"></i>
+                              <span>Midwife</span>
+                            </button>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="choose-roles-second">
+                      <ul>
+                        <li>
+                          <a href="#">
+                            <button class="choose-roles-btn">
+                              <i class="fa-solid fa-user-gear fa-4x"></i>
+                              <span>Inventory Manager</span>
+                            </button>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <button class="choose-roles-btn">
+                              <i class="fa-solid fa-user-nurse fa-4x"></i>
+                              <p>Asst. Doctor</p>   
+                            </button>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+    </body>
+</html>

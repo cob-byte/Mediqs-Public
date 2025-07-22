@@ -1,0 +1,296 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html> 
+<html lang="en">
+	
+<!-- doccure/my-patients.html  30 Nov 2019 04:12:09 GMT -->
+<head>
+		<meta charset="utf-8">
+		<title>Mediqs</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		
+		<!-- Favicons -->
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  	/>		
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}">
+		
+		<!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+/>
+
+		
+		<!-- Main CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css' %}">
+
+		<link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/search2.css' %}"
+    />
+	<link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/healthcenter.css' %}"
+    />
+		
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	
+	</head>
+	<body>
+
+		<!-- Main Wrapper -->
+		<div class="main-wrapper">
+		
+			<!-- Header -->
+			<header class="header">{% include 'doctor-navbar.html' %}</header>
+			<!-- /Header -->
+			
+			<!-- Breadcrumb -->
+			<div class="breadcrumb-bar">
+				<div class="container-fluid">
+					<div class="row align-items-center">
+						<div class="col-md-6 col-6">
+							<nav aria-label="breadcrumb" class="page-breadcrumb">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'doctor-dashboard' %}">Home</a></li>
+									<li class="breadcrumb-item active" aria-current="page">My Patients</li>
+								</ol>
+							</nav>
+							<h2 class="breadcrumb-title">My Patients</h2>
+						</div>
+						<div class="col-md-6 col-6 text-right">
+							<ul>
+							  <p><a href="{% url 'inventory' %}" style="color: black;">Inventory</a><br>
+							   <a href="{% url 'chat-home' pk=user.id %}" style="color: black;">Chat with Patients</a></p>
+							 </ul>
+							
+						  </div>
+					</div>
+				</div>
+			</div>
+			<!-- /Breadcrumb -->
+			
+			<!-- Page Content -->
+			<div class="content" >
+			     <div class="container-fluid">
+				     <div class="row">
+					    <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+							{% include 'message.html' %}
+						
+							<!-- Profile Sidebar -->
+							<div>{% include 'doctor-sidebar.html' %}</div>
+							<!-- /Profile Sidebar -->
+							
+						</div>
+						<div class="col-md-7 col-lg-8 col-xl-9">
+							<section class="wrapper" style="height: 0px">
+							  <div class="container-fostrap" style="padding-top: 0px">
+									<div class="top-nav-search">
+										<form action="{% url 'patient-search' pk=doctor.doctor_id%}"   method="GET"> 
+										<input
+										  type="text"
+										  class="form-control"
+										  placeholder="Search patient"
+										  name="search_query"
+										  value="{{search_query}}"
+										/>
+										<button class="btn" type="submit">
+										  <i class="fa fa-search"></i>
+										</button>
+									  </form>
+									</div>
+								<h1
+								  class="card-title"
+								  style="text-align: center; font-size: 45px; color: black"
+								>
+								  PATIENTS
+								</h1>
+								<hr>
+			  
+								<div class="content">
+								  <div class="container">
+									<div class="row ">
+								
+								{% for patient in patients %}
+								<div class="col-md-6 col-lg-4 col-xl-3">
+									<div class="card-profile-body widget-profile pat-widget-profile">
+										<div class="card-body">
+											<div class="pro-widget-content">
+												<div class="profile-info-widget">
+													<a href="{% url 'patient-profile' pk=patient.patient_id %}" class="booking-doc-img">
+														<img src="{{ patient.featured_image.url | adjust_image_url }}" alt="User Image">
+													</a>
+													<div class="profile-det-info">
+														<h3><a href="{% url 'patient-profile' pk=patient.patient_id %}">{{patient.name}}</a></h3>
+
+													
+														<div class="patient-details">
+															<h5><b>ID :</b>{{patient.patient_id}}</h5>
+															<h5 class="mb-0"><i class="fas fa-map-marker-alt"></i>{{patient.address}}</h5>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="patient-info text-left">
+												<ul>
+												  <li><b>Phone:</b><span>{{patient.phone_number}}</span></li>
+												  <li><b>Age:</b><span>{{patient.age}}</span></li>
+												  <li><b>Blood Group:</b><span>{{patient.blood_group}}</span></li>
+												</ul>
+											  </div>
+										</div>
+										<div class="card-read-more">
+											<a
+											  href="{% url 'patient-profile' pk=patient.patient_id %}"
+											  class="butn butn-link butn-block"><i class="fa-solid fa-eye"></i>
+											  View Profile
+											</a>
+										  </div>
+									</div>
+								</div>
+								{% endfor %}	
+							
+													
+							</div>
+
+						</div>
+					</div>
+					<div class="pagination">
+						<button onclick="previousPage()" class="btn btn-primary d-inline-block" id="previousButton">
+							Start <i class="fa-solid fa-square-chevron-left"></i>
+						  </button>
+						  <button onclick="nextPage()" class="btn btn-primary d-inline-block ml-2" id="nextButton">
+							Next <i class="fa-solid fa-square-chevron-right"></i>
+						  </button>
+						  
+					</div>
+				</div>
+			</div>		
+			<!-- /Page Content -->
+
+		   
+		</div>
+		<!-- /Main Wrapper -->
+	  
+		<!-- jQuery -->
+		<script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+		
+		<!-- Bootstrap Core JS -->
+		<script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+		<script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+		
+		<!-- Sticky Sidebar JS -->
+        <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+        <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+		<!-- Searchbar JS -->
+		<script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+		<script>
+			// Get all the card elements
+			var cards = document.querySelectorAll('.card-profile-body');
+		  
+			// Set the number of cards to display per page
+			var cardsPerPage = 4;
+		  
+			// Calculate the total number of pages
+			var totalPages = Math.ceil(cards.length / cardsPerPage);
+		  
+			// Set the initial page to display
+			var currentPage = 1;
+		  
+			// Function to display the cards for the current page
+			function displayCards() {
+			  // Calculate the start and end index of the cards to display
+			  var startIndex = (currentPage - 1) * cardsPerPage;
+			  var endIndex = startIndex + cardsPerPage;
+		  
+			  // Hide all cards
+			  for (var i = 0; i < cards.length; i++) {
+				cards[i].style.display = 'none';
+			  }
+		  
+			  // Display the cards for the current page
+			  for (var j = startIndex; j < endIndex; j++) {
+				if (cards[j]) {
+				  cards[j].style.display = 'block';
+				}
+			  }
+		  
+			  // Update the pagination buttons
+			  updatePagination();
+			}
+		  
+			// Function to navigate to the next page
+			function nextPage() {
+			  if (currentPage < totalPages) {
+				currentPage++;
+				displayCards();
+			  }else {
+				// Show error message when there are no more cards to show
+				alert('No more cards to show.');
+				}
+			}
+		  
+			// Function to navigate to the previous page
+			function previousPage() {
+			  if (currentPage > 1) {
+				currentPage--;
+				displayCards();
+			  }
+			  else {
+				// Show error message when on the first page
+				alert('You are already on the first page.');
+				}
+			}
+		  
+			// Function to update the pagination buttons
+			function updatePagination() {
+			  var previousButton = document.getElementById('previousButton');
+			  var nextButton = document.getElementById('nextButton');
+		  
+			// Update the previous button text
+			if (currentPage === 1) {
+			previousButton.innerHTML = 'Start';
+			} else {
+			previousButton.innerHTML = '<i class="fa-solid fa-square-chevron-left"></i> Previous';
+			}
+			}
+
+			// Update the next button text
+			if (currentPage === totalPages) {
+			nextButton.innerHTML = 'End';
+			} else {
+			nextButton.innerHTML = '<i class="fa-solid fa-square-chevron-right"></i>Next';
+			}
+		  
+			// Initial display of cards
+			displayCards();
+		  </script>
+		  
+		  {% if messages %}
+			<script>
+				{% for message in messages %}
+					$(document).ready(function () {
+						$('.toast').toast('show');
+					});
+				{% endfor %}
+			</script>
+		{% endif %}
+				
+
+	</body>
+
+<!-- doccure/my-patients.html  30 Nov 2019 04:12:09 GMT -->
+</html>

@@ -1,0 +1,71 @@
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title"> 
+                    <span>Menu</span>
+                </li>
+                <li class=""> 
+                    <a href="{%url 'admin-dashboard' %}"><i class="fa-solid fa-house fa-2xs"></i><span>Dashboard</span></a>
+                </li>
+                
+                <li class="submenu">
+                    <a href="#"><i class="fa-solid fa-hospital fa-2xs"></i><span> Health Centers</span></a>
+                    <ul style="display:none;">
+                        <li><a href="{% url 'healthcenter-list' %}"><i class="fa-solid fa-notes-medical fa-2xs"style="font-size: 20px;"></i> <span>Health Center List</span></a></li>
+                        <li><a href="{% url 'add-healthcenter' %}"><i class="fa-solid fa-notes-medical fa-2xs"style="font-size: 20px;"></i> <span>Add Health Center</span></a></li>
+                        <li><a href="{% url 'emergency' %}"><i class="fa-solid fa-notes-medical fa-2xs"style="font-size: 20px;"></i><span>Emergency Info List</span></a></li>
+                    </ul>
+                </li>
+
+                
+
+                <li class="submenu"> 
+                    <a href="#"><i class="fa-solid fa-user-doctor fa-2xs"></i></i> <span>Doctors</span></a>
+                    <ul style="display:none;">
+                        <li><a href="{% url 'add-doctor' %}"><i class="fa-solid fa-user-plus fa-2xs"style="font-size: 20px;"></i></i><span>Add Doctor</span></a></li>
+                        <li><a href="{% url 'doctor-list' %}"><i class="fa-solid fa-users fa-2xs"style="font-size: 20px;"></i><span>View List of Doctor</span></a></li>
+                    </ul>
+                </li>
+
+                <li class="submenu"> 
+                    <a href="#"><i class="fa-solid fa-user-doctor fa-2xs"></i></i> <span>Staff</span></a>
+                    <ul style="display:none;">
+                        <li><a href="{% url 'add-staff' %}"><i class="fa-solid fa-user-plus fa-2xs"style="font-size: 20px;"></i></i><span>Add Staff</span></a></li>
+                        <li><a href="{% url 'staff-list' %}"><i class="fa-solid fa-users fa-2xs"style="font-size: 20px;"></i><span>View List of Staff</span></a></li>
+                    </ul>
+                </li>
+                <!-- Hide Midwife--
+                <li class="submenu">
+                    <a href="#"><i class="fa-solid fa-user-nurse fa-2xs"></i> <span>Midwife</span></a>
+                    <ul style="display:none;">
+                        <li><a href="{% url 'add-lab-worker' %}"><i class="fa-solid fa-user-plus fa-2xs"style="font-size: 20px;"></i></i><span>Add Midwife</span></a></li>
+                        <li><a href="{% url 'lab-worker-list' %}"><i class="fa-solid fa-users fa-2xs"style="font-size: 20px;"></i><span>View List of Midwives</span></a></li>
+                    </ul>
+                </li> -->
+
+                <li class="submenu">
+                    <a href="#"><i class="fa-solid fa-user-gear fa-2xs"></i><span> Inventory Manager</span></a>
+                    <ul style="display:none;">
+                        <li><a href="{% url 'add-inventorymanager' %}"><i class="fa-solid fa-user-plus fa-2xs"style="font-size: 20px;"></i><span>Add Inventory Manager</span></a></li>
+                        
+                        <li><a href="{%url 'inventorymanager-list'%}"><i class="fa-solid fa-users-gear fa-2xs" style="font-size: 20px;"></i><span>View Inventory Manager</span></a></li>
+                    </ul>
+                </li>
+                
+                {% comment %} <li class="submenu">
+                    <a href="#"><i class="fe fe-document"></i> <span> Reports</span></a>
+                    <ul style="display: none;">
+                        <li><a href="invoice-report.html">Invoice Reports</a></li>
+                    </ul>
+                </li> {% endcomment %}
+                
+                <li> 
+                    <a href="{%url 'healthcenter-admin-profile' pk=user.id %}"><i class="fa-solid fa-user fa-2xs"></i> <span>Profile</span></a>
+                </li>
+
+                
+            </ul>
+        </div>
+    </div>
+</div>

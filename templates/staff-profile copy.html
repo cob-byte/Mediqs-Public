@@ -1,0 +1,319 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/doctor-dashboard.html  30 Nov 2019 04:12:03 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href=" {% static 'Mediqs/images/Normal/favicon.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+   <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}">
+
+	<!-- Feathericon CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">  
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  {% if user.is_authenticated %}
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">{% include 'staff-navbar.html' %}</header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+     
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'staff-dashboard'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Staff
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Dashboard
+                  </li>
+                  
+                  </div>
+                  
+                </ol>
+              </nav>
+             
+              <h2 class="breadcrumb-title">Staff Dashboard</h2>
+            </div>
+            {% include 'message.html' %}
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- /Breadcrumb -->
+
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                <!-- Profile Sidebar -->
+                <div>{% include 'staff-sidebar.html' %}</div>
+                <!-- /Profile Sidebar -->
+              </div>
+		
+			  <div class="col-md-7 col-lg-8 col-xl-9">		
+					<div class="container mx-auto">
+						<div class="row">
+						  <div class="col-md-12">
+							<div class="card-table">
+							  <div class="card-header text-center align-middle" style="background-color: #065242;">
+								<h2 class="card-title text-center" style="margin-top: 10px;">Staff Profile Information</h2>
+							  </div>
+							  <div class="card-body">
+								<table class="table table-striped">
+								  <tbody>
+									<tr>
+									  <td rowspan="6" class="text-center align-middle">
+										<img class="rounded-circle" alt="User Image" src="{% static staff.featured_image.url %}" style="width: 120px;margin-left: -40px;margin-right: -40px;">
+									  </td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-user fa-lg" style="margin-right:10px"></i> Name</th>
+									  <td>{{ staff.name}}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-envelope fa-lg" style="margin-right:10px"></i>Email Address</th>
+									  <td>{{ staff.email }}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-phone fa-lg" style="margin-right:10px"></i>Phone Number</th>
+									  <td>{{ staff.phone_number }}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-map-location fa-lg" style="margin-right:10px"></i>Address</th>
+									  <td>{{ staff.gender }}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-hospital fa-lg" style="margin-right:10px"></i>Date of Birth</th>
+									  <td>{{ staff.date_of_birth }}</td>
+									</tr>
+									<tr>
+									  <td colspan="2">
+										<div class="justify-content-between float-right">
+										  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit_personal_details"><i class="fa-solid fa-user-pen fa-lg"style="margin-right:10px"></i> Edit Personal Details</button>
+										  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#change_password_modal"><i class="fa-solid fa-unlock-keyhole fa-lg"style="margin-right:10px"></i>Change Password</button>
+										</div>
+									  </td>
+									</tr>
+								  </tbody>
+								</table>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  
+											<!-- Edit Details Modal -->
+											<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit_personal_details"> Edit Personal Details</button> </div>-->
+											<div class="modal fade" id="edit_personal_details" aria-hidden="true" role="dialog">
+												<div class="modal-dialog modal-dialog-centered" role="document" >
+													<div class="modal-content"style="background-color:white">
+														<div class="modal-header"style="background-color:#065242;border-radius: 0%;margin:10px">
+															<h4 class="modal-title">Personal Details</h4>
+															<button type="button" class="close" style="color: white;font-size: 30px;" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															<form method="POST" action="{% url 'staff-profile' pk=staff.staff_id %}">
+																{% csrf_token %}
+																<input type="hidden" name="form_type" value="update_personal_details">
+																<div class="row form-row">
+																	<div class="col-12 col-sm-12">
+																		<div class="form-group" style="margin-top:-5%;">
+																			<label>Name</label>
+																			<input type="text" class="form-control" name="first_name" value="{{staff.name}}">
+																		</div>
+																	</div>
+																	<div class="col-12">
+																		<div class="form-group" style="margin-top:0%;">
+																			<label>Date of Birth</label>
+																			<div class="cal-icon">
+																				<input type="date" class="form-control" name="date_of_birth" value="{{staff.date_of_birth|date:'Y-m-d'}}">
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>Email Address</label>
+																			<input type="email" class="form-control" name="email" value="{{staff.email}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>Phone Number</label>
+																			<input type="text" name="phone_number" value="{{staff.phone_number}}" class="form-control">
+																		</div>
+																	</div>
+																	<div class="col-12" style="padding: 0;">
+																		<div class="modal-header" style="background-color:#065242; margin-left: 0; margin-right: 0;border-radius: 0%;">
+																		  <h4 class="modal-title">Address</h4>
+																		</div>
+																	  </div>
+																	<div class="col-12">
+																		<div class="form-group">
+																		<label>Street Address</label>
+																			<input type="text" name="address" class="form-control" value="{{staff.address}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>City</label>
+																			<input type="text" name="city" class="form-control" value="{{staff.city}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>State/Province</label>
+																			<input type="text" name="state" class="form-control" value="{{staff.state}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>Zip Code</label>
+																			<input type="text" name="zip_code" class="form-control" value="{{staff.zip_code}}">
+																		</div>
+																	</div>
+																	<div class="col-12 col-sm-6">
+																		<div class="form-group"style="margin-top:0%;">
+																			<label>Barangay</label>
+																			<input type="text" name="country" class="form-control" value="{{staff.country}}">
+																		</div>
+																	</div>
+																</div>
+																<button type="submit" class="btn btn-primary btn-block text-center">Save Changes</button>
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- /Edit Details Modal -->
+											
+									
+								
+								<!-- Change Password Modal -->
+									<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#change_password_modal">Change Password</button>-->
+
+									<div class="modal fade" id="change_password_modal" tabindex="-1" role="dialog" aria-labelledby="change_password_modal_label" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+										<div class="modal-content">
+											<div class="modal-header"style="background-color:#065242;border-radius: 0%">
+											<h4 class="modal-title" id="change_password_modal_label">Change Password</h4>
+											<button type="button" class="close" style="color: white;font-size: 30px;" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form method="POST" action="{% url 'staff-profile' pk=staff.staff_id %}">	
+											{% csrf_token %}
+											<input type="hidden" name="form_type" value="change_password">
+											<div class="form-group">
+												<label for="old_password_input">Old Password</label>
+												<input type="password" class="form-control" id="old_password_input" name="old_password_input">
+											</div>
+											<div class="form-group">
+												<label for="new_password_input">New Password</label>
+												<input type="password" class="form-control" id="new_password_input" name="new_password_input">
+											</div>
+											<div class="form-group">
+												<label for="confirm_password_input">Confirm Password</label>
+												<input type="password" class="form-control" id="confirm_password_input" name="confirm_password_input">
+											</div>
+											<button type="submit" class="btn btn-primary btn-block text-center">Save Changes</button>
+											</form>
+										</div>
+										</div>
+									</div>
+									</div>
+							<!-- /Change Password Modal -->
+							
+          </div>
+        </div>
+      </div>
+      <!-- /Page Content -->
+
+      
+      </body>
+    </div>
+    <!-- /Main Wrapper -->
+  {% else %} 
+  <p> You are not logged in </p> 
+  {% endif %}
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Circle Progress JS -->
+    <script src="{% static 'Mediqs/js/Normal/circle-progress.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- Searchbar JS -->
+    <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+
+
+  </body>
+
+  <!-- doccure/doctor-dashboard.html  30 Nov 2019 04:12:09 GMT -->
+</html>

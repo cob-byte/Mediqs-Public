@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/doctor-dashboard.html  30 Nov 2019 04:12:03 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href=" {% static 'Mediqs/images/Normal/favicon.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+   <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+    <link
+    rel="stylesheet"
+    href="{% static 'Mediqs/css/Normal/search2.css' %}"
+  />
+  <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/healthcenter.css' %}"
+    />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body onload="checkme()">
+    {% if user.is_authenticated %}
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header" style="width:100%">{% include 'staff-navbar.html' %} </header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+     
+      <div class="breadcrumb-bar">
+        <div class="chat-patient">
+          <ul>
+            
+           <p><a href="{% url 'inventory' %}" style="color: black;">Inventory</a><br>
+           
+          </ul>
+        </div>
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'staff-dashboard'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Staff
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Dashboard
+                  </li>
+                  
+                  </div>
+                  
+                </ol>
+              </nav>
+             
+              <h2 class="breadcrumb-title">Staff Dashboard</h2>
+            </div>
+            {% include 'message.html' %}
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- /Breadcrumb -->
+
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                <!-- Profile Sidebar -->
+                <div>{% include 'staff-sidebar.html' %}</div>
+                <!-- /Profile Sidebar -->
+              </div>
+
+              <div class="col-md-7 col-lg-8 col-xl-9">
+                <div class="row">
+                <div class="container-fluid">
+                    <div class="container-staff" style="padding-top: 20px;">
+                        <h2>Walk-in Registration</h2>
+                        <form action="{% url 'walkin-registration' %}" method="POST"> 
+                          {% csrf_token %}
+                          <div class="card card-table mb-0">
+                            <div class="card-body" style="background-color: #416F83;">
+                                <div class="table-responsive">
+                            
+                            <div class="form-group" id="selectPatient">
+                              <h3> <label for="patient_id">Select Patient:</label></h3>
+                                <select class="form-control" id="patient_id" name="patient_id">
+                                  <option value="">-- Select a patient --</option>
+                                    {% for patient in patients %}
+                                        <option value="{{ patient.patient_id }}">{{ patient.name }} - {{ patient.email }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <p style="color: #fff">
+                              <input type="checkbox" class="checkme" id="check" name="check" onclick="checkme()"> No Patients Record?
+                            </p>
+
+                            <div class="input" style="display:none; padding-left: 20px; padding-right: 30px;">
+                              <div class=" card-table ">
+                              <div class="card-body" style="background-color: #E6F3FF;">
+                                
+                                    {% csrf_token %}
+                                        <div class="tab" style="padding-top:10px ;">Personal Information:
+                                            <div class="form-group form-focus">
+                                              {{patient_form.name}}
+                                              <label class="focus-label">{{ patient_form.name.label }}</label>
+                                              {% if patient_form.name.errors %}
+                                                <div class="invalid-feedback">
+                                                  {{ patient_form.name.errors }}
+                                                </div>
+                                              {% endif %}
+                                            </div>
+
+                                            <div class="form-group form-focus">
+                                              {{patient_form.age}}
+                                              <label class="focus-label">{{ patient_form.age.label }}</label>
+                                              {% if patient_form.age.errors %}
+                                              <div class="invalid-feedback">
+                                                {{ patient_form.age.errors }}
+                                              </div>
+                                            {% endif %}
+                                            </div>
+
+                                            <div class="form-group form-focus">
+                                              {{patient_form.dob}}
+                                              <label class="focus-label">{{ patient_form.dob.label }}</label>
+                                              {% if patient_form.dob.errors %}
+                                                <div class="invalid-feedback">
+                                                  {{ patient_form.dob.errors }}
+                                                </div>
+                                              {% endif %}
+                                            </div>
+
+                                            <div class="form-group form-focus">
+                                              {{patient_form.gender}}
+                                              <label class="focus-label">{{ patient_form.gender.label }}</label>
+                                              {% if patient_form.gender.errors %}
+                                                <div class="invalid-feedback">
+                                                  {{ patient_form.gender.errors }}
+                                                </div>
+                                              {% endif %}
+                                            </div>
+
+                                            <div class="tab">Contact Info:
+                                              <div class="form-group form-focus">
+                                                <input type="email" class="form-control" id="email" name="email">
+                                                <label class="focus-label" for="email">Email</label>
+                                              </div>                                              
+                                              
+                                              <div class="form-group form-focus"> 
+                                                {{ patient_form.phone_number }}
+                                                <label class="focus-label">{{ patient_form.phone_number.label }}</label>
+                                                {% if patient_form.phone_number.errors %}
+                                                  <div class="invalid-feedback">
+                                                    {{ patient_form.phone_number.errors }}
+                                                  </div>
+                                                {% endif %}
+                                              </div>
+
+                                              <div class="form-group form-focus">
+                                                {{patient_form.address}}
+                                                <label class="focus-label">{{ patient_form.address.label }}</label>
+                                                {% if patient_form.address.errors %}
+                                                  <div class="invalid-feedback">
+                                                    {{ patient_form.address.errors }}
+                                                  </div>
+                                                {% endif %}
+                                              </div>
+
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+                                  </div>
+                                    </div> 
+                         
+                        <div class="form-group">
+                            <h3><label for="walk_in_type">Purpose of Visit:</label></h3>
+                            <select class="form-control" id="walk_in_type" name="walk_in_type" required>
+                                <option value="">-- Select a type --</option>
+                                <option value="report">Report</option>
+                                <option value="checkup">Checkup</option>
+                                <option value="Dental">Dental</option>
+                                <option value="Immunization">Immunization</option>
+                                <option value="Animal_bite_treatment">Animal Bite Treatment</option>
+                                <option value="Tb_prevention_treatment">TB Prevention and Treatment</option>
+                                <option value="Post_partum_newborn">Post-Partum/Newborn</option>
+                                <option value="Covid_vaccination">Covid Vaccination</option>
+                                <option value="Milk_letting">Milk Letting</option>
+                                <option value="Essential_medicines">Provision of Essential Medicines</option>
+                                <option value="Prenatal_checkup">Pre-natal Check-up</option>
+                                <option value="Syphilis_hepatitis_hiv">Syphilis/Hepatitis/HIV</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <h3><label for="reason">Initial Symptoms:</label></h3>
+                            <textarea placeholder ="e.g., dry cough, runny nose" input type="text" class="form-control" id="symptoms" name="symptoms" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                          <h3><label for="reason">Other Concerns:</label></h3>
+                          <textarea placeholder ="If non type 'NA'" input type="text" class="form-control" id="message" name="message" required></textarea>
+                      </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Submit
+                          <i class="fa-regular fa-paper-plane"></i></button>
+                        
+                        
+                        
+                    </div>
+                            </div></div>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- /Page Content -->
+
+      
+      </body>
+    </div>
+    <!-- /Main Wrapper -->
+  {% else %} 
+  <p> You are not logged in </p> 
+  {% endif %}
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Circle Progress JS -->
+    <script src="{% static 'Mediqs/js/Normal/circle-progress.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- Searchbar JS -->
+    <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+    <!--<script>
+      function checkme(){
+        var check=document.getElementById("check");
+        var form=document.getElementById("abc");
+        var form1=document.getElementById("cde");
+        if (check.checked==true){
+          form.style.display="block";
+          form1.style.display="block";
+        }else{
+          form.style.display="none";
+          form1.style.display="none";
+        }
+      }
+    </script>-->
+
+    <script>
+      function checkme() {
+      var check = document.getElementById("check");
+      var inputSections = document.getElementsByClassName("input");
+      var patientIdSelect = document.getElementById("patient_id");
+      var block = document.getElementById("selectPatient");
+      
+      for (var i = 0; i < inputSections.length; i++) {
+          var inputs = inputSections[i].getElementsByTagName('input');
+          if (check.checked) {
+              inputSections[i].style.display = "block";
+              for (var j = 0; j < inputs.length; j++) {
+                  inputs[j].required = true;
+              }
+          } else {
+              inputSections[i].style.display = "none";
+              for (var j = 0; j < inputs.length; j++) {
+                  inputs[j].required = false;
+              }
+          }
+      }
+
+      if (check.checked) {
+          patientIdSelect.style.display = "none";
+          block.style.display = "none";
+      } else {
+          patientIdSelect.style.display = "block";
+          block.style.display = "block";
+      }
+  }
+      
+      // Client-side form validation
+      document.getElementById("walkin-form").addEventListener("submit", function(event) {
+          var patientIdSelect = document.getElementById("patient_id");
+          var reasonInput = document.getElementById("reason");
+          var walkInTypeSelect = document.getElementById("walk_in_type");
+      
+          var isValid = true;
+      
+          if (patientIdSelect.value === "" && !check.checked) {
+              patientIdSelect.classList.add("is-invalid");
+              isValid = false;
+          } else {
+              patientIdSelect.classList.remove("is-invalid");
+          }
+      
+          if (reasonInput.value === "") {
+              reasonInput.classList.add("is-invalid");
+              isValid = false;
+          } else {
+              reasonInput.classList.remove("is-invalid");
+          }
+      
+          if (walkInTypeSelect.value === "") {
+              walkInTypeSelect.classList.add("is-invalid");
+              isValid = false;
+          } else {
+              walkInTypeSelect.classList.remove("is-invalid");
+          }
+      
+          if (!isValid) {
+              event.preventDefault(); // Prevent form submission if validation fails
+          }
+      });
+      </script>
+      
+      <script>
+      $(document).ready(function() {
+          $('#patient_id').select2({
+              placeholder: "Select a patient",
+              allowClear: true
+          });
+      
+          $('#patient_search').on('input', function() {
+              let searchText = $(this).val().toLowerCase();
+              $('#patient_id option').each(function() {
+                  let patientName = $(this).text().toLowerCase();
+                  if (patientName.includes(searchText)) {
+                      $(this).show();
+                  } else {
+                      $(this).hide();
+                  }
+              });
+          });
+      });
+      </script>
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+
+  {% endif %}
+
+  </body>
+
+  <!-- doccure/doctor-dashboard.html  30 Nov 2019 04:12:09 GMT -->
+</html>

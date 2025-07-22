@@ -1,0 +1,400 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+  <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/drawer.css' %}"
+    />
+
+    <link
+    rel="stylesheet"
+    href="{% static 'Mediqs/css/Normal/modal.css' %}"
+  />
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->  
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">{% include 'patient_navbar.html' %}</header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'patient-dashboard' %}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Patient Verification
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Patient Verification</h2>{% include 'message.html' %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+      
+      <!-- Page Content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Profile Sidebar -->
+            <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              <div>{% include 'patient-sidebar.html' %}</div>
+            </div>
+            <!-- / Profile Sidebar -->
+              <div class="col-md-7 col-lg-8 col-xl-9">
+                        <div class="card-body pt-0">
+                          <main>
+                              <div id="verification-info">
+                                  {% if user.is_authenticated and user.is_patient %}
+                                      {% if not patient.is_verified %}
+                                          {% if patient.verificationrequest.status == 'Pending' %}
+                                              <h1 style="color: orange;">Verification in Process</h1>
+                                              <img src="{% static 'images/verify.jpg' %}" alt="verify user">
+                                              <p>Your verification request has been received and is currently under review. Our staff is working on verifying your details. We appreciate your patience during this process. Your information will not be shared with other members, and will not be displayed on your profile.</p>
+                                              <button class="btn btn-warning btn-block mt-3 js-open-button" disabled>Verification in Process</button>
+                                          {% elif patient.verificationrequest.status == 'Rejected' %}
+                                              <h1 style="color: red;">Verification Request Rejected</h1>
+                                              <img src="{% static 'images/verify.jpg' %}" alt="verify user">
+                                              <p>We're sorry, but your previous verification request was not successful. Please make sure to upload clear images and submit accurate information. We value your security and privacy. Your information will not be shared with other members, and will not be displayed on your profile. Feel free to apply again.</p>
+                                              <button class="btn btn-primary btn-block mt-3 js-open-button">Apply Again</button>
+                                          {% else %}
+                                              <h1 style="color: #2a7b66;">Verify your Account</h1>
+                                              <img src="{% static 'images/verify.jpg' %}" alt="verify user">
+                                              <p>Verifying your account allows us to make sure you are really you. It's about keeping Mediqs safe and secure for everyone. Your information will not be shared with other members, and will not be displayed on your profile.</p>
+                                              <button class="btn btn-primary btn-block mt-3 js-open-button">Get Started</button>
+                                          {% endif %}
+                                      {% else %}
+                                          <h1 style="color: green;">Account Verified</h1>
+                                          <img src="{% static 'images/verify.jpg' %}" alt="verify user">
+                                          <p>Your account has been successfully verified. Thanks for going through the process. It helps keep Mediqs safe and secure for everyone.</p>
+                                          <button class="btn btn-success btn-block mt-3 js-open-button" disabled>Verified</button>
+                                      {% endif %}
+                                  {% endif %}
+                              </div>
+                          </main>
+                      </div>              
+                                              
+                        <div class="Drawer js-drawer" hidden>
+                          <div class="DrawerContainer">     
+                          <button class="js-close-button">X</button> 
+                          <div class="wrapper">
+                            <div class="header">
+                              <ul>
+                                <li class="active form_1_progessbar">
+                                  <div>
+                                    <p>1</p>
+                                  </div>
+                                </li>
+                                <li class="form_2_progessbar">
+                                  <div>
+                                    <p>2</p>
+                                  </div>
+                                </li>
+                                <li class="form_3_progessbar">
+                                  <div>
+                                    <p>3</p>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="form_wrap"> 
+                            <form method="POST" enctype="multipart/form-data">
+                              <div class="form_1 data_info">
+                                <h2 class="text-center">Proof of Billing</h2>
+                                  <div class="form_container">
+                                    <div class="form-group">
+                                        <div class="container">
+                                          <div class="drop_box">
+                                            <header>
+                                              <h4>Drag and drop or click here</h4>
+                                              <h5 style="color: #2e2e2e;">to upload your image (max 2 MiB)</h5>
+                                            </header>
+                                            <p>Files Supported: PNG, JPEG, JPG</p>
+                                            <div class="button_outer">
+                                              <div class="btn_upload">
+                                                <input type="file" name="proof_of_billing"  id="" accept="image/png, image/jpeg, image/jpg" required>
+                                                Upload Image
+                                              </div>
+                                              <div class="processing_bar"></div>
+                                              <div class="success_box"></div>
+                                            </div>
+                                            <div class="error_msg"></div>
+                                          </div>
+                                          <div class="uploaded_file_view" id="uploaded_view" data-uploaded="false">
+                                            <span class="file_remove">X</span>
+                                          </div>
+                                        </div>
+                                    </div>                  
+                                  </div>
+                              </div>
+                              <!-- form_2: ID Proof FRONT -->
+                              <div class="form_2 data_info" style="display: none;">
+                                <h2 class="text-center">ID Proof - FRONT</h2>
+                                <div class="form_container">
+                                  <div class="form-group">
+                                    <div class="container">
+                                      <div class="drop_box">
+                                        <header>
+                                          <h4>Drag and drop or click here</h4>
+                                          <h5 style="color: #2e2e2e;">to upload your image (max 2 MiB)</h5>
+                                        </header>
+                                        <p>Files Supported: PNG, JPEG, JPG</p>
+                                        <div class="button_outer">
+                                          <div class="btn_upload">
+                                            <input type="file" id="upload_file_id_proof_front" name="id_proof_front" accept="image/png, image/jpeg, image/jpg" required>
+                                            Upload Image
+                                          </div>
+                                          <div class="processing_bar"></div>
+                                          <div class="success_box"></div>
+                                        </div>
+                                        <div class="error_msg"></div>
+                                      </div>
+                                      <div class="uploaded_file_view" id="uploaded_view_id_proof_front" data-uploaded="false">
+                                        <span class="file_remove">X</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- form_2: ID Proof BACK -->
+                                <h2 class="text-center">ID Proof - BACK</h2>
+                                <div class="form_container">
+                                  <div class="form-group">
+                                    <div class="container">
+                                      <div class="drop_box">
+                                        <header>
+                                          <h4>Drag and drop or click here</h4>
+                                          <h5 style="color: #2e2e2e;">to upload your image (max 2 MiB)</h5>
+                                        </header>
+                                        <p>Files Supported: PNG, JPEG, JPG</p>
+                                        <div class="button_outer">
+                                          <div class="btn_upload">
+                                            <input type="file" id="upload_file_id_proof_back" name="id_proof_back" accept="image/png, image/jpeg, image/jpg" required>
+                                            Upload Image
+                                          </div>
+                                          <div class="processing_bar"></div>
+                                          <div class="success_box"></div>
+                                        </div>
+                                        <div class="error_msg"></div>
+                                      </div>
+                                      <div class="uploaded_file_view" id="uploaded_view_id_proof_back" data-uploaded="false">
+                                        <span class="file_remove">X</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- form_3: Selfie with ID -->
+                              <div class="form_3 data_info" style="display: none;">
+                                <h2 class="text-center">Selfie with ID</h2>
+                                <div class="form_container">
+                                  <div class="form-group">
+                                    <div class="container">
+                                      <div class="drop_box">
+                                        <header>
+                                          <h4>Drag and drop or click here</h4>
+                                          <h5 style="color: #2e2e2e;">to upload your image (max 2 MiB)</h5>
+                                        </header>
+                                        <p>Files Supported: PNG, JPEG, JPG</p>
+                                        <div class="button_outer">
+                                          <div class="btn_upload">
+                                            <input type="file" id="upload_file_selfie" name="selfie_with_id" accept="image/png, image/jpeg, image/jpg" required>
+                                            Upload Image
+                                          </div>
+                                          <div class="processing_bar"></div>
+                                          <div class="success_box"></div>
+                                        </div>
+                                        <div class="error_msg"></div>
+                                      </div>
+                                      <div class="uploaded_file_view" id="uploaded_view_selfie" data-uploaded="false">
+                                        <span class="file_remove">X</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="btns_wrap">
+                              <div class="common_btns form_1_btns">
+                                <button type="button" class="btn_next">Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
+                              </div>
+                              <div class="common_btns form_2_btns" style="display: none;">
+                                <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
+                                <button type="button" class="btn_next">Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
+                              </div>
+                              <div class="common_btns form_3_btns" style="display: none;">
+                                <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
+                                <button type="button" class="btn_done">Done</button>
+                              </div>
+                            </div>
+                          </div>                          
+                          <div class="modal_wrapper">
+                            <div class="shadow"></div>
+                            <div class="success_wrap">
+                              <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span>
+                              <p>Are you sure you wanted to proceed?</p>
+                              <button type="submit" class="btn btn-primary" style="position: absolute; bottom: 0; right: 0"><i class="fa-solid fa-floppy-disk" style="margin-right: 5px;"></i>Submit</button>
+                            </div>
+                          </div>  
+                        </form>                        
+                        </div>
+                      </div>
+                    </main>
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Page Content -->
+    </div>
+    <!-- /Main Wrapper -->
+    <!-- <div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+      <div class="modal-dialog modal-dialog-centered text-center" role="document" >
+        <div class="modal-content">
+        	<div class="modal-header">
+            <h5 class="modal-title">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-content p-2">
+              <h4 class="modal-title">Delete</h4>
+              <p class="mb-4">Are you sure want to delete?</p>
+              <button type="button" class="btn btn-primary">Save </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- Searchbar JS -->
+    <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+    <script src="{% static 'Mediqs/js/Normal/drawer.js' %}"></script>
+    
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#billPreview').attr('src', e.target.result);
+                    $('#billPreview').css('display', 'block');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    
+        function readURL2(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#idPreview1').attr('src', e.target.result);
+                    $('#idPreview1').css('display', 'block');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function readURL3(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#idPreview2').attr('src', e.target.result);
+                    $('#idPreview2').css('display', 'block');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function readURL4(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#selfieID').attr('src', e.target.result);
+                    $('#selfieID').css('display', 'block');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>  
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+  {% endif %}
+
+
+
+  </body>
+
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+</html>

@@ -1,0 +1,196 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Mediqs</title>
+        <!-- Favicons -->
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  />
+		
+		<!-- Favicon -->
+
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"> 
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}">
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+		
+		<!-- Datatables CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/admin/datatables/datatables.min.css'%}"> 
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}"> 
+		<link rel="stylesheet"href="{% static 'Mediqs/css/Normal/search2.css' %}">
+		
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+			<header class="header">{% include 'healthcenter_admin/pharmacist-navbar.html' %}</header>
+          
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+			<aside class="sidebar" id="sidebar">
+				{% include 'healthcenter_admin/pharmacist-sidebar.html' %} </aside>
+			<!-- /Sidebar -->
+			
+            <div class="page-wrapper">
+
+                <div class="content container-fluid">
+					
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">List of Medical Supply</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'inventorymanager-dashboard' %}">Dashboard</a></li>
+									<li class="breadcrumb-item active">Medical Supply</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-12">
+						  <div class="card-table">
+							<div class="card card-table flex-fill">
+								<div class="card-headers">
+									<h4 class="card-title black"> Modify Medical Supplies</h4>
+								  </div>
+							<div class="card-body">
+							  <div class="table-responsive">
+								<table class="datatable table table-center mb-0">
+								  <thead>
+									<tr>
+                                        <th>Item Code</th>
+                                        <th>Supply Name</th>
+                                        <th>Stock Quantity</th>
+                                        <th>Expiration Date</th>
+										<th>Adjustment Type</th>
+										<th>Modified Quantity</th>
+										<th>Sponsored By:</th>
+										<th>Action</th>
+									</tr>
+								  </thead>
+								  <tbody>
+								  <tr>
+									<td>{{medical_supply.item_code}}</td>
+                                    <td>{{medical_supply.name}}</td>
+                                    <td>{{medical_supply.stock_quantity}} pcs</td>
+                                    <td>{{medical_supply.expiration_date}}</td>
+									<td>
+									  <form method="post">
+										{% csrf_token %}
+										<div class="form-group">
+										  <select name="adjustment_type" id="adjustment_type" class="form-control">
+											<option value="in">In</option>
+											<option value="out">Out</option>
+										  </select>
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+										  <input type="number" name="quantity" id="quantity" class="form-control" min="0">
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+										  <input type="text" name="sponsored_by" id="sponsored_by" class="form-control">
+										</div>
+									</td>
+									<td>
+										<button type="submit"class="btn btn-primary"><i class="fa-solid fa-pen-to-square" style="margin-right: 5px;"></i>Update</button>
+										<a href="{% url 'medical-supply-list'%}" class="btn btn-danger btn-m"><i class="fa-solid fa-rectangle-xmark" style="margin-right: 5px;"></i>Cancel</a>
+									  </form>
+									</td>
+								  </tr>
+								</tbody>
+								</table>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>		
+					  </div>			  
+			<!-- /Page Wrapper -->
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card-table">
+						<div class="card card-table flex-fill">
+							<div class="card-headers">
+								<h4 class="card-title black"> List of Modifications</h4>
+							  </div>
+						<div class="card-body">
+							<div class="table-responsive">
+							   <table class="datatable table table-center mb-0">
+									<thead>
+									   <tr>
+										   <th>Medical Supply Name</th>
+										   <th>Adjustment Type</th>
+										   <th>Quantity</th>
+										   <th>Date</th>
+										   <th>Sponsored By:</th>
+										   <th>Modified By</th>
+									   </tr>
+									</thead>
+									{% for ahistory in history %}
+									   <tr>
+										   <td>{{ahistory.medicalsupply.name}}</td>
+										   <td>{{ahistory.adjustment_type}}</td>
+										   <td>{{ahistory.quantity}} pcs</td>
+										   <td>{{ahistory.created_at}}</td>
+										   <td>{{ahistory.sponsored_by}}</td>
+										   <td>{{ahistory.inventory_manager.first_name}} {{ahistory.inventory_manager.last_name}}</td>
+									   </tr>
+									 {% endfor %}
+							   </table>
+						   </div>
+					   </div>
+				   </div>	
+			   </div>
+		   </div>
+	   </div>
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+        <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+		
+		<!-- Bootstrap Core JS -->
+        <script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script> 
+        <script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script> 
+		
+		<!-- Slimscroll JS -->
+        <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+		
+		<!-- Datatables JS -->
+		<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+		<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+		<script src="{% static 'Mediqs/js/Normal/script.js' %}"></script>
+		
+    </body>
+
+</html>

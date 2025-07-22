@@ -1,0 +1,56 @@
+{% load static %}
+
+<h2>Hello {{ values.name }},</h2>
+
+<p>We are pleased to inform you that your verification has been accepted by Staff {{ values.staff_name }}</p>
+
+<p>Here are details regarding your verification</p>
+
+<h3 class="card-title">Verification Details</h3>
+
+    <table style="border: 1px solid black">
+        <thead>
+            <tr>
+                <th style="border: 1px solid black">Title</th>
+                <th style="border: 1px solid black">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="border: 1px solid black">Patient Name</td>
+                <td style="border: 1px solid black">{{ values.name }}</td>
+            </tr>
+
+            <tr>
+                <td style="border: 1px solid black">Email</td>
+                <td style="border: 1px solid black">{{ values.email }}</td>
+            </tr>
+
+            <tr>
+                <td style="border: 1px solid black">Username</td>
+                <td style="border: 1px solid black">{{ values.username }}</td>
+            </tr>
+
+            <tr>
+                <td style="border: 1px solid black">Healthcenter</td>
+                <td style="border: 1px solid black">{{ values.healthcenter }}</td>
+            </tr>
+
+            <tr>
+                <td style="border: 1px solid black">Verification Request ID</td>
+                <td style="border: 1px solid black">{{ values.id }}</td>
+            </tr>
+
+            <tr>
+                <td style="border: 1px solid black">Request Date</td>
+                <td style="border: 1px solid black">{{ values.request_date }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+<p>Feel free to contact us for any inquiries.</p>
+
+<p>Sincerely,</p>
+<p>Admin</p>

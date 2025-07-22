@@ -1,0 +1,109 @@
+{% load static %}
+{% load cloud %}
+
+<div class="profile-sidebar">
+  <div class="widget-profile pro-widget-content">
+    <div class="profile-info-widget">
+      <a href="{% url 'doctor-profile' pk=doctor.doctor_id %}" class="booking-doc-img">
+        <img
+          src="{{ doctor.featured_image.url | adjust_image_url }}"
+          alt="User Image"
+        />
+      </a>
+      <div class="profile-det-info">
+        <h3>{{ doctor.name }}</h3>
+
+        <div class="patient-details">
+          <h5 class="mb-0">{{doctor.specialization.specialization_name}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard-widget">
+    <nav class="dashboard-menu sidebar">
+      <ul>
+        <li {% url 'doctor-dashboard' as dashboard_url %}{% if request.path == dashboard_url %}class="active"{% endif %}>
+          <a href="{% url 'doctor-dashboard' %}">
+            <i class="fas fa-columns"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li {% url 'doctor-profile' as profile_url %}{% if request.path == profile_url %}class="active"{% endif %}>
+          <a href="{% url 'doctor-profile' pk=doctor.doctor_id %}">
+          <i class="fas fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+
+      <li {% url 'multiple-healthcenter' as healthcenter_url %}{% if request.path == healthcenter_url %}class="active"{% endif %}>
+        <a href="{% url 'multiple-healthcenter' %}">
+            <i class="fas fa-hospital"></i>
+            <span>Healthcare Centers</span>
+          </a>
+      </li>
+      <li {% url 'my-patients' as patients_url %}{% if request.path == patients_url %}class="active"{% endif %}>
+        <a href="{% url 'my-patients' %}">
+            <i class="fas fa-user-injured"></i>
+            <span>My Patients</span>
+          </a>
+        </li>
+        <li {% url 'disease-statistics' as statistics_url %}{% if request.path == statistics_url %}class="active"{% endif %}>
+          <a href="{% url 'disease-statistics'%}">
+            <i class="fas fa-hourglass-start"></i>
+            <span>Disease Statistics</span>
+          </a>
+        </li>
+        <li {% url 'forecasting' as forecasting_url %}{% if request.path == forecasting_url %}class="active"{% endif %}>
+          <a href="{% url 'forecasting' 'Hepatitis A' %}">
+            <i class="fas fa-hourglass-start"></i>
+            <span>Predictive Analytics</span>
+          </a>
+        </li>
+        <!-- <li>
+          <a href="invoices.html">
+            <i class="fas fa-file-invoice"></i>
+            <span>Invoices</span>
+          </a>
+        </li> -->
+        <!-- <li>
+          <a href="reviews.html">
+            <i class="fas fa-star"></i>
+            <span>Reviews</span>
+          </a>
+        </li> -->
+        <!-- <li>
+          <a href="chat-doctor.html">
+            <i class="fas fa-comments"></i>
+            <span>Message</span>
+            <small class="unread-msg">23</small>
+          </a>
+        </li> -->
+        <li {% url 'doctor-profile-settings' as settings_url %}{% if request.path == settings_url %}class="active"{% endif %}>
+          <a href="{% url 'doctor-profile-settings' %}">
+            <i class="fas fa-user-cog"></i>
+            <span>Profile Settings</span>
+          </a>
+        </li>
+        <!-- <li>
+          <a href="social-media.html">
+            <i class="fas fa-share-alt"></i>
+            <span>Social Media</span>
+          </a>
+        </li> -->
+        <li {% url 'doctor-change-password' as change_pass_url %}{% if request.path == change_pass_url %}class="active"{% endif %}>
+          <a href="{% url 'doctor-change-password' pk=user.id%}">
+            <i class="fas fa-lock"></i>
+            <span>Change Password</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'logout'%}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

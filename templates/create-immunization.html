@@ -1,0 +1,722 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/create-medical.html GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+    
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+/>
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body onload="checkme()">
+    {% if user.is_authenticated %}
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header" style="width:100%">{% include 'staff-navbar.html' %} </header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+     
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'staff-dashboard'%}">Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Staff
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Dashboard
+                  </li>
+                  
+                  </div>
+                  
+                </ol>
+              </nav>
+             
+              <h2 class="breadcrumb-title">Staff Dashboard</h2>
+            </div>
+            {% include 'message.html' %}
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- /Breadcrumb -->
+
+     <!-- Page Content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+        <!-- Profile Sidebar -->
+        <div>{% include 'staff-sidebar.html' %}</div>
+        <!-- /Profile Sidebar -->
+      </div>
+
+      <div class="col-md-7 col-lg-8 col-xl-9">
+        <div class="container-fluid">
+            <h2>Immunization Registration</h2>
+            <form action="{% url 'create-immunization' %}" method="POST">
+              {% csrf_token %}
+              <div class="card card-table mb-0">
+                <div class="card-body" style="background-color: #416F83;">
+                  <div class="table-responsive">
+
+                    <div class="form-group" id="selectPatient">
+                      <h3> <label for="patient_id">Select Patient:</label></h3>
+                      <select class="form-control" id="patient_id" name="patient_id">
+                        <option value="">-- Select a patient --</option>
+                        {% for patient in patients %}
+                        <option value="{{ patient.patient_id }}">{{ patient.name }} - {{ patient.email }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    {% csrf_token %}
+                    <p style="color: #fff">
+                      <input type="checkbox" class="checkme" id="check" name="check" onclick="checkme()"> No Immunization Record?
+                    </p>
+
+                    <div class="input" style="display:none; padding-left: 20px; padding-right: 30px;">
+                      <div class=" card-table ">
+                     
+                        <div class="tab" style="padding-top:10px ; font-size: 20px; color: #fff;">Personal Information:
+                                <!-- Patient form fields -->
+                            <div class="form-group form-focus">
+                              {{patient_form.name}}
+                              <label class="focus-label">{{ patient_form.name.label }}</label>
+                              {% if patient_form.name.errors %}
+                                <div class="invalid-feedback">
+                                  {{ patient_form.name.errors }}
+                                </div>
+                              {% endif %}
+                            </div>
+
+                            <div class="form-group form-focus">
+                              {{patient_form.age}}
+                              <label class="focus-label">{{ patient_form.age.label }}</label>
+                              {% if patient_form.age.errors %}
+                              <div class="invalid-feedback">
+                                {{ patient_form.age.errors }}
+                              </div>
+                            {% endif %}
+                            </div>
+
+                            <div class="form-group form-focus">
+                              {{patient_form.dob}}
+                              <label class="focus-label">{{ patient_form.dob.label }}</label>
+                              {% if patient_form.dob.errors %}
+                                <div class="invalid-feedback">
+                                  {{ patient_form.dob.errors }}
+                                </div>
+                              {% endif %}
+                            </div>
+
+                            <div class="form-group form-focus">
+                              {{patient_form.gender}}
+                              <label class="focus-label">{{ patient_form.gender.label }}</label>
+                              {% if patient_form.gender.errors %}
+                                <div class="invalid-feedback">
+                                  {{ patient_form.gender.errors }}
+                                </div>
+                              {% endif %}
+                            </div>
+
+                             <div class="form-group form-focus"> 
+                                {{ patient_form.phone_number }}
+                                <label class="focus-label">{{ patient_form.phone_number.label }}</label>
+                                {% if patient_form.phone_number.errors %}
+                                  <div class="invalid-feedback">
+                                    {{ patient_form.phone_number.errors }}
+                                  </div>
+                                {% endif %}
+                              </div>
+
+                              <div class="form-group form-focus">
+                                <input type="email" class="form-control" id="email" name="email">
+                                <label class="focus-label" for="email">Email</label>
+                              </div>  
+
+                              <div class="form-group form-focus">
+                                {{patient_form.address}}
+                                <label class="focus-label">{{ patient_form.address.label }}</label>
+                                {% if patient_form.address.errors %}
+                                  <div class="invalid-feedback">
+                                    {{ patient_form.address.errors }}
+                                  </div>
+                                {% endif %}
+                              </div>
+                              <h4 style="color: white;">Additional Information:</h4>
+                                  <div class="form-group form-focus">
+                                    {{patient_form.mother_name}}
+                                    <label class="focus-label">{{ patient_form.mother_name.label }}</label>
+                                    {% if patient_form.mother_name.errors %}
+                                      <div class="invalid-feedback">
+                                        {{ patient_form.mother_name.errors }}
+                                      </div>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-group form-focus">
+                                    {{patient_form.father_name}}
+                                    <label class="focus-label">{{ patient_form.father_name.label }}</label>
+                                    {% if patient_form.father_name.errors %}
+                                      <div class="invalid-feedback">
+                                        {{ patient_form.father_name.errors }}
+                                      </div>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-group form-focus">
+                                    {{patient_form.fam_num}}
+                                    <label class="focus-label">{{ patient_form.fam_num.label }}</label>
+                                    {% if patient_form.fam_num.errors %}
+                                      <div class="invalid-feedback">
+                                        {{ patient_form.fam_num.errors }}
+                                      </div>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-group form-focus">
+                                    {{patient_form.barangay_num}}
+                                    <label class="focus-label">{{ patient_form.barangay_num.label }}</label>
+                                    {% if patient_form.barangay_num.errors %}
+                                      <div class="invalid-feedback">
+                                        {{ patient_form.barangay_num.errors }}
+                                      </div>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-group form-focus">
+                                    {{patient_form.birth_weight}}
+                                    <label class="focus-label">{{ patient_form.birth_weight.label }}</label>
+                                    {% if patient_form.birth_weight.errors %}
+                                      <div class="invalid-feedback">
+                                        {{ patient_form.birth_weight.errors }}
+                                      </div>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-group form-focus">
+                                    {{patient_form.birth_height}}
+                                    <label class="focus-label">{{ patient_form.birth_height.label }}</label>
+                                    {% if patient_form.birth_height.errors %}
+                                      <div class="invalid-feedback">
+                                        {{ patient_form.birth_height.errors }}
+                                      </div>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-group form-focus">
+                                    {{patient_form.place_birth}}
+                                    <label class="focus-label">{{ patient_form.place_birth.label }}</label>
+                                    {% if patient_form.place_birth.errors %}
+                                      <div class="invalid-feedback">
+                                        {{ patient_form.place_birth.errors }}
+                                      </div>
+                                    {% endif %}
+                                  </div>               
+                            </div>
+                          </div>
+                            </div> 
+                    
+                          <div class="tab" style="padding-top:10px;">
+                            <h3 style="color: white;">Immunization Information:</h3>
+
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Immunization Record for:</label>
+                              <select class="form-control" id="immune_record" name="immune_record" required onchange="RecordInputField()">
+                                <option value="">-- Select Immunization Record --</option>
+                                <option value="Child">Child</option>
+                                <option value="Adult">Adult</option>
+                              </select>
+                            </div>
+
+                            <div id="child_immune_choices" style="display: none;">
+                              <div class="form-group form-focus">
+                                <label class="focus-label">Vaccine Name:</label>
+                                <select class="form-control" id="immune_name" name="immune_name" onchange="showInputField()">
+                                  <option value="">-- Select a vaccine --</option>
+                                  <option value="BCG">BCG</option>
+                                  <option value="HEPATITIS B">HEPATITIS B</option>
+                                  <option value="PENTAVALENT VACCINE">PENTAVALENT VACCINE</option>
+                                  <option value="ORAL POLIO VACCINE">ORAL POLIO VACCINE</option>
+                                  <option value="INACTIVATED POLIO VACCINE">INACTIVATED POLIO VACCINE</option>
+                                  <option value="PNEUMOCOCCAL CONJUGATE VACCINE">PNEUMOCOCCAL CONJUGATE VACCINE</option>
+                                  <option value="MEASLES, MUMPS, RUBELLA">MEASLES, MUMPS, RUBELLA</option>
+                                  <option value="Others">Others</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group form-focus" id="immune_visit_number" style="display: none;" onchange="RecordInputField_visit()" >
+                              <label class="focus-label">Visit Number:</label>
+                              <select class="form-control" id="visit_number" name="visit_number">
+                                <option value="">-- Select a dose number --</option>
+                                <option value="0">At Birth</option>
+                                <option value="1">1st Visit</option>
+                                <option value="2">2nd Visit</option>
+                                <option value="3">3rd Visit</option>
+                              </select>
+                            </div>
+                            <div class="form-group form-focus"  id="remarks_name" style="display: none;">
+                              <label class="focus-label">Remarks:</label>
+                              <input type="text" class="form-control" id="remarks" name="remarks">
+                            </div>
+
+                              <!-- <div class="form-group form-focus" id="immune_visit_number" style="display: none;">
+                                <label class="focus-label">Visit Number:</label>
+                                <select class="form-control" id="visit_number" name="visit_number"></select>
+                              </div> -->
+
+                              <div class="form-group form-focus" id="other_vaccine_name" style="display: none;">
+                                <label class="focus-label">Please specify the Vaccine Name:</label>
+                                <input type="text" class="form-control" id="othervaccine_name" name="other_vaccine">
+                              </div>                              
+
+                            </div>
+                            
+                            <div id="adult_immune_choices" style="display: none;">
+                              <div class="form-group form-focus">
+                                <label class="focus-label">Please specify the Vaccine Name:</label>
+                                <input type="text" class="form-control" id="other_vaccine" name="other_vaccine">
+                              </div>
+
+                              <div class="form-group form-focus">
+                                <label class="focus-label">Dose Number:</label>
+                                <select class="form-control" id="dose_number" name="dose_number">
+                                  <option value="">-- Select a dose number --</option>
+                                  <option value="1">First Dose</option>
+                                  <option value="2">Second Dose</option>
+                                  <option value="3">Third Dose</option>
+                                </select>
+                              </div>
+
+                              <div class="form-group form-focus">
+                                <label class="focus-label">Healthcare Facility Name:</label>
+                                <input type="text" class="form-control" id="hfacility_name" name="hfacility_name">
+                              </div>
+                            </div>
+
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Date Given:</label>
+                              <input type="date" class="form-control" id="date_given" name="date_given">
+                            </div>
+
+                            <div class="form-group form-focus">
+                              <label class="focus-label">Given By:</label>
+                              <input type="text" class="form-control" id="given_by" name="given_by">
+                            </div>
+
+                          </div>
+                    <button type="submit" class="btn btn-primary"style="margin-top:0%">Submit
+                      <i class="fa-regular fa-paper-plane"></i> 
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Page Content-->
+      </body>
+    </div>
+    <!-- /Main Wrapper -->
+  {% else %} 
+  <p> You are not logged in </p> 
+  {% endif %}
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Slimscroll JS -->
+    <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+    <!-- Datetimepicker JS -->
+    <!-- <script src="{% static 'Mediqs/js/Normal/moment.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap-datetimepicker.min.js' %}"></script> -->
+
+    <!-- Prescription Settings JS -->
+    <script src="{% static 'Mediqs/js/Normal/prescription-settings.js' %}"></script>
+
+    	<!-- Datatables JS -->
+		<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+		<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <!-- <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script> -->
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- <script>
+      $('#immune_name').change(function() {
+          var selectedOption = $(this).val();
+          // var remarks_name = document.getElementById("remarks_name");
+          // var other_vaccine_name = document.getElementById("other_vaccine_name");
+          // var immune_visit_number = document.getElementById("immune_visit_number");
+           // Get the selected value
+
+          // Clear existing options in the second dropdown
+          $('#visit_number').empty();
+
+          // Add new options based on the selected value
+          if (selectedOption === 'BCG') {
+            $('#visit_number').append('<option value="0">At Birth</option>');
+          } else if (selectedOption === 'HEPATITIS B') {
+            $('#visit_number').append('<option value="0">At Birth</option>');
+          }else if (selectedOption === 'PENTAVALENT VACCINE') {
+            $('#visit_number').append('<option value="1">1st Visit</option>');
+            $('#visit_number').append('<option value="2">2nd Visit</option>');
+            $('#visit_number').append('<option value="3">3rd Visit</option>');
+          }else if (selectedOption === 'ORAL POLIO VACCINE') {  
+            $('#visit_number').append('<option value="1">1st Visit</option>');
+            $('#visit_number').append('<option value="2">2nd Visit</option>');
+            $('#visit_number').append('<option value="3">3rd Visit</option>');          
+          }else if (selectedOption === 'INACTIVATED POLIO VACCINE') {
+            $('#visit_number').append('<option value="1">1st Visit</option>');
+          }else if (selectedOption === 'PNEUMOCOCCAL CONJUGATE VACCINE') {
+            $('#visit_number').append('<option value="1">1st Visit</option>');
+            $('#visit_number').append('<option value="2">2nd Visit</option>');
+            $('#visit_number').append('<option value="3">3rd Visit</option>');          
+          }else if (selectedOption === 'MEASLES, MUMPS, RUBELLA') {
+            $('#visit_number').append('<option value="1">1st Visit</option>');
+            $('#visit_number').append('<option value="2">2nd Visit</option>');          
+          }else if (selectedOption === 'Others') {
+            $('#visit_number').append('<option value="4">others</option>');
+          }
+        });
+    </script> -->
+
+
+    <script>
+      function showInputField() {
+        
+        var selectedImmune = document.getElementById("immune_name").value;
+        var selectedVisit = document.getElementById("visit_number").value;
+
+        var other_vaccine_name = document.getElementById("other_vaccine_name");
+        var immune_visit_number = document.getElementById("immune_visit_number");
+        var remarks_name = document.getElementById("remarks_name");
+       
+        // other_vaccine_name.style.display = (selectedImmune === 'Others') ? "block" : "none";
+        // immune_visit_number.style.display = (selectedImmune === 'Others') ? "none" : "block";
+        // remarks.style.display = "block";
+
+        if(selectedImmune === 'Others') {
+          other_vaccine_name.style.display = "block";
+          immune_visit_number.style.display = "none";
+          remarks_name.style.display = "none";
+        } 
+        else if (selectedImmune === 'BCG'){
+          other_vaccine_name.style.display = "none";
+          immune_visit_number.style.display = "block";
+          //remarks_name.style.display = "block";
+        }else if (selectedImmune==='HEPATITIS B' ){
+          other_vaccine_name.style.display = "none";
+          immune_visit_number.style.display = "block";
+          //remarks_name.style.display = "block";
+        }
+        else if (selectedImmune==='PENTAVALENT VACCINE'){
+          other_vaccine_name.style.display = "none";
+          immune_visit_number.style.display = "block";
+          //remarks_name.style.display = "block";
+        }
+        else if (selectedImmune==='ORAL POLIO VACCINE' ){
+          other_vaccine_name.style.display = "none";
+          immune_visit_number.style.display = "block";
+          //remarks_name.style.display = "block";
+        }
+        else if (selectedImmune==='INACTIVATED POLIO VACCINE' ){
+          other_vaccine_name.style.display = "none";
+          immune_visit_number.style.display = "block";
+          //remarks_name.style.display = "block";
+        }
+        else if (selectedImmune==='PNEUMOCOCCAL CONJUGATE VACCINE'){
+          other_vaccine_name.style.display = "none";
+          immune_visit_number.style.display = "block";
+          //remarks_name.style.display = "block";
+        }
+        else if (selectedImmune==='MEASLES, MUMPS, RUBELLA'){
+          other_vaccine_name.style.display = "none";
+          immune_visit_number.style.display = "block";
+          //remarks_name.style.display = "block";
+        }
+        else {
+          other_vaccine_name.style.display = "none";
+          immune_visit_number.style.display = "none";
+          //remarks_name.style.display = "none";
+        }
+      }
+    </script>
+
+    <script>
+      function RecordInputField_visit() {
+        var selectedImmune = document.getElementById("immune_name").value;
+        var selectedVisit = document.getElementById("visit_number").value;
+        var remarks_name = document.getElementById("remarks_name");
+
+        if (selectedVisit === '0' && selectedImmune==='BCG'){
+        remarks_name.style.display = "block";
+        } else if (selectedVisit === '0' && selectedImmune==='HEPATITIS B'){
+        remarks_name.style.display = "block";
+        }else if (selectedVisit === '3' && selectedImmune==='PENTAVALENT VACCINE'){
+        remarks_name.style.display = "block";
+        }else if (selectedVisit === '3' && selectedImmune==='ORAL POLIO VACCINE'){
+        remarks_name.style.display = "block";
+        }else if (selectedVisit === '1'  && selectedImmune==='INACTIVATED POLIO VACCINE'){
+        remarks_name.style.display = "block";
+        }else if (selectedVisit === '3'  && selectedImmune==='PNEUMOCOCCAL CONJUGATE VACCINE'){
+        remarks_name.style.display = "block";
+        }else if (selectedVisit === '2'  && selectedImmune==='MEASLES, MUMPS, RUBELLA'){
+          remarks_name.style.display = "block";
+        }else{
+        remarks_name.style.display = "none";
+        }
+      }
+    </script>
+
+    <script>
+      function RecordInputField() {
+        var selectedVaccine = document.getElementById("immune_record").value;
+        var child_immune_choices = document.getElementById("child_immune_choices");
+        var adult_immune_choices = document.getElementById("adult_immune_choices");
+        var immuneNameField = document.getElementById("immune_name");
+        var otherVaccineNameField = document.getElementById("othervaccine_name");
+
+        if (selectedVaccine === 'Child') {
+          child_immune_choices.style.display = "block";
+          adult_immune_choices.style.display = "none";
+          immuneNameField.required = true;
+        } else if (selectedVaccine === 'Adult') {
+          child_immune_choices.style.display = "none";
+          adult_immune_choices.style.display = "block";
+          immuneNameField.required = false;
+        } else {
+          child_immune_choices.style.display = "none";
+          adult_immune_choices.style.display = "none";
+          immuneNameField.required = false;
+        }
+      }
+    </script>
+
+
+    <script>
+        const dropdown1 = document.getElementById('immune_name');
+        const dropdown2 = document.getElementById('visit_number');
+
+      dropdown1.addEventListener('change', function() {
+      const selectedValue = dropdown1.value;
+
+      dropdown2.selectedIndex = 0;
+
+
+      for (let i = 0; i < dropdown2.options.length; i++) {
+        dropdown2.options[i].style.display = '';
+      }
+
+      if (selectedValue === 'BCG') {
+        dropdown2.options[1].style.display = 'block';
+        dropdown2.options[2].style.display = 'none';
+        dropdown2.options[3].style.display = 'none';
+        dropdown2.options[4].style.display = 'none';
+
+      }else if (selectedValue === 'HEPATITIS B') {
+        dropdown2.options[1].style.display = 'block';
+        dropdown2.options[2].style.display = 'none';
+        dropdown2.options[3].style.display = 'none';
+        dropdown2.options[4].style.display = 'none';
+
+      }else if (selectedValue === 'PENTAVALENT VACCINE') {
+        dropdown2.options[1].style.display = 'none';
+        dropdown2.options[2].style.display = 'block';
+        dropdown2.options[3].style.display = 'block';
+        dropdown2.options[4].style.display = 'block';
+      }else if (selectedValue === 'ORAL POLIO VACCINE') {
+        dropdown2.options[1].style.display = 'none';
+        dropdown2.options[2].style.display = 'block';
+        dropdown2.options[3].style.display = 'block';
+        dropdown2.options[4].style.display = 'block';
+      }else if (selectedValue === 'INACTIVATED POLIO VACCINE') {
+        dropdown2.options[1].style.display = 'none';
+        dropdown2.options[2].style.display = 'block';
+        dropdown2.options[3].style.display = 'none';
+        dropdown2.options[4].style.display = 'none';
+      }else if (selectedValue === 'PNEUMOCOCCAL CONJUGATE VACCINE') {
+        dropdown2.options[1].style.display = 'none';
+        dropdown2.options[2].style.display = 'block';
+        dropdown2.options[3].style.display = 'block';
+        dropdown2.options[4].style.display = 'block';
+      }else if (selectedValue === 'MEASLES, MUMPS, RUBELLA') {
+        dropdown2.options[1].style.display = 'none';
+        dropdown2.options[2].style.display = 'block';
+        dropdown2.options[3].style.display = 'block';
+        dropdown2.options[4].style.display = 'none';
+      }
+
+      });
+
+      function resetDropdown2() {
+      for (let i = 0; i < dropdown2.options.length; i++) {
+        dropdown2.options[i].style.display = '';
+      }
+    }
+
+
+
+    </script>
+    
+    <!-- <script>
+      function RecordInputField_visit() {
+        var selectedVaccine = document.getElementById("immune_record").value;
+        var child_immune_choices = document.getElementById("child_immune_choices");
+        var adult_immune_choices = document.getElementById("adult_immune_choices");
+        
+
+        if (selectedVaccine === 'Child') {
+          child_immune_choices.style.display = "block";
+          adult_immune_choices.style.display = "none";
+          
+
+        } else if (selectedVaccine === 'Adult') {
+
+          child_immune_choices.style.display = "none";
+          adult_immune_choices.style.display = "block";
+        }
+
+        else {
+          child_immune_choices.style.display = "none";
+          adult_immune_choices.style.display = "none";
+
+
+        }
+
+
+      }
+    </script> -->
+
+    <script>
+      function checkme() {
+      var check = document.getElementById("check");
+      var inputSections = document.getElementsByClassName("input");
+      var patientIdSelect = document.getElementById("patient_id");
+      var block = document.getElementById("selectPatient");
+      
+      for (var i = 0; i < inputSections.length; i++) {
+          var inputs = inputSections[i].getElementsByTagName('input');
+          if (check.checked) {
+              inputSections[i].style.display = "block";
+              for (var j = 0; j < inputs.length; j++) {
+                  inputs[j].required = true;
+              }
+          } else {
+              inputSections[i].style.display = "none";
+              for (var j = 0; j < inputs.length; j++) {
+                  inputs[j].required = false;
+              }
+          }
+      }
+
+      if (check.checked) {
+          patientIdSelect.style.display = "none";
+          block.style.display = "none";
+      } else {
+          patientIdSelect.style.display = "block";
+          block.style.display = "block";
+      }
+  }
+    </script>
+    
+      <script>
+      $(document).ready(function() {
+          $('#patient_id').select2({
+              placeholder: "Select a patient",
+              allowClear: true
+          });
+      
+          $('#patient_search').on('input', function() {
+              let searchText = $(this).val().toLowerCase();
+              $('#patient_id option').each(function() {
+                  let patientName = $(this).text().toLowerCase();
+                  if (patientName.includes(searchText)) {
+                      $(this).show();
+                  } else {
+                      $(this).hide();
+                  }
+              });
+          });
+      });
+      </script>
+
+      
+
+      <!--<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+    
+            today = dd + '/' + mm + '/' + yyyy;
+    
+            document.getElementById('create_date').value = today;
+        });
+    </script>-->
+
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+
+  {% endif %}
+  </body>
+   
+
+  <!-- doccure/patient-profile.html  30 Nov 2019 04:12:13 GMT -->
+</html>

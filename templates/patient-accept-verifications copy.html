@@ -1,0 +1,208 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/appointments.html  30 Nov 2019 04:12:09 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+   <!-- Fontawesome CSS 
+        <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"/>
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">
+          {% include 'staff-navbar.html' %} 
+      </header>
+          <!-- /Header -->
+
+      <!-- Breadcrumb -->
+
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'staff-dashboard'%}">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Patient Verifications
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Patient Verifications</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+
+<!-- Page Content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+        <!-- Profile Sidebar -->
+        <div>{% include 'staff-sidebar.html' %}</div>
+        <!-- /Profile Sidebar -->
+      </div>
+
+      <div class="col-md-7 col-lg-8 col-xl-9">
+        <div class="verifications">
+          <!-- Verification List -->
+          {% for vr in verification_requests %}
+          <div class="card mb-4">
+            <div class="card-body" style="background-color: #416F83;">
+              <div class="verification-list">
+                <div class="col-md-8 col-lg-10 col-xl-11">
+                  <div class="profile-info-widget" style="margin-left:1%">
+                    <a href="{%url 'patient-profile' pk=vr.patient.patient_id%}" class="booking-doc-img">
+                      <img src="{{ vr.patient.featured_image.url | adjust_image_url }}" alt="User Image" style="width: 200px; height: 200px;"/>
+                    </a>
+                    <div class="col-md-7 col-lg-8 col-xl-9">
+                      <div class="profile-det-info"style="margin-left:3%">
+                        <h2><a href="{%url 'patient-profile' pk=vr.patient.patient_id%}">{{vr.patient.name}}</a></h2>
+                        <div class="patient-details">
+                          <h4 style="color: white;">
+                            <i class="fas fa-file" style="margin-right: 3%;"></i>Verification Request No: #VR{{vr.id}}
+                          </h4>
+                          <h4 style="color: white;">
+                            <i class="far fa-clock" style="margin-right: 2%;"></i> Request Date: {{vr.request_date}}
+                          </h4>
+                          <h4 style="color: white;">
+                            <i class="fas fa-map-marker-alt" style="margin-right: 3%;"></i>{{vr.patient.address}}
+                          </h4>
+                          <h4 style="color: white;">
+                            <i class="fas fa-envelope" style="margin-right: 2%;"></i> {{vr.patient.email}}
+                          </h4>
+                          <h4 class="mb-0" style="color: white;">
+                            <i class="fas fa-phone"style="margin-right: 2%;"></i>{{vr.patient.phone_number}}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="verification-action" style="margin-top: 2%; position: absolute; top: 0; right: 0; margin-right: 2%;">
+                      <a href="#verificationModal{{vr.id}}" data-toggle="modal" class="btn btn-sm bg-info-light mb-2" style="display: block; font-size: 20px;"><i class="fas fa-eye"></i> View</a>
+                      <a href="{% url 'accept-verification' pk=vr.id %}" onclick="return confirm('Accept verification?');" class="btn btn-sm bg-success-light mb-2" style="display: block; font-size: 20px;"><i class="fas fa-check"></i> Accept</a>
+                      <a href="{% url 'reject-verification' pk=vr.id %}" onclick="return confirm('Reject Verification?');" class="btn btn-sm bg-danger-light" style="display: block; font-size: 20px;"><i class="fas fa-times"></i> Reject</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Modal for 'View' button -->
+          <div class="modal fade" id="verificationModal{{vr.id}}" tabindex="-1" role="dialog" style="transform: none !important;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content"style="background-color:white">
+                <div class="modal-header">
+                  <h4 class="modal-title">Verification Images</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <!-- Pair 1: Proof of Billing -->
+                  <div class="row">
+                    <div class="col-sm-6"><h5 style="color: black;">Proof of Billing</h5></div>
+                    <div class="col-sm-6"><img src="{{vr.proof_of_billing}}" alt="Proof of Billing"></div>
+                  </div>
+                
+                  <!-- Pair 2: ID Proof Front -->
+                  <div class="row">
+                    <div class="col-sm-6"><h5 style="color: black;">ID Proof (Front)</h5></div>
+                    <div class="col-sm-6"><img src="{{vr.id_proof_front}}" alt="ID Front"></div>
+                  </div>
+                
+                  <!-- Pair 3: ID Proof Back -->
+                  <div class="row">
+                    <div class="col-sm-6"><h5 style="color: black;">ID Proof (Back)</h5></div>
+                    <div class="col-sm-6"><img src="{{vr.id_proof_back}}" alt="ID Back"></div>
+                  </div>
+                
+                  <!-- Pair 4: Selfie with ID -->
+                  <div class="row">
+                    <div class="col-sm-6"><h5 style="color: black;">Selfie with ID</h5></div>
+                    <div class="col-sm-6"><img src="{{vr.selfie_with_id}}" alt="Selfie with ID"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Modal ends here -->
+          {% empty %}
+          <div class="card">
+            <div class="card-body">
+              <h4>No Verification Requests</h4>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Page Content -->
+
+
+     
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/js/Normal/script.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+  </body>
+
+  <!-- doccure/appointments.html  30 Nov 2019 04:12:09 GMT -->
+</html>

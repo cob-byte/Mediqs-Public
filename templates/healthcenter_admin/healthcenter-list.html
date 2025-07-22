@@ -1,0 +1,180 @@
+{%load static%}
+{% load cloud %}
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/healthcenter-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:51 GMT -->
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Mediqs</title>
+
+    	<!-- Favicon -->
+
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  />
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"> 
+		
+		<!-- Fontawesome CSS 
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+		
+		<!-- Datatables CSS -->
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"> 
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}"> 
+		
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+		
+			<!-- Header -->
+            <div class="main-wrapper">
+				<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header>
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+				{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %} </aside>
+			<!-- /Sidebar -->
+			
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+				
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">List of Health Centers</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Dashboard</a></li>
+									<li class="breadcrumb-item active">Health Center List </li>
+								</ul>
+								{% include 'message.html' %}
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-table">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table datatable table-center mb-0">
+											<thead>
+												<tr>
+													<th>Health Center Name</th>
+													<th>Address</th>
+													<th>Email</th>
+													<th>Phone Number</th>
+													<th>Edit Health Center</th>
+													<th>Delete Health Center</th>
+													</tr>
+													<tbody>
+														{% for healthcenter in healthcenters %}
+														<tr>
+															<td>
+																<h2 class="table-avatar">
+																	<a href="{% url 'admin-healthcenter-profile' pk=healthcenter.healthcenter_id %}" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{ healthcenter.featured_image.url | adjust_image_url }}" alt="User Image"></a>															
+																	<a href="{% url 'admin-healthcenter-profile' pk=healthcenter.healthcenter_id %}">{{healthcenter.name}}</a>
+																</h2>
+															</td>
+															<td>{{healthcenter.street}} , Barangay {{healthcenter.barangay}}</td>
+															
+															<td>{{healthcenter.email}}</td>
+															
+															<td>{{healthcenter.phone_number}}</td>
+
+															<td>
+																<div class="table-action">
+																	<a href="{% url 'edit-healthcenter' pk=healthcenter.healthcenter_id %}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square fa-2xs"></i> Edit</a>
+																</div>
+															</td>
+															<td>
+																<div class="table-action">
+																	<a  data-toggle="modal" data-target="#delete_modal{{healthcenter.healthcenter_id}}" class="btn bg-danger-light">
+																		<i class="fa-solid fa-trash-can fa-2xs"></i> Delete
+																	</a>
+																</div>
+															</td>
+														</tr>
+														<div class="modal fade" id="delete_modal{{healthcenter.healthcenter_id}}" aria-hidden="true" role="dialog">
+															<form method="POST" action="{% url 'delete-healthcenter' pk=healthcenter.healthcenter_id %}">
+															<div class="modal-dialog modal-dialog-centered" role="document" >
+																<div class="modal-content">
+																	{% csrf_token %}
+																		<div class="modal-body">
+																		<div class="form-content p-2">
+																			<h4 class="modal-title" style="display:flex;justify-content: center;align-items: center;">Delete</h4>
+																			<p class="mb-4"  style="display:flex;justify-content: center;align-items: center;">Are you sure want to delete?</p>
+																			<div style="display:flex;justify-content: center">
+																				<button type="submit" class="btn btn-primary" style="margin-right: 5px;">Save</button>
+																				<button type="button" class="btn btn-danger" style="margin-left: 5px;" data-dismiss="modal">Close</button>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															</form>
+														</div>	
+														{% endfor %}
+													</tbody>
+											</thead>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+			<!-- /Page Wrapper -->
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+        <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+		
+		<!-- Bootstrap Core JS -->
+        <script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script> 
+        <script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script> 
+		
+		<!-- Slimscroll JS -->
+        <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+		
+		<!-- Datatables JS -->
+		<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script> 
+		<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+
+		{% if messages %}
+		<script>
+			{% for message in messages %}
+				$(document).ready(function () {
+					$('.toast').toast('show');
+				});
+			{% endfor %}
+		</script>
+	  {% endif %}
+		
+    </body>
+
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/healthcenter-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:51 GMT -->
+</html>

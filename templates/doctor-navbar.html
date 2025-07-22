@@ -1,0 +1,203 @@
+{% load static %}
+{% load notifications_tags %}
+{% load json_filters %}
+{% load cloud %}
+
+
+<link rel="stylesheet" 
+    href="{% static 'Mediqs/css/Normal/style.min.css' %}" />
+
+  <body data-notify-sound-url="{% static 'notify/notify.wav' %}">
+    <nav class="navbar navbar-expand-lg header-nav">
+      <div class="navbar-header">
+        <a id="mobile_btn" href="javascript:void(0);">
+          <span class="bar-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </a>
+        <a href="{% url 'doctor-dashboard'%}" class="navbar-brand logo">
+          <img
+            src="{% static 'Mediqs/images/Normal/MAIN_LOGO.png' %}"
+            class="img-fluid"
+            alt="Logo"
+          />
+        </a>
+      </div>
+      <div class="main-menu-wrapper">
+        <div class="menu-header">
+          <a href="{% url 'doctor-dashboard'%}" class="menu-logo">
+            <img
+              src="{% static 'Mediqs/images/Normal/MAIN_LOGO.png' %}"
+              class="img-fluid"
+              alt="Logo"
+              style="filter: invert(72%) sepia(56%) saturate(461%) hue-rotate(114deg) brightness(91%) contrast(94%)"
+            />
+          </a>
+          <a id="menu_close" class="menu-close" href="javascript:void(0);">
+            <i class="fas fa-times" style="color: black"></i>
+          </a>
+        </div>
+          <ul class="main-nav"> 
+            <li>
+              <a href="{% url 'doctor-dashboard' %}">Dashboard</a> 
+            </li>
+            <li>
+              <a href="{% url 'my-patients' %}">My Patients</a>
+            </li>
+            <li class="mobile-notification" style="display: none;">
+              <a 
+              data-target="#allNotifications"
+              hx-get="{% url 'all-notifications' %}"
+              hx-target="#allNotificationBody"
+              class="oh-navbar__notification-tray-link oh-activity-sidebar__open">View all notifications</a>
+            </li>
+          </ul>
+      </div>
+      <ul class="nav header-navbar-rht">
+        <li class="nav-item contact-item">
+          <div class="header-contact-detail">
+          </div>
+        </li>
+        <li>
+          {% include 'notification/notification.html' %}
+        </li>
+        <!-- User Menu -->
+        <li class="nav-item dropdown has-arrow logged-item">
+          <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+            <span class="user-img">
+              <img
+                class="rounded-circle"
+                src="{{ doctor.featured_image.url | adjust_image_url }}"
+                width="31"
+                alt="User"
+              />
+            </span> 
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <div class="user-header">
+              <div class="avatar avatar-sm">
+                <img
+                  src="{{ doctor.featured_image.url | adjust_image_url }}"
+                  alt="User Image"
+                  class="avatar-img rounded-circle"
+                />
+              </div>
+              <div class="user-text">
+                <h6 style="color:black">{{doctor.name}}</h6>
+                <p class="text-muted mb-0">Doctor</p>
+              </div>
+            </div>
+            <a class="dropdown-item" href="{% url 'doctor-dashboard' %}"
+              >Dashboard</a
+            >
+            <a class="dropdown-item" href="{% url 'doctor-profile-settings' %}"
+              >Profile Settings</a
+            >
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+          </div>
+        </li>
+        <!-- /User Menu -->
+      </ul>
+    </nav>
+
+    <!-- End of Confirm Modal -->
+    <div class="oh-activity-sidebar " id="allNotifications" style="z-index: 1000;">
+      <div class="oh-activity-sidebar__header">
+        <ion-icon name="chevron-back-outline" id="notificationClose" class="oh-activity-sidebar__header-icon me-2 oh-activity-sidebar__close md hydrated"  role="img" aria-label="chevron back outline"></ion-icon>
+        <span class="oh-activity-sidebar__title"> All Notifications</span>
+      </div>
+      <div class="oh-activity-sidebar__body" id="allNotificationBody">
+        {% include "notification/all_notifications.html" %}
+      </div>
+    </div>
+
+    <!-- Pop up notif -->
+    <div class="notification-popout" style="display: none; z-index: 5000;">
+      <div class="notification-header">
+          <h3 class="notification-title" style="color: black;"></h3>
+          <i class="fa fa-times notification-close"></i>
+      </div>
+      <div class="notification-container">
+          <div class="notification-media">
+              <img src="" class="notification-user-avatar" alt="User">
+              <ion-icon name="" class="notification-reaction"></ion-icon>
+          </div>
+          <div class="notification-content">
+              <p class="notification-text">
+                  <strong></strong>
+              </p>
+              <p class="notification-description"></p>
+              <span class="notification-timer"></span>
+          </div>
+          <span class="notification-status"></span>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+      event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+  
+    // variable for notification sound
+    let notificationSoundUrl = document.body.dataset.notifySoundUrl;
+    let notificationSound = new Audio(notificationSoundUrl);
+    let lastNotification = JSON.parse(localStorage.getItem('lastNotification'));
+    let notificationTimeout = null;
+    let isPageUnloading = false;   // Add this line
+  
+    // Listen to the onbeforeunload event
+    window.onbeforeunload = function() {
+      isPageUnloading = true;   // Set isPageUnloading to true
+    };
+    
+    // Fetch the latest notification every 5 seconds
+    setInterval(function() {
+      fetch('/latest/notification/')
+          .then(response => response.json())
+          .then(data => {
+              if (!data.id || (new Date(data.timestamp) <= new Date(lastNotification.timestamp)) || isPageUnloading) {  
+                  // If there is no notification or the new notification is not newer than the last one, or the page is unloading, do nothing
+                  return;
+              }
+      
+              lastNotification = data;
+              localStorage.setItem('lastNotification', JSON.stringify(lastNotification));
+              document.querySelector('.notification-title').textContent = 'New Notification';
+              document.querySelector('.notification-text strong').textContent = data.title;
+              document.querySelector('.notification-description').textContent = data.message;
+              document.querySelector('.notification-timer').textContent = data.time + ' ago';
+              document.querySelector('.notification-user-avatar').src = 'https://ui-avatars.com/api/?name=' + data.user + '&background=random';
+              document.querySelector('.notification-media ion-icon').setAttribute('name', data.image);
+              let notificationElement = document.querySelector('.notification-popout');
+              notificationElement.style.display = 'block';
+              notificationElement.classList.add('notification-animate');
+              notificationSound.play();
+              if (notificationTimeout !== null) {
+                  clearTimeout(notificationTimeout);
+              }
+              notificationTimeout = setTimeout(function() {
+                  notificationElement.style.display = 'none';
+              }, 180000); 
+              notificationElement.addEventListener('animationend', function() {
+                  notificationElement.classList.remove('notification-animate');
+              });
+            });
+    }, 5000);
+    
+    document.querySelector('.notification-close').addEventListener('click', function() {
+        document.querySelector('.notification-popout').style.display = 'none';
+        if (notificationTimeout !== null) {
+            clearTimeout(notificationTimeout);
+        }
+    });
+  </script>     
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="{% static 'Mediqs/js/Normal/web.frontend.min.js' %}"></script>
+<script src="{% static 'Mediqs/js/Normal/web.frontend.js' %}"></script>
+<script src="{% static 'Mediqs/js/Normal/htmx.min.js' %}"></script>
+

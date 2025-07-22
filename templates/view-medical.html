@@ -1,0 +1,293 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/login.html  30 Nov 2019 04:12:20 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <title>Mediqs</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+		
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	
+	</head>
+	<body>
+
+		<!-- Main Wrapper -->
+		<div class="main-wrapper">
+		
+			<!-- Header -->
+			<header class="header">	{% if user.is_authenticated and user.is_patient %}
+                                    {% include 'patient_navbar.html' %}
+                                    {% endif %}
+				</header>
+			<!-- /Header -->
+			
+			<!-- Breadcrumb -->
+			<div class="breadcrumb-bar">
+				<div class="container-fluid">
+					<div class="row align-items-center">
+						<div class="col-md-12 col-12">
+							<nav aria-label="breadcrumb" class="page-breadcrumb">
+								<ol class="breadcrumb">
+                                    {% if user.is_authenticated and user.is_patient %}
+									<li class="breadcrumb-item"><a href="">View Medical Record</a></li>
+                                    {% endif %}
+									<li class="breadcrumb-item active" aria-current="page">Report Result</li>
+								</ol>
+							</nav>
+							<h2 class="breadcrumb-title">Report Result</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /Breadcrumb -->
+			
+			<!-- Page Content -->
+			<div class="content">
+				<div class="container-fluid">
+
+					<div class="row">
+                         <!-- Profile Sidebar -->
+                                <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                                    <div>{% include 'patient-sidebar.html' %}</div>
+                                </div>
+                            <!-- / Profile Sidebar -->
+						<div class="col-md-7 col-lg-8 col-xl-9">
+							<div class="invoice-content" style="background-color: white">
+								<div class="invoice-item">
+									<div class="row">
+                    
+										<div class="col-md-6">
+											<div class="invoice-logo">
+												<img src="{% static 'Mediqs/images/Normal/DARK LOGO.png' %}" alt="logo">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<p class="invoice-details">
+												<strong>Medical ID:</strong>{{record.medical_id}} <br>
+												<strong>Patient ID:</strong> {{patient.patient_id }} <br>
+												<strong>Date:</strong> {{record.create_date}}
+											</p>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Invoice Item -->
+								<div class="invoice-item">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="invoice-info">
+												<strong class="customer-text">Doctor Information:</strong>
+                        
+												<p class="invoice-details invoice-details-two">
+
+													<b>Name: </b>{{record.doctor.name}} <br>
+													<b>Health Center: </b>{{record.doctor.health_center.name}}<br>
+													<b>Email: </b>{{record.doctor.email}} <br>
+
+												</p>
+                        
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="invoice-info invoice-info2">
+												<strong class="customer-text">Patient Information:</strong>
+												<p class="invoice-details">
+													<b>Name: </b>{{patient.name}} <br>
+													<b>Address: </b>{{record.patient.address}}<br>
+													<b>Email: </b>{{record.patient.email}} <br>
+													<b>Phone Number: </b>{{record.patient.phone_number}}<br>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="invoice-item invoice-table-wrap">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="table-responsive">
+												<table class="invoice-table table table-bordered text-center medical-results-table">
+													<tbody>
+														<tr style="background-color: rgb(84, 147, 199);">
+															<th colspan="4" class="text-center">Lab Results</th>
+														</tr>
+														<tr style="background-color: rgb(84, 147, 199);">
+															<th class="col-md-2" style="text-center">Lab Name</th>
+															<th class="col-md-2" style="text-center">Date of Test</th>
+															<th class="col-md-2" style="text-center">Test(s) Conducted</th>
+															<th style="text-center">Results Summary</th>
+														</tr>
+														<tr>
+															<td>{{record.lab_name}}</td>
+															<td>{{record.test_date}}</td>
+															<td>{{record.tests_conducted}}</td>
+															<td>{{record.results_summary}}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+                  				<br>
+                  				<div class="invoice-item invoice-table-wrap">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="table-responsive">
+												<table class="invoice-table table table-bordered text-center medical-results-table">
+													<tbody>
+														<tr style="background-color: rgb(84, 147, 199);">
+															<th colspan="4" class="text-center">Examination Findings</th>
+														</tr>
+														<tr style="background-color: rgb(84, 147, 199)">
+															<th colspan="4" class="text-center">A. Vital Signs</th>
+														</tr>
+														<tr style="background-color: rgb(84, 147, 199)">
+															<th class="text-center">1. Blood Pressure</th>
+															<th class="text-center">2. Heart Rate</th>
+															<th class="text-center">3. Respiratory Rate</th>
+															<th class="text-center">4. Temperature</th>
+														</tr>
+														<tr>
+															<td class="text-center">{{record.blood_pressure}}</td>
+															<td class="text-center">{{record.heart_rate}}</td>
+															<td class="text-center">{{record.respiratory_rate}}</td>
+															<td class="text-center">{{record.temperature}}</td>
+														</tr>
+														<tr style="background-color: rgb(84, 147, 199)">
+															<th colspan="4" class="text-center">B. Physical Examination</th>
+														</tr>
+														<tr>
+															<td colspan="4">{{record.physical_examination}}</td>
+														</tr>
+														<tr style="background-color: rgb(84, 147, 199)">
+															<th colspan="4" class="text-center">C. Relevant Diagnostic Tests (if any)</th>
+														</tr>
+														<tr>
+															<td colspan="4">{{record.diagnostic_tests}}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="invoice-item invoice-table-wrap">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="table-responsive">
+												<table class="invoice-table table table-bordered text-center medical-results-table">
+													<tbody>
+														<tr style="background-color: rgb(84, 147, 199);">
+															<th colspan="2" class="text-center">Diagnosis</th>
+														</tr>
+														<tr style="background-color: rgb(84, 147, 199);">
+															<th class="text-center">A. Disease/Condition</th>
+															<th class="text-center">B. Severity</th>
+														</tr>
+														<tr>
+															<td>{{record.disease_condition}}</td>
+															<td>{{record.severity}}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Invoice Item -->
+                                <br>
+								<br>
+								<!-- Invoice Information -->
+								<div class="invoice-item invoice-table-wrap">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="table-responsive">
+												<table class="invoice-table table table-bordered text-center medical-results-table">
+													<tbody>
+														<tr style="background-color: rgb(84, 147, 199);">
+															<th colspan="2" class="text-center">Additional Notes/Recommendations</th>
+														</tr>
+														<tr>
+															<td>{{record.additional_notes}}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="other-info">
+									<a class="download-medical-record" target="_blank" href="{% url 'pdf' pk=record.medical_id %}" > Download Medical Record </a>
+								</div>
+								<!-- /Invoice Information -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+			<!-- /Page Content -->
+
+    
+      
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- Searchbar JS -->
+    <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+  </body>
+
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+</html>

@@ -1,0 +1,333 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+  <title>Mediqs</title>
+  <!-- Favicons -->
+  <link
+  type="image/x-icon"
+  href="{% static 'images/circle-logo.png' %}"
+  rel="icon"
+  />  
+ <!-- Bootstrap CSS -->
+ <link
+ rel="stylesheet"
+ href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+/>
+
+ <!-- Fontawesome CSS 
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"/>
+
+<!-- Main CSS -->
+<link
+rel="stylesheet"
+href="{% static 'Mediqs/css/Normal/style.css' %}"
+/>
+ 
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\open-iconic-bootstrap.min.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\animate.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\owl.carousel.min.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\owl.theme.default.min.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\magnific-popup.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\owl.theme.default.min.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\aos.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\ionicons.min.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\bootstrap-datepicker.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\jquery.timepicker.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\flaticon.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\icomoon.css'%}">
+  <link rel="stylesheet" href="{% static 'Mediqs\pharmacy_assets\css\style.css'%}">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="">Mediqs<small> Inventory</small></a>
+     
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          {% if user.is_authenticated and user.is_doctor %}
+          <li class="nav-item"><a href="{% url 'doctor-dashboard'%}" class="nav-link">Dashboard</a></li>
+              {% endif %}
+              {% if user.is_authenticated and user.is_staff %}
+              <li class="nav-item"><a href="{% url 'staff-dashboard'%}" class="nav-link">Dashboard</a></li>
+              {% endif %}
+			  {% if user.is_authenticated and user.is_inventorymanager %}
+        <li class="nav-item"><a href="{% url 'inventorymanager-dashboard'%}" class="nav-link">Dashboard</a></li>
+              {% endif %}
+          <!--Search Medicine-->
+          <div class="col-md-6 col-6 text-right" style="margin-top: 2%;">
+            <div class="top-nav-search">
+              <form action="{% url 'inventory' %}" method="GET">
+                <input type="text" class="form-control" placeholder="Search Item" name="search_query" value="{{search_query}}">
+              </form>
+            </div>
+          </div>
+           <!--/Search Medicine-->
+        </ul>
+      </div>
+
+      <!-- User Menu -->
+      {% if user.is_authenticated and user.is_doctor %}
+      <ul class="nav header-navbar-rht">
+    <div class="nav-item dropdown has-arrow logged-item">
+      <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+        <span class="user-img">
+          <img
+            class="rounded-circle"
+            src="{{ doctor.featured_image.url | adjust_image_url }}"
+            width="31"
+            alt="User"
+          />
+        </span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <div class="user-header">
+          <div class="avatar avatar-sm">
+            <img
+              src="{{ doctor.featured_image.url | adjust_image_url }}"
+              alt="User Image"
+              class="avatar-img rounded-circle"
+            />
+          </div>
+          <div class="user-text">
+            <h6 style="color: black;">{{doctor.name}}</h6>
+            <p class="text-muted mb-0" style="color: black;">Doctor</p>
+          </div>
+        </div>
+        <a class="dropdown-item" href="{% url 'doctor-dashboard' %}"
+          >Dashboard</a
+        >
+        <a
+          class="dropdown-item"
+          href="{% url 'doctor-profile-settings' %}"
+          >Profile Settings</a
+        >
+        <a class="dropdown-item" href="{% url 'doctor-logout' %}">Logout</a>
+      </div>
+    </div>
+    </ul>
+    {%endif%}
+
+    {%if user.is_authenticated and user.is_staff%}
+    <ul class="nav header-navbar-rht">
+      <li class="nav-item dropdown has-arrow logged-item">
+        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+          <span class="user-img">
+            <img
+              class="rounded-circle"
+              src="{{ staff.featured_image.url | adjust_image_url }}"
+              width="31"
+              alt="User"
+            />
+          </span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="user-header">
+            <div class="avatar avatar-sm">
+              <img
+                src="{{ staff.featured_image.url | adjust_image_url }}"
+                alt="User Image"
+                class="avatar-img rounded-circle"
+              />
+            </div>
+            <div class="user-text">
+              <h6 style = "color:black">{{staff.name}}</h6>
+              <p class="text-muted mb-0 text-muted-black">Staff</p>
+            </div>
+          </div>
+          <a class="dropdown-item" href="{% url 'staff-dashboard' %}">Dashboard</a>
+          <a class="dropdown-item" href="{% url 'profile-settings' %}">Profile Settings</a>
+          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </li>
+    </ul>
+    {%endif%}
+
+    {%if user.is_authenticated and user.is_inventorymanager%}
+    <ul class="nav header-navbar-rht">
+      <li class="nav-item dropdown has-arrow logged-item">
+        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+          <span class="user-img">
+            <img
+              class="rounded-circle"
+              src="{{ inventorymanager.featured_image.url | adjust_image_url }}"
+              width="31"
+              alt="User"
+            />
+          </span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="user-header">
+            <div class="avatar avatar-sm">
+              <img
+                src="{{ inventorymanager.featured_image.url | adjust_image_url }}"
+                alt="User Image"
+                class="avatar-img rounded-circle"
+              />
+            </div>
+            <div class="user-text">
+              <h6 style = "color:black">{{inventorymanager.name}}</h6>
+              <p class="text-muted mb-0 text-muted-black">Staff</p>
+            </div>
+          </div>
+          <a class="dropdown-item" href="{% url 'inventorymanager-dashboard' %}">Dashboard</a>
+          <a class="dropdown-item" href="{% url 'manager-profile' pk=inventorymanager.inventorymanager_id%}">Profile Settings</a>
+          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </li>
+    </ul>
+    {%endif%}
+    <!-- /User Menu -->
+    </div>
+  </nav>
+
+  <section class="ftco-menu mb-5 pb-5">
+    <div class="container">
+      <div class="row d-md-flex">
+        <div class="col-lg-12 ftco-animate p-md-5">
+          <div class="row">
+            <div class="col-md-12 nav-link-wrap mb-5">
+              {% if user.is_authenticated and user.is_doctor %}
+              <h1 style="text-align: center;">{{doctor.health_center}}'s Inventory</h1>
+              {% endif %}
+              {% if user.is_authenticated and user.is_staff %}
+              <h1 style="text-align: center;">{{staff.health_center}}'s Inventory</h1>
+              {% endif %}
+              <div class="nav ftco-animate nav-pills justify-content-center" id="v-pills-tab" role="tablist"
+                aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-0-tab" data-toggle="pill" href="#v-pills-0" role="tab"
+                  aria-controls="v-pills-0" aria-selected="true">Medicine</a>
+                <a class="nav-link" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab"
+                  aria-controls="v-pills-1" aria-selected="false">Medical Equipment</a>
+                <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab"
+                  aria-controls="v-pills-2" aria-selected="false">Medical Supply</a>
+                <!-- <a class="nav-link" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab"
+                  aria-controls="v-pills-3" aria-selected="false">Blood Pressure & Heart Disease</a>
+                <a class="nav-link" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab"
+                aria-controls="v-pills-3" aria-selected="false">Cough, Flue & cold</a> -->
+              </div>
+            </div>
+            <div class="col-md-12 d-flex align-items-center">
+              <div class="tab-content ftco-animate" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-0" role="tabpanel" aria-labelledby="v-pills-1-tab">
+                  <div class="row">
+                    {% for medicine in medicines %}
+                      <div class="col-md-4 text-center" style="justify-content:space-around;align-items:center;">
+                        <div class="menu-wrap">
+                          <a href="{% url 'product-single' pk=medicine.serial_number %}" class="menu-img img" style="height: 0%;">
+                            <img src="{{ medicine.featured_image.url | adjust_image_url }}" Style="height:300px;width: 300px;" class="img-fluid" alt="Medicine Image"/>
+                          </a>
+                          <div class="text" style="text-align: center; margin-top: 12%;">
+                            <h3><a href="{% url 'product-single' pk=medicine.serial_number %}">{{medicine.name}}</a></h3>
+                            <p class="price"><span>{{medicine.stock_quantity}}</span></p>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-2-tab">
+                  <div class="row">
+                    {% for medical_equipment in medical_equipment %}
+                      <div class="col-md-4 text-center" style="justify-content:space-around;align-items: center;">
+                        <div class="menu-wrap">
+                          <a href="{% url 'inventory-view-equipment' pk=medical_equipment.serial_number %}" class="menu-img img" style="height: 0%;">
+                            <img src="{{ medical_equipment.featured_image.url | adjust_image_url }}" Style="height:300px;width: 300px;" class="img-fluid" alt="Equipment Image"/>
+                          </a>
+                          <div class="text" style="text-align: center;margin-top: 12%;">
+                            <h3><a href="{% url 'inventory-view-equipment' pk=medical_equipment.serial_number %}">{{medical_equipment.name}}</a></h3>
+                            <p class="price"><span>{{medical_equipment.stock_quantity}}</span></p>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-3-tab">
+                  <div class="row">
+                    {% for medical_supply in medical_supply %}
+                      <div class="col-md-4 text-center" style="justify-content:space-around;align-items: center;">
+                        <div class="menu-wrap">
+                          <a href="{% url 'inventory-view-supply' pk=medical_supply.serial_number %}" class="menu-img img" style="height: 0%;">
+                            <img src="{{ medical_supply.featured_image.url | adjust_image_url }}" Style="height:300px;width: 300px;" class="img-fluid" alt="Supply Image"/>
+                          </a>
+                          <div class="text" style="text-align: center;margin-top: 12%;">
+                            <h3><a href="{% url 'inventory-view-supply' pk=medical_supply.serial_number %}">{{medical_supply.name}}</a></h3>
+                            <p class="price"><span>{{medical_supply.stock_quantity}}</span></p>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+        stroke="#F96D00" />
+    </svg>
+  </div>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/jquery.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/popper.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/aos.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/scrollax.min.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/google-map.js' %}"></script>
+  <script src="{% static 'Mediqs/pharmacy_assets/js/main.js' %}"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&amp;sensor=false"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-23581568-13');
+  </script>
+
+  {% if messages %}
+  <script>
+      {% for message in messages %}
+          $(document).ready(function () {
+              $('.toast').toast('show');
+          });
+      {% endfor %}
+  </script>
+  {% endif %}
+
+
+
+</body>
+
+
+</html>

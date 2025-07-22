@@ -1,0 +1,830 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/patient-dashboard.html  30 Nov 2019 04:12:16 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      	
+		<!-- Header -->
+      	<header class="header">{% include 'patient_navbar.html' %}</header>
+      	<!-- /Header -->
+
+     	<!-- Breadcrumb -->
+      	<div class="breadcrumb-bar">
+			<div class="container-fluid">
+				<div class="row align-items-center">
+					<div class="col-md-12 col-12">
+						<nav aria-label="breadcrumb" class="page-breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item">
+									<a href="{% url 'patient-dashboard' %}">Home</a>
+								</li>
+
+								<li class="breadcrumb-item active" aria-current="page">
+									Patient Dashboard
+								</li>
+							</ol>
+						</nav>
+						<h2 class="breadcrumb-title">Patient Dashboard</h2>
+					</div>
+				</div>
+			</div>
+      	</div>
+      	<!-- /Breadcrumb -->
+
+
+			<!-- Page Content -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+						<!-- Profile Sidebar -->
+							<div>{% include 'patient-sidebar.html' %}</div>
+						<!-- / Profile Sidebar -->
+						</div>
+						
+						<div class="col-md-7 col-lg-6 col-xl-9" style="background-color: rgb(237, 237, 237) ">
+							<!-- Tabs -->
+							<div class="tabs row" style="margin-top: 1%;">
+								<!--<style>
+									/* CSS Media Queries */
+									@media only screen and (max-width: 768px) {
+										.tabs.row {
+											flex-wrap: wrap;
+										}
+										.tabs.row > div {
+											width: 100%;
+											margin-bottom: 10px;
+										}
+										.tabcontent {
+											display: block;
+										}
+										/* Small Screens */
+										@media (max-width: 576px) {
+										/* CSS styles for small screens */		
+										}	
+
+										/* Medium screens */
+										@media (min-width: 576px) and (max-width: 992px) {
+										/* CSS styles for medium screens */
+										}
+
+										/* Large screens */
+										@media (min-width: 992px) {
+										/* CSS styles for large screens */
+										}
+									}
+								</style>-->
+								<div class="col-6">
+									<button class="tablink active btn btn-primary w-100" onclick="openTab(event, 'child')">CHILD IMMUNIZATION RECORD</button>
+								</div>
+
+								<div class="col-6">
+									<button class="tablink btn btn-primary w-100" onclick="openTab(event, 'other')">IMMUNIZATION RECORD</button>
+								</div>
+							</div>
+
+							<div class="tabcontent" id="child">
+								<style>
+									/* CSS Media Queries */
+									@media only screen and (max-width: 768px) {
+										.tabs.row {
+											flex-wrap: wrap;
+										}
+										.tabs.row > div {
+											width: 100%;
+											margin-bottom: 10px;
+										}
+										.tabcontent {
+											display: block;
+										}
+										/* Small Screens */
+										@media (max-width: 576px) {
+										/* CSS styles for small screens */		
+										}	
+
+										/* Medium screens */
+										@media (min-width: 576px) and (max-width: 992px) {
+										/* CSS styles for medium screens */
+										}
+
+										/* Large screens */
+										@media (min-width: 992px) {
+										/* CSS styles for large screens */
+										}
+									}
+								</style>
+								<!--<div id="save-child">-->
+									<div class="content">
+										<div class="container-fluid">
+											<div id="save-child">
+											<div class="row">
+												<div class="col-md-7 col-lg-8 col-xl-12">
+													<div class="ec-cards">
+														<div style="background-image: url('{% static 'Mediqs/images/Normal/IMMUNE_BG.jpg' %}'); background-size: 100%; padding: 20px">
+															<!-- Table Up-->	
+															<div class="row d-flex justify-content-center">
+																<div class="d-flex align-items-center" style="width: 100%;">
+																	<div>
+																		<img src="{% static 'Mediqs/images/Normal/todoligtas.png' %}" alt="logo" style="max-height: 200px !important;">
+																	</div>
+																	<div class="col-12">
+																		<table class="table-borderless" style="background-color: transparent;">
+																			<div>
+																				<th colspan="8" style="color: darkblue;font-family: Arial Narrow; font-weight: bolder;  font-size: 56px; text-align: center;">CHILD IMMUNIZATION RECORD</th>
+																			</div>
+																			<tbody style="color: black;">
+																				<tr >
+																					<th >CHILD'S NAME:</th>
+																					<td colspan="2"> {{patient.name}}</td>
+																					<th >MOTHER'S NAME:</th>
+																					<td colspan="4">{{patient.mother_name}}</td>
+																				</tr>
+																				<tr>
+																					<th>DATE OF BIRTH:</th>
+																					<td colspan="2">{{patient.dob}}</td>
+																					<th>FATHER'S NAME:</th>
+																					<td colspan="4">{{patient.father_name}}</td>
+																				</tr>
+																				<tr>
+																					<th>PLACE OF BIRTH:</th>
+																					<td colspan="2" > {{patient.place_birth}}</td>
+																					<th >BIRTH HEIGHT:</th>
+																					<td colspan="3">{{patient.birth_height}} cm</td>
+																				</tr>
+																				<tr>
+																					<th>ADDRESS:</th>
+																					<td colspan="2"> {{ patient.address }}</td>
+																					<th >BIRTH WEIGHT:</th>
+																					<td colspan="3">{{patient.birth_weight}} kg</td>
+																				</tr>
+																				<tr>
+																					<th colspan="3"></th>
+																					<th >SEX:</th>
+																					<td colspan="2">{{patient.gender}}</td>
+																				</tr>
+																			</tbody>
+																		</table>																		
+																	</div>	
+																</div>
+															</div>	
+															<!-- /Table Up-->	
+																	
+															
+															<!-- Table down -->
+															<div class="row form-row">
+																<!-- IMUNIZATION Item -->
+																<div class="col-md-3">
+																	<div>
+																		<img src="{% static 'Mediqs/images/Normal/HEALTHYPILIPINAS.png' %}" alt="logo" style="max-height: 100px !important; position:relative; margin-top: 30px;">
+																	</div>
+	
+																	<table class="table" style="background-color: transparent;">
+																		<tbody style="text-align: center; color: black;">
+																			<tr >
+																				<td style=" background: rgba(244, 241, 241, 0.725);">
+																					{{patient.health_center}}
+																				</td>
+																			</tr>
+																			<tr>
+																				<th>HEALTHCARE FACILITY</th>
+																			</tr>
+																			
+																			<tr>
+																				<td style=" background: rgba(244, 241, 241, 0.725);">
+																					{{patient.barangay_num}}
+																				</td>
+																			</tr>
+																			<tr>
+																				<th>BARANGAY</th>
+																			</tr>
+																			<tr>
+																				<td style=" background: rgba(244, 241, 241, 0.725);">
+																					{{patient.fam_num}}
+																				</td>
+																			</tr>
+																			<tr>
+																				<th>FAMILY NO.</th>
+																			</tr>
+																		</tbody>
+																	</table>												
+																</div>
+																<!-- /IMMUNIZATION Item -->
+	
+																<!--TABLE FOR IMMUNIZATION-->
+																
+																<div class="col-md-9">
+																	<table class="table" style="background-color: white; border-color: 3px solid rgb(38, 115, 223); color: black; ">
+																		<thead style="text-align: center; background-color: rgb(255, 255, 208); border:1px solid; ">
+																			<tr style="border:1px solid;" >
+																				<th style="border:1px solid;">VACCINE</th>
+																				<th style="border:1px solid;">DOSAGES</th>
+																				<th colspan="3" style="border:1px solid;">WHEN IT WAS GIVEN</th>
+																				<th style="border:1px solid;">Remarks</th>
+
+																			</tr>
+																		</thead>
+																		
+																		<tbody > 
+																			
+																				<!-- BCG VACCINE -->
+																				
+																					<tr style="border:1px solid;">  
+																						<th style="border:1px solid;">BCG</th>
+																						<th style="border:1px solid;">1 (At Birth)</th>
+
+																						<td id="bcg-1" colspan="3" style="border:1px solid;">&nbsp;</td>
+																						<td id="bcg-2" style="border:1px solid;">&nbsp;</td>
+																						
+																						{% for immunization in immunizations %}
+																							{% if immunization.immune_name == "BCG" and immunization.visit_number == 0 %}
+																								<script>document.getElementById('bcg-1').innerHTML = "{{ immunization.date_given }}";</script>
+																								<script>document.getElementById('bcg-2').innerHTML = "{{ immunization.remarks }}";</script>
+																							{% endif %}
+																						{% endfor %}
+																						
+																					</tr>
+																				
+	
+																				<!-- HEPATITIS VACCINE -->
+																				
+	
+																					<tr style="border:1px solid;">
+																						<th style="border:1px solid;">HEPATITIS B</th>
+																						<th style="border:1px solid;">1 (At Birth)</th>
+
+																						<td id="hepa-1" colspan="3" style="border:1px solid;">&nbsp;</td>
+																						<td id="hepa-2" style="border:1px solid;">&nbsp;</td>
+																						
+																						{% for immunization in immunizations %}
+																							{% if immunization.immune_name == "HEPATITIS B" and immunization.visit_number == 0 %}
+																								<script>document.getElementById('hepa-1').innerHTML = "{{ immunization.date_given }}";</script>
+																								<script>document.getElementById('hepa-2').innerHTML = "{{ immunization.remarks }}";</script>
+																							{% endif %}
+																						{% endfor %}
+																					</tr>
+																				
+	
+																				<!-- PENTAVALENT VACCINE -->
+																				<tr style="border:1px solid;">
+																					<th style="border:1px solid;">PENTAVALENT VACCINE</th>
+																					<th style="border:1px solid;">3 (1 1/2 months, 2 1/2 months, 3 1/2 months)</th>
+
+																					<td id="pentavalent-1" colspan="1" style="border:1px solid;">&nbsp;</td>
+																					<td id="pentavalent-2" colspan="1" style="border:1px solid;">&nbsp;</td>
+																					<td id="pentavalent-3" colspan="1" style="border:1px solid;">&nbsp;</td>
+																					<td id="pentavalent-4" colspan="1" style="border:1px solid;">&nbsp;</td>
+
+																					{% for immunization in immunizations %}
+																						{% if immunization.immune_name == "PENTAVALENT VACCINE"  %}
+																							{% if immunization.visit_number == 1 %}
+																								<script>document.getElementById('pentavalent-1').innerHTML = "{{ immunization.date_given }}";</script>
+																							{% elif immunization.visit_number == 2 %} 
+																								<script>document.getElementById('pentavalent-2').innerHTML = "{{ immunization.date_given }}";</script>
+																							{% elif immunization.visit_number == 3 %}
+																								<script>document.getElementById('pentavalent-3').innerHTML = "{{ immunization.date_given }}";</script>
+																								<script>document.getElementById('pentavalent-4').innerHTML = "{{ immunization.remarks }}";</script>
+																							{% endif %}
+																						{% endif %}
+																					{% endfor %}
+																				</tr>
+																				
+	
+																				<!-- ORAL POLIO VACCINE -->
+																					<tr style="border:1px solid;" >
+																						<th style="border:1px solid;">ORAL POLIO VACCINE</th>
+																						<th style="border:1px solid;">3 (1 1/2 months, 2 1/2 months, 3 1/2 months )</th>
+
+																						<td id="oral-1" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="oral-2" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="oral-3" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="oral-4"  style="border:1px solid;">&nbsp;</td>
+
+																						{% for immunization in immunizations %}
+																							{% if immunization.immune_name == "ORAL POLIO VACCINE"  %}
+																								{% if immunization.visit_number == 1 %}
+																									<script>document.getElementById('oral-1').innerHTML = "{{ immunization.date_given }}";</script>
+																								{% elif immunization.visit_number == 2 %} 
+																									<script>document.getElementById('oral-2').innerHTML = "{{ immunization.date_given }}";</script>
+																								{% elif immunization.visit_number == 3 %}
+																									<script>document.getElementById('oral-3').innerHTML = "{{ immunization.date_given }}";</script>
+																									<script>document.getElementById('oral-4').innerHTML = "{{ immunization.remarks }}";</script>
+																								{% endif %}
+																								
+																							{% endif %}
+																						{% endfor %}									
+																					</tr>
+	
+																				<!-- INACTIVATED POLIO VACCINE -->
+																				
+																					<tr style="border:1px solid;">
+																						<th style="border:1px solid;">INACTIVATED POLIO VACCINE</th>
+																						<th style="border:1px solid;"> (3 1/2 months)</th>
+
+																						<td id="polio-1" colspan="3" style="border:1px solid;">&nbsp;</td>
+																						<td id="polio-2" style="border:1px solid;">&nbsp;</td>
+																						
+
+																						
+																						{% for immunization in immunizations %}
+																							{% if immunization.immune_name == "INACTIVATED POLIO VACCINE" and immunization.visit_number == 0 %}
+																								<script>document.getElementById('polio-1').innerHTML = "{{ immunization.date_given }}";</script>
+																								<script>document.getElementById('polio-2').innerHTML = "{{ immunization.remarks }}";</script>
+																							{% endif %}
+																						{% endfor %}
+																					</tr>
+	
+																				<!-- PNEUMOCOCCAL CONJUGATE VACCINE -->
+																				
+																					<tr style="border:1px solid;" >
+																						<th style="border:1px solid;">PNEUMOCOCCAL CONJUGATE VACCINE</th>
+																						<th style="border:1px solid;">3 (1 1/2 months, 2 1/2 months, 3 1/2 months )</th>
+
+																						<td id="pneu-1" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="pneu-2" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="pneu-3" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="pneu-4" style="border:1px solid;">&nbsp;</td>
+
+																						{% for immunization in immunizations %}
+																							{% if immunization.immune_name == "PNEUMOCOCCAL CONJUGATE VACCINE"  %}
+																								{% if immunization.visit_number == 1 %}
+																									<script>document.getElementById('pneu-1').innerHTML = "{{ immunization.date_given }}";</script>
+																								{% elif immunization.visit_number == 2 %} 
+																									<script>document.getElementById('pneu-2').innerHTML = "{{ immunization.date_given }}";</script>
+																								{% elif immunization.visit_number == 3 %}
+																									<script>document.getElementById('pneu-3').innerHTML = "{{ immunization.date_given }}";</script>
+																									<script>document.getElementById('pneu-4').innerHTML = "{{ immunization.remarks }}";</script>
+																								{% endif %}
+																							{% endif %}
+																						{% endfor %}	
+																					</tr>
+																				
+	
+																				<!-- MEASLES, MUMPS, RUBELLA VACCINE -->
+																				
+																					<tr style="border:1px solid;" >
+																						<th style="border:1px solid;">MEASLES, MUMPS, RUBELLA</th>
+																						<th style="border:1px solid;">2 (9 months, 1 year )</th>
+																						<td id="measle-1" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="measle-2" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="measle-3" colspan="1" style="border:1px solid;">&nbsp;</td>
+																						<td id="measle-4" style="border:1px solid;">&nbsp;</td>
+
+
+																						{% for immunization in immunizations %}
+																							{% if immunization.immune_name == "MEASLES, MUMPS, RUBELLA \7-[========]"  %}
+																								{% if immunization.visit_number == 1 %}
+																									<script>document.getElementById('measle-1').innerHTML = "{{ immunization.date_given }}";</script>
+																								{% elif immunization.visit_number == 2 %} 
+																									<script>document.getElementById('measle-2').innerHTML = "{{ immunization.date_given }}";</script>
+																								{% elif immunization.visit_number == 3 %}
+																									<script>document.getElementById('measle-3').innerHTML = "{{ immunization.date_given }}";</script>
+																									<script>document.getElementById('measle-4').innerHTML = "{{ immunization.date_given }}";</script>
+																								{% endif %}
+																							{% endif %}
+																						{% endfor %}	
+																					</tr>
+																				
+	
+																				<!-- OTHER VACCINE -->
+																				{% for immunization in immunizations %}
+																					{% if immunization.immune_name == "Others" and immunization.visit_number == 4 %}
+																						<tr style="border:1px solid;" >
+																							<th style="border:1px solid;">{{immunization.othervaccine_name}}</th>
+																							<th style="border:1px solid;">1 year Above</th>
+																							<td style="border:1px solid;">{{ immunization.date_given }}</td>
+																							<td style="border:1px solid;">{{ immunization.remarks }}</td>
+																						</tr>
+																					{% endif %}
+																				{% endfor %}
+																		
+																		</tbody>
+																	</table>
+																</div>
+																<!--/TABLE FOR IMMUNIZATION-->
+	
+															</div>
+															<!-- /Table down -->
+															
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>	
+								</div>
+								<div class="col-md-12 text-center">
+									<button id="download-btn-child" style="margin-bottom: 2%; margin-top: 2%; margin-left: 1%;" class="btn btn-primary"><i class="fas fa-download"></i> Download Child Immunization Record</button>
+								</div>
+							</div>
+
+
+							<!--IMMUNIZATION CARD-->
+							<div class="tabcontent" id="other" style="display: none;">
+								<style>
+									/* CSS Media Queries */
+									@media only screen and (max-width: 768px) {
+										.tabs.row {
+											flex-wrap: wrap;
+										}
+										.tabs.row > div {
+											width: 100%;
+											margin-bottom: 10px;
+										}
+										.tabcontent {
+											display: block;
+										}
+										/* Small Screens */
+										@media (max-width: 576px) {
+										/* CSS styles for small screens */		
+										}	
+
+										/* Medium screens */
+										@media (min-width: 576px) and (max-width: 992px) {
+										/* CSS styles for medium screens */
+										}
+
+										/* Large screens */
+										@media (min-width: 992px) {
+										/* CSS styles for large screens */
+										}
+									}
+								</style>
+								<!-- Additional Section -->
+								<div id="save-other">
+									<div class="content">
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-md-7 col-lg-8 col-xl-12">
+													<div class="ec-cards">
+														<div style="background-color:white;">
+															<div class="container-fluid">
+															<!-- Table Up-->	
+															<div class="row d-flex justify-content-center">
+																<div class="d-flex align-items-center" >
+																	<div>
+																		<img src="{% static 'Mediqs/images/Normal/mhd_logo.png' %}" alt="logo" style="max-height: 150px !important;">
+																	</div>
+																	<div class="col-12">
+																		<table class="table-borderless" style="background-color: transparent;">
+																			<div>
+																				<th colspan="8" style="color: darkblue;font-family: Arial Narrow; font-weight: bolder;  font-size: 56px; text-align: center;">ADULT IMMUNIZATION RECORD</th>
+																			</div>
+																			<tbody style="color: black;">
+																				<tr>
+																					<th> NAME:</th>
+																					<td colspan="2"> {{patient.name}}</td>
+																					<th >MOTHER'S NAME:</th>
+																					<td colspan="4">{{patient.mother_name}}</td>
+																				</tr>
+																				<tr>
+																					<th>DATE OF BIRTH:</th>
+																					<td colspan="2">{{patient.dob}}</td>
+																					<th>FATHER'S NAME:</th>
+																					<td colspan="4">{{patient.father_name}}</td>
+																				</tr>
+																				<tr>
+																					<th>PLACE OF BIRTH:</th>
+																					<td colspan="2" > {{patient.place_birth}}</td>
+																					<th >BIRTH HEIGHT:</th>
+																					<td colspan="3">{{patient.birth_height}} cm</td>
+																				</tr>
+																				<tr>
+																					<th>ADDRESS:</th>
+																					<td colspan="2"> {{ patient.address }}</td>
+																					<th >BIRTH WEIGHT:</th>
+																					<td colspan="3">{{patient.birth_weight}} kg</td>
+																				</tr>
+																				<tr>
+																					<th colspan="3"></th>
+																					<th >SEX:</th>
+																					<td colspan="2">{{patient.gender}}</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>	
+																</div>
+															</div>	
+															<!-- /Table Up-->	
+																	
+															
+															<!-- Table down -->
+															<div class="row form-row">
+																<!-- IMUNIZATION Item -->
+																<div class="col-md-3">
+																	<div>
+																		<img src="{% static 'Mediqs/images/Normal/HEALTHYPILIPINAS_WO_LOGO.png' %}" alt="logo" style="max-height: 100px !important; position:relative; margin-top: 30px;">
+																	</div>
+																	<table class="table" style="background-color: transparent;">
+																		<tbody style="text-align: center; color: black;">
+																			<tr >
+																				<td style=" background: rgba(244, 241, 241, 0.725);">
+																					{{patient.health_center}}
+																				</td>
+																			</tr>
+																			<tr>
+																				<th>HEALTHCARE FACILITY</th>
+																			</tr>
+																			
+																			<tr>
+																				<td style=" background: rgba(244, 241, 241, 0.725);">
+																					{{patient.barangay_num}}
+																				</td>
+																			</tr>
+																			<tr>
+																				<th>BARANGAY</th>
+																			</tr>
+																			<tr>
+																				<td style=" background: rgba(244, 241, 241, 0.725);">
+																					{{patient.fam_num}}
+																				</td>
+																			</tr>
+																			<tr>
+																				<th>FAMILY NO.</th>
+																			</tr>
+																		</tbody>
+																	</table>												
+																</div>
+																<!-- /IMMUNIZATION Item -->
+
+																<!--TABLE FOR IMMUNIZATION-->
+																
+																<div class="col-md-9">
+
+																	<!-- Table -->
+																	
+																	<div class="col-md-12" id="other_immune_record">
+																		<table class="table" style="background-color: transparent; border: 2px solid black;margin-bottom: 3%;">
+																			<tr style="color: black;">
+																				<th>Healthcare Facility Name</th>
+																				<th>Date Given</th>
+																				<th>Given By</th>
+																				<th>Brand/Vaccine Name</th>
+																				<th>Number of Dose</th>
+
+																			</tr>
+																			{% for immunization in immunizations%}
+																			{% if immunization.immune_record == "Adult" %}
+																				<tr style="color: black;">
+																					<td>{{immunization.hfacility_name}}</td>
+																					<td>{{immunization.date_given}}</td>
+																					<td>{{immunization.given_by}}</td>
+																					<td>{{immunization.other_vaccine}}</td>
+																					<td>{{immunization.dose_number}}</td>
+																				</tr>
+
+																				{% endif %}
+																			{% endfor %}
+
+																
+																		</table>
+																	</div>
+																	<!-- /Table -->
+																	
+																</div>
+																<!--/TABLE FOR IMMUNIZATION-->
+
+															</div>
+															<!-- /Table down -->
+														</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+							</div>
+							<div class="col-md-12 text-center">
+									<button id="download-btn-other" style="margin-bottom: 2%;margin-left: 1%;" class="btn btn-primary"><i class="fas fa-download"></i> Download Immunization Record</button>
+								</div>
+							</div>
+							<!--/ADULT IMMUNIZATION CARD-->
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+			<!-- /Page Content -->
+		
+	</div>				
+	<!-- /Main Wrapper -->
+	
+	  
+	<!-- jQuery -->
+	<script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+	<script>
+		function openTab(evt, tabName) {
+			var i, tabcontent, tablinks;
+		
+			// Get all elements with class="tabcontent" and hide them
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+		
+			// Get all elements with class="tablink" and remove the class "active"
+			tablinks = document.getElementsByClassName("tablink");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace("active", "");
+			}
+		
+			// Show the current tab, and add an "active" class to the link that opened the tab
+			document.getElementById(tabName).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+	</script>
+
+<script>
+	document.getElementById("download-btn-child").addEventListener("click", function() {
+	  // Display a confirmation message
+	  var confirmed = confirm("Are you sure you want to download the image?");
+	
+	  if (confirmed) {
+		// Capture the invoice-content element as an image
+		html2canvas(document.getElementById("save-child")).then(function(canvas) {
+		  // Convert the captured canvas to a data URL
+		  var imageData = canvas.toDataURL("image/png");
+	
+		  // Create a temporary link element
+		  var link = document.createElement("a");
+		  link.href = imageData;
+		  link.download = "Child_Immunization_Record.png";
+		  
+		  // Simulate a click event to trigger the download
+		  link.click();
+		});
+	  }
+	});
+	</script>
+	
+<script>
+	document.getElementById("download-btn-other").addEventListener("click", function() {
+	  // Display a confirmation message
+	  var confirmed = confirm("Are you sure you want to download the image?");
+	
+	  if (confirmed) {
+		// Capture the invoice-content element as an image
+		html2canvas(document.getElementById("other")).then(function(canvas) {
+		  // Convert the captured canvas to a data URL
+		  var imageData = canvas.toDataURL("image/png");
+	
+		  // Create a temporary link element
+		  var link = document.createElement("a");
+		  link.href = imageData;
+		  link.download = "Immunization_Record.png";
+		  
+		  // Simulate a click event to trigger the download
+		  link.click();
+		});
+	  }
+	});
+	</script>
+
+	<script>
+		const tableData = [
+  {
+    vaccine: 'BCG',
+    dosages: '1 (At Birth)',
+    whenGiven: [],
+    remarks: ''
+  },
+  {
+    vaccine: 'HEPATITIS B',
+    dosages: '1 (At Birth)',
+    whenGiven: [],
+    remarks: ''
+  },
+  {
+    vaccine: 'PENTAVALENT VACCINE',
+    dosages: '3 (1 1/2 months, 2 1/2 months, 3 1/2 months)',
+    whenGiven: [],
+    remarks: ''
+  },
+  {
+    vaccine: 'ORAL POLIO VACCINE',
+    dosages: '3 (1 1/2 months, 2 1/2 months, 3 1/2 months)',
+    whenGiven: [],
+    remarks: ''
+  },
+  {
+    vaccine: 'INACTIVATED POLIO VACCINE',
+    dosages: '(3 1/2 months)',
+    whenGiven: [],
+    remarks: ''
+  },
+  {
+    vaccine: 'PNEUMOCOCCAL CONJUGATE VACCINE',
+    dosages: '3 (1 1/2 months, 2 1/2 months, 3 1/2 months)',
+    whenGiven: [],
+    remarks: ''
+  },
+  {
+    vaccine: 'MEASLES, MUMPS, RUBELLA',
+    dosages: '2 (9 months, 1 year)',
+    whenGiven: [],
+    remarks: ''
+  }
+];
+
+// Populate the 'whenGiven' property of each vaccine using the immunizations data
+for (const immunization of immunizations) {
+  const { immune_name, visit_number, date_given } = immunization;
+
+  const vaccineIndex = tableData.findIndex(data => data.vaccine === immune_name);
+  if (vaccineIndex !== -1) {
+    const vaccineData = tableData[vaccineIndex];
+    vaccineData.whenGiven[visit_number] = date_given;
+  }
+}
+
+// Output the rearranged table
+console.log('<table>');
+console.log('<thead>');
+console.log('<tr>');
+console.log('<th>VACCINE</th>');
+console.log('<th>DOSAGES</th>');
+console.log('<th colspan="3">WHEN IT WAS GIVEN</th>');
+console.log('<th>Remarks</th>');
+console.log('</tr>');
+console.log('</thead>');
+console.log('<tbody>');
+for (const data of tableData) {
+  console.log('<tr>');
+  console.log(`<td>${data.vaccine}</td>`);
+  console.log(`<td>${data.dosages}</td>`);
+  console.log(`<td>${data.whenGiven[1] || ''}</td>`);
+  console.log(`<td>${data.whenGiven[2] || ''}</td>`);
+  console.log(`<td>${data.whenGiven[3] || ''}</td>`);
+  console.log(`<td>${data.remarks}</td>`);
+  console.log('</tr>');
+}
+console.log('</tbody>');
+console.log('</table>');
+
+	</script>
+
+
+
+
+
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+	<!-- html2canvas library -->
+	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  </body>
+
+<!-- doccure/invoice-view.html  30 Nov 2019 04:12:20 GMT -->
+</html>

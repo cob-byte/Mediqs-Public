@@ -1,0 +1,397 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mediqs</title>
+
+  <!-- Favicons -->
+  <link type="image/x-icon" href="{% static 'images/circle-logo.png' %}" rel="icon" />
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}" />
+
+  <!-- Fontawesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}" />
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{% static 'Mediqs/css/Normal/style.css' %}" />
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+  <![endif]-->
+  <style>
+    .enlarged-image-container {
+      position: fixed;
+      top: 50%;
+      left: 60%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .enlarged-image {
+      max-width: 100%;
+      max-height: 80vh;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: rgb(0, 0, 0);
+      background-color: rgb(212, 211, 211);
+      border: black;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Responsive Styles */
+
+    /* Mobile Devices */
+    @media (max-width: 767px) {
+      .theiaStickySidebar {
+        display: none;
+      }
+
+      .breadcrumb-bar {
+        padding: 20px;
+      }
+
+      .verification-list {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .profile-info-widget {
+        flex-basis: 100%;
+      }
+
+      .profile-info-widget .booking-doc-img {
+        margin-bottom: 20px;
+      }
+
+      .verification-action {
+        position: static;
+        margin-top: 0;
+        margin-right: 0;
+        text-align: center;
+      }
+
+      /* Adjustments for small screens */
+      .breadcrumb-title {
+        margin-top: 20px;
+      }
+    }
+
+    /* Tablets and Small Laptops */
+    @media (min-width: 768px) and (max-width: 991px) {
+      .breadcrumb-title {
+        margin-top: 10px;
+      }
+    }
+
+    /* Medium and Large Laptops */
+    @media (min-width: 992px) and (max-width: 1199px) {
+      .breadcrumb-title {
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Main Wrapper -->
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header class="header">
+      {% include 'staff-navbar.html' %}
+    </header>
+    <!-- /Header -->
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-md-12 col-12">
+            <nav aria-label="breadcrumb" class="page-breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'staff-dashboard'%}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Patient Verifications
+                </li>
+              </ol>
+            </nav>
+            <h2 class="breadcrumb-title">Patient Verifications</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+    <!-- Page Content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+            <!-- Profile Sidebar -->
+            <div>{% include 'staff-sidebar.html' %}</div>
+            <!-- /Profile Sidebar -->
+          </div>
+
+          <div class="col-md-7 col-lg-8 col-xl-9">
+            <div class="verifications">
+              <!-- Verification List -->
+              {% for vr in verification_requests %}
+              <div class="card mb-4">
+                <div class="card-body" style="background-color: #416F83;">
+                  <div class="verification-list">
+                    <div class="col-md-8 col-lg-10 col-xl-11">
+                      <div class="profile-info-widget" style="margin-left: 1%">
+                        <a href="#" class="booking-doc-img">
+                          <img src="{{ vr.patient.featured_image.url | adjust_image_url }}" alt="User Image" class="img-fluid" style="width: 200px; height: 200px;" />
+                        </a>
+                        <div class="col-md-7 col-lg-8 col-xl-9">
+                          <div class="profile-det-info" style="margin-left: 3%">
+                            <h2><a href="#">{{vr.patient.name}}</a></h2>
+                            <div class="patient-details">
+                              <h4 style="color: white;">
+                                <i class="fas fa-file" style="margin-right: 3%;"></i>Verification Request No: #VR{{vr.id}}
+                              </h4>
+                              <h4 style="color: white;">
+                                <i class="far fa-clock" style="margin-right: 2%;"></i> Request Date: {{vr.request_date}}
+                              </h4>
+                              <h4 style="color: white;">
+                                <i class="fas fa-map-marker-alt" style="margin-right: 3%;"></i>{{vr.patient.address}}
+                              </h4>
+                              <h4 style="color: white;">
+                                <i class="fas fa-envelope" style="margin-right: 2%;"></i> {{vr.patient.email}}
+                              </h4>
+                              <h4 class="mb-0" style="color: white;">
+                                <i class="fas fa-phone" style="margin-right: 2%;"></i>{{vr.patient.phone_number}}
+                              </h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="verification-action" style="margin-top: 2%; position: absolute; top: 0; right: 0; margin-right: 2%;">
+                          <a href="#" class="btn btn-sm bg-info-light mb-2 view-verification" data-id="{{vr.id}}" style="display: block; font-size: 20px;"><i class="fas fa-eye"></i> View</a>
+                          <div class="responsive-buttons">
+                            <a href="{% url 'accept-verification' pk=vr.id %}" onclick="return confirm('Accept verification?');" class="btn btn-sm bg-success-light mb-2" style="display: inline-block; font-size: 20px;"><i class="fas fa-check"></i> Accept</a>
+                            <a href="{% url 'reject-verification' pk=vr.id %}" onclick="return confirm('Reject Verification?');" class="btn btn-sm bg-danger-light mb-2" style="display: inline-block; font-size: 20px;"><i class="fas fa-times"></i> Reject</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Hidden Section for Verification Images -->
+                  <div id="verificationImagesSection{{vr.id}}" style="display: none;">
+                    <div class="profile-det-info" style="margin-top: 2%;">
+                      <h3 style="color: white;">Verification Images</h3>
+                      <table class="table bordered" style="background-color: #416F83!important; color: white;">
+                        <thead>
+                          <tr>
+                            <th>Proof of Billing</th>
+                            <th>ID Proof Front</th>
+                            <th>ID Proof Back</th>
+                            <th>Selfie with ID</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="image-container">
+                                <img src="{{vr.proof_of_billing.url}}" alt="Proof of Billing" width="200px">
+                              </div>
+                            </td>
+                            <td>
+                              <div class="image-container">
+                                <img src="{{vr.id_proof_front.url}}" alt="ID Front" width="200px">
+                              </div>
+                            </td>
+                            <td>
+                              <div class="image-container">
+                                <img src="{{vr.id_proof_back.url}}" alt="ID Back" width="200px">
+                              </div>
+                            </td>
+                            <td>
+                              <div class="image-container">
+                                <img src="{{vr.selfie_with_id.url}}" alt="Selfie with ID" width="200px">
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <!-- Hidden Section for Verification Images -->
+                </div>
+              </div>
+              {% empty %}
+              <div class="card">
+                <div class="card-body">
+                  <h4>No Verification Requests</h4>
+                </div>
+              </div>
+              {% endfor %}
+              <div class="pagination">
+                <button id="prev-btn" class="btn btn-primary" style="margin-right: 1%;">
+                  <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <button id="next-btn" class="btn btn-primary">
+                  Next <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Content -->
+  </div>
+  <!-- /Main Wrapper -->
+
+  <!-- jQuery -->
+  <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+
+  <!-- Bootstrap Core JS -->
+  <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+  <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+  <!-- Sticky Sidebar JS -->
+  <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+  <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+  <!-- Custom JS -->
+  <script src="{% static 'Mediqs/js/Normal/script.js' %}"></script>
+
+  <!-- Custom JS -->
+  <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Handle 'View' button click
+      $('.view-verification').click(function(e) {
+        e.preventDefault();
+        var verificationId = $(this).data('id');
+        $('#verificationImagesSection' + verificationId).toggle();
+      });
+    });
+  </script>
+
+  <script>
+    // Function to handle pagination
+    function handlePagination() {
+      // Get all the cards
+      var cards = document.getElementsByClassName('card mb-4');
+      var pageSize = 3; // Number of cards to display per page
+      var totalPages = Math.ceil(cards.length / pageSize); // Total number of pages
+      var currentPage = 1; // Current page number
+
+      // Show initial set of cards
+      showCards(currentPage);
+
+      // Function to display cards for a specific page
+      function showCards(page) {
+        // Hide all cards
+        for (var i = 0; i < cards.length; i++) {
+          cards[i].style.display = 'none';
+        }
+
+        // Calculate start and end indices of cards to display
+        var startIndex = (page - 1) * pageSize;
+        var endIndex = Math.min(startIndex + pageSize, cards.length);
+
+        // Display cards within the range
+        for (var j = startIndex; j < endIndex; j++) {
+          cards[j].style.display = 'block';
+        }
+      }
+
+      // Function to handle "Next" button click
+      function nextPage() {
+        if (currentPage < totalPages) {
+          currentPage++;
+          showCards(currentPage);
+        } else {
+          // Show error message when there are no more cards to show
+          alert('No more cards to show.');
+        }
+      }
+
+      // Function to handle "Previous" button click
+      function previousPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          showCards(currentPage);
+        } else {
+          // Show error message when on the first page
+          alert('You are already on the first page.');
+        }
+      }
+
+      // Attach event listeners to pagination buttons
+      var nextBtn = document.getElementById('next-btn');
+      var prevBtn = document.getElementById('prev-btn');
+
+      nextBtn.addEventListener('click', nextPage);
+      prevBtn.addEventListener('click', previousPage);
+    }
+
+    // Event listener to run the pagination function after the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      handlePagination();
+    });
+  </script>
+
+  <!-- JavaScript/jQuery Code -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // When an image container is clicked
+      $('.image-container').on('click', function(e) {
+        var clickedImage = $(this).find('img');
+
+        // Create an enlarged image container
+        var enlargedImageContainer = $('<div class="enlarged-image-container">');
+
+        // Create an enlarged image element
+        var enlargedImage = $('<img class="enlarged-image">');
+        enlargedImage.attr('src', clickedImage.attr('src'));
+
+        // Create a close button
+        var closeButton = $('<button class="close-button">X</button>');
+
+        // Append the enlarged image and close button to the enlarged image container
+        enlargedImageContainer.append(closeButton);
+        enlargedImageContainer.append(enlargedImage);
+
+        // Append the enlarged image container to the body
+        $('body').append(enlargedImageContainer);
+
+        // Remove the enlarged image container when the close button or the container itself is clicked
+        closeButton.on('click', function() {
+          enlargedImageContainer.remove();
+        });
+
+        // Remove the enlarged image container when clicking outside the image
+        $(document).on('click', function(event) {
+          if (!$(event.target).closest('.enlarged-image-container, .image-container').length) {
+            enlargedImageContainer.remove();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

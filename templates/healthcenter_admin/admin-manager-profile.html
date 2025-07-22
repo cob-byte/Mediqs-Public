@@ -1,0 +1,145 @@
+{%load static%}
+{% load cloud %}
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/admin-manager-profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:46 GMT -->
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Mediqs</title>
+
+    	<!-- Favicon -->
+
+    	<link rel="shortcut icon" type="image/x-icon" href="{% static 'Mediqs/images/Normal/favicon.png' %}"/>
+
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}"> 
+		
+		<!-- Fontawesome CSS 
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"> -->
+		<link rel="stylesheet" href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}">
+		<link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		
+
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">  
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}"> 
+		
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+    </head>
+    <body>
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+		
+			<!-- Header -->
+            <div class="main-wrapper">
+				<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header>
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+				{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %} </aside>
+			<!-- /Sidebar -->
+
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+					
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col">
+								<h3 class="page-title">Profile</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Dashboard</a></li>
+									<li class="breadcrumb-item active">Profile</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					<div class="content">
+					<div class="container-fluid" style="background-color: #ffffff;padding: 2%;">
+					<div class="container mx-auto">
+						<div class="row">
+						  <div class="col-md-12">
+							<div class="card-table">
+							  <div class="card-header text-center align-middle" style="background-color: #065242;">
+								<h2 class="card-title text-center" style="margin-top: 10px;">Inventory Information</h2>
+							  </div>
+							  <div class="card-body">
+								<table class="table table-striped">
+								  <tbody>
+									<tr>
+									  <td rowspan="7" class="text-center align-middle">
+										<img class="rounded-circle" alt="User Image" src="{{ invmanager.featured_image.url | adjust_image_url }}" style="width: 120px;margin-left: -40px;margin-right: -40px;">
+									  </td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-user fa-lg" style="margin-right:10px"></i> Name</th>
+									  <td>{{ invmanager.first_name }}{{ invmanager.last_name}}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-envelope fa-lg" style="margin-right:10px"></i>Email Address</th>
+									  <td>{{ invmanager.email }}</td>
+									</tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-phone fa-lg" style="margin-right:10px"></i>Phone Number</th>
+									  <td>{{ invmanager.phone_number }}</td>
+									</tr>
+									<tr>
+										<th class="text-muted-black"><i class="fa-solid fa-hospital fa-lg" style="margin-right:10px"></i>Date of Birth</th>
+										<td>{{ invmanager.date_of_birth }}</td>
+									  </tr>
+									<tr>
+									  <th class="text-muted-black"><i class="fa-solid fa-map-location fa-lg" style="margin-right:10px"></i>Address</th>
+									  <td>{{ invmanager.city }}</td>
+									</tr>
+									<tr>
+										<th class="text-muted-black"><i class="fa-solid fa-hospital fa-lg" style="margin-right:10px"></i>Health Center</th>
+										<td>{{ invmanager.health_center }}</td>
+									  </tr>
+								  </tbody>
+								</table>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+							</div>
+						</div>
+					</div>
+				
+				</div>			
+			</div>
+			<!-- /Page Wrapper -->
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+        <script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script> 
+		
+		
+		<!-- Bootstrap Core JS -->
+        <script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script> 
+        <script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script> 
+		
+		<!-- Slimscroll JS -->
+        <script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+		
+		<!-- Custom JS -->
+		<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+		
+    </body>
+
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:46 GMT -->
+</html>

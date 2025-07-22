@@ -1,0 +1,536 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs - Dashboard</title>
+
+    <!-- Favicon -->
+
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/Normal/bootstrap.min.css'%}">
+
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+	<!-- <link rel="stylesheet" href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}"> -->
+	<!-- <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"> -->
+
+	<!-- Feathericon CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+
+	<!-- Datatables CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/plugins/admin/datatables/datatables.min.css'%}">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}">
+
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/add-healthcenter.css'%}">
+
+	<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+
+		<style>
+		.enlarged-image-container {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 9999;
+			background-color: rgba(255, 255, 255, 0.8);
+			padding: 5px;
+			box-sizing: border-box;
+			text-align: center;
+		}
+
+		.enlarged-image {
+			max-width: 100%;
+			max-height: 80vh;
+		}
+
+		.close-button {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			color: rgb(0, 0, 0);
+			background-color: rgb(212, 211, 211);
+			border: black;
+			font-size: 24px;
+			cursor: pointer;
+		}
+
+		</style>
+</head>
+
+<body>
+
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+		<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header>
+		<!-- Logo -->
+
+
+		<!-- /Header -->
+
+		<!-- Sidebar -->
+		<aside class="sidebar" id="sidebar">
+			{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %}
+		</aside>
+		<!-- /Sidebar -->
+
+		<!-- Page Wrapper -->
+
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+
+			<div class="content container-fluid">
+
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<h3 class="page-title">Add Healthcenter</h3>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Dashboard</a></li>
+								<li class="breadcrumb-item active">Add Health Center</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+				{% include 'message.html' %}
+				<!-- Page Content -->
+				<div class="content">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-7 col-lg-8 col-xl-12">
+								<div class="ec-cards">
+									<div class="card-body">
+										<h1 class="black text-center">Add New Health Center</h1>
+										<!-- Profile Settings Form -->
+										<form action="{% url 'add-healthcenter' %}" method="POST" enctype="multipart/form-data">
+											{% csrf_token %}
+										<!--FIRST LINE-->
+										<div class="row form-row">
+											<div class="col-md-12">
+												<div class="change-avatar"></div>
+												<div class="card card-table">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="table table-hover table-center">
+																<thead>
+																	<tr>
+																		<th>Health Center Name</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td class="healthcenter-name">
+																			<input class="form-control" type="text" name="healthcenter_name">
+																		</td>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--END OF FIRST LINE-->
+										<!--SECOND LINE-->
+										<div class="row form-row">
+											<div class="col-xl-12">
+												<div class="card card-table">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="table table-center">
+																<thead>
+																	<tr>
+																		<th colspan="4" class="h4"style="padding: 10px 0px 0px 10px; margin: 10px 0px 0px 10px;">Health Center Address</th>
+																	</tr>
+																</thead>
+																<thead>
+																	<tr>
+																		<th style="width: 40%">Street Address</th>
+																		<th style="width: 20%">Barangay</th>
+																		<th style="width: 30%">City/Municipality</th>
+																		<th style="width: 10%">Zip Code</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td>
+																			<input class="form-control" type="text" name="street">
+																		</td>
+																		<td>
+																			<input class="form-control" type="text" name="barangay">
+																		</td>
+																		<td>
+																			<input class="form-control" type="text" name="city">
+																		</td>
+																		<td>
+																			<input class="form-control" type="text" name="zip_code">
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--END OF SECOND LINE-->
+										<!--Third LINE-->
+										<div class="row form-row">
+											<div class="col-md-4">
+												<div class="card card-table">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="table table-center">
+																<thead>
+																	<tr>
+																		<th style="min-width: 100px">Phone Number</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td>
+																			<input class="form-control" type="text"
+																				name="phone_number">
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="card card-table">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="table table-center">
+																<thead>
+																	<tr>
+																		<th style="min-width: 100px">Head of the Facility</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td>
+																			<input class="form-control" type="text"
+																				name="head_facility">
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="change-avatar"></div>
+												<div class="card card-table">
+													<div class="card-body">
+														<div class="table-responsive">
+															<table class="table table-center">
+																<thead>
+																	<tr>
+																		<th style="min-width: 100px">Health Center Email</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td>
+																			<input class="form-control" type="email"
+																				name="email">
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="row form-row">
+											 <div class="col-md-6">
+												<div class="card card-table">
+												  <div class="card" style="margin-bottom: 0%;">
+													<div class="card-body">
+													  <div class="table-responsive">
+														<table class="table table-center">
+														  <thead>
+															<tr>
+															  <th style="width: 100%">Services Offered</th>
+															</tr>
+														  </thead>
+														  <tbody class="service-info justify-content-between">
+															  <tr>
+																<td>
+																  <div class="form-row">
+																	<div class="form-group col-md-12" style="margin-bottom: 0%;margin-top: 0%;margin-left:0%">
+																	  <label>Services</label>
+																	  <input type="text" class="form-control" id="service" name="service">
+																	</div>
+																  </div>
+																</td>
+															  </tr>
+															</tbody>
+														</table>
+													  <div class="add-more"style="margin-left:20px;padding-top: 0.5rem; margin-right: 0;padding-bottom:0.5rem;">
+														<a href="javascript:void(0);" class="add-service" style="color: #416F83"><i class="fa fa-plus-circle"></i> Add More</a>
+														</div>
+													  </div>
+													</div>
+												  </div>
+												</div>
+											</div>
+
+												<div class="col-md-6">
+												  <div class="card card-table">
+													<div class="card" style="margin-bottom: 0%;">
+													  <div class="card-body">
+														<div class="table-responsive">
+														  <table class="table table-center">
+															<thead>
+															  <tr>
+																<th style="width: 100%">Operation Hours</th>
+															  </tr>
+															</thead>
+															<tbody class="operation-hours-info justify-content-between">
+																<tr>
+																  <td>
+																	<div class="form-row">
+																	  <div class="form-group col-md-4" style="margin-bottom: 0%;margin-top: 0%;margin-left:0%">
+																		<label>Day</label>
+																		<select class="form-control" name="day" id="day">
+																		  <option value="MON">Monday</option>
+																		</select>
+																	  </div>
+																	  
+																	  <div class="form-group col-md-4"style="margin-bottom: 0%;margin-top: 0%;margin-left:0%">
+																		<label>Start Time</label>
+																		<input type="time" class="form-control" name="start_time" id="start_time">
+																	  </div>
+
+																	
+																	  <div class="form-group col-md-4"style="margin-bottom: 0%;margin-top:0%;margin-left:0%">
+																		<label>End Time</label>
+																		<input type="time" class="form-control" name="end_time" id="end_time">
+																	  </div>
+																	</div>
+																  </td>
+																</tr>
+															  </tbody>
+														  </table>
+														<div class="add-more"style="margin-left:20px;padding-top: 0.5rem; margin-right: 0;padding-bottom:0.5rem;">
+														  <a href="javascript:void(0);" class="add-operation-hour" style="color: #416F83"><i class="fa fa-plus-circle"></i> Add More</a>
+														</div>
+														</div>
+													  </div>
+													</div>
+												  </div>
+												</div>
+											  </div>
+										
+
+											
+										<!--END OF SECOND LINE-->
+													
+										<div class="row form-row">
+											<div class="col-md-4">
+												<div class="card-body text-center">
+													<div class="table-responsive">
+														<div class="profile-img">
+															<div class="image-container">
+																<img id="preview-img" src="{% static 'images/healthcenters/default.png' %}" alt="Health Center Profile Image" width="185px">
+															</div>
+														</div>
+
+														<div class="upload-img">
+															<label for="upload-photo-btn" class="btn btn-primary">
+																<span><i class="fa fa-upload"></i> Upload Photo</span>
+															</label>
+
+															<input type="file" id="upload-photo-btn" class="upload" name="featured_image" style="display:none;">
+															<small class="form-text text-muted-black">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+														</div>
+													</div>
+												</div>
+											</div> 
+													<div class="col-md-8">
+													  <div class="card-body">
+														<div class="table-responsive">
+														  <table class="table table-center">
+															<thead>
+															  <tr>
+																<th>Description</th>
+															  </tr>
+															</thead>
+															<tbody>
+															  <tr>
+																<td>
+																  <textarea type="text" rows="7" class="form-control" name="description"></textarea>
+																</td>
+															  </tr>
+															</tbody>
+														  </table>
+														</div>
+													  </div>
+													</div>
+												</div>
+
+												<div class="row form-row">
+												<div class="col-md-12">
+													<div class="submit-section">
+														<button type="submit" class="btn btn-primary" style="font-size: 20px;">
+														  <i class="fa-solid fa-floppy-disk" style="margin-right: 5px; font-size: 20px;"></i> Save Changes
+														</button>
+													  </div>													  
+												</div>
+												</div>
+											</div>
+										</div>
+									</form>
+										<!-- /Profile Settings Form -->
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- /Page Content -->
+
+
+
+
+
+
+			</div>
+		</div>
+		<!-- /Page Wrapper -->
+
+	</div>
+	<!-- /Main Wrapper -->
+
+	<!-- jQuery -->
+	<script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script>
+
+	<!-- Bootstrap Core JS -->
+	<script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script>
+	<script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script>
+
+	<!-- Slimscroll JS -->
+	<script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+	<!-- Datatables JS -->
+	<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script>
+	<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+	<!-- Custom JS -->
+	<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+
+	<script src="{% static 'Mediqs/js/Normal/add-more.js' %}"></script>
+	
+	<script>
+
+	$(document).ready(function() {
+		// When the file input changes
+		$('#upload-photo-btn').on('change', function() {
+			var input = this;
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+	
+				reader.onload = function(e) {
+					// Set the preview image source to the uploaded image
+					$('#preview-img').attr('src', e.target.result);
+				}
+	
+				reader.readAsDataURL(input.files[0]);
+			}
+		});
+	});
+	</script>
+
+	<script>
+$(document).ready(function() {
+    // When the file input changes
+    $('#upload-photo-btn').on('change', function() {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                // Set the preview image source to the uploaded image
+                $('#preview-img').attr('src', e.target.result);
+                $('#preview-img').addClass('enlarged'); // Add the enlarged class to enable enlargement
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
+
+    // When the preview image is clicked
+    $('.image-container').on('click', function(e) {
+        if (!$('#preview-img').hasClass('enlarged')) {
+            // Trigger the file input click event
+            $('#upload-photo-btn').click();
+        } else if (e.target.id === 'preview-img') {
+            // Create an enlarged image container
+            var enlargedImageContainer = $('<div class="enlarged-image-container">');
+			
+            // Create an enlarged image element
+            var enlargedImage = $('<img class="enlarged-image">');
+            enlargedImage.attr('src', $('#preview-img').attr('src'));
+
+            // Create a close button
+            var closeButton = $('<button class="close-button">X</button>');
+
+            // Append the enlarged image and close button to the enlarged image container
+            enlargedImageContainer.append(closeButton);
+            enlargedImageContainer.append(enlargedImage);
+
+            // Append the enlarged image container to the body
+            $('body').append(enlargedImageContainer);
+
+            // Remove the enlarged image container when the close button or the container itself is clicked
+            closeButton.on('click', function() {
+                enlargedImageContainer.remove();
+            });
+        }
+    });
+});
+
+
+	</script>
+
+{% if messages %}
+<script>
+	{% for message in messages %}
+		$(document).ready(function () {
+			$('.toast').toast('show');
+		});
+	{% endfor %}
+</script>
+{% endif %} 
+
+</body>
+
+
+</html>

@@ -1,0 +1,802 @@
+{% load static %}
+{% load cloud %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- doccure/profile-settings.html  30 Nov 2019 04:12:18 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0"
+    />
+    <title>Mediqs</title>
+
+    <!-- Favicons -->
+    <link
+      type="image/x-icon"
+      href="{% static 'images/circle-logo.png' %}"
+      rel="icon"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap.min.css' %}"
+    />
+
+    <!-- Fontawesome CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
+    />	
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"
+    />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+	<!-- <link rel="stylesheet" href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}"> -->
+	<!-- <link rel="stylesheet" href="{% static 'Mediqs/plugins/Normal/fontawesome/css/all.min.css' %}"> -->
+
+	<!-- Feathericon CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+	<!-- Fontawesome CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+	
+
+
+    <!-- Datetimepicker CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/bootstrap-datetimepicker.min.css' %}"
+    />
+
+    <!-- Select2 CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/plugins/Normal/select2/css/select2.min.css' %}"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'Mediqs/css/Normal/style.css' %}"
+    />
+
+    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		.enlarged-image-container {
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  background-color: rgba(0, 0, 0, 0.8);
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  z-index: 9999;
+		}
+	  
+		.enlarged-image {
+		  max-width: 90%;
+		  max-height: 90%;
+		}
+	  
+		.close-button {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  color: #fff;
+		  font-size: 24px;
+		  cursor: pointer;
+		}
+	  </style>
+  </head>
+  <body>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="header">{% include 'patient_navbar.html' %}</header>
+      <!-- /Header -->
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-md-12 col-12">
+              <nav aria-label="breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'patient-dashboard' %}">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Profile Settings
+                  </li>
+                </ol>
+              </nav>
+              <h2 class="breadcrumb-title">Profile Settings</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Breadcrumb -->
+
+      <!-- Page Content -->
+	  <div class="content">
+        <div class="container-fluid">
+          <div class="row">     
+				<!-- Profile Sidebar -->
+				<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+					{% include 'message.html' %}
+					<div>{% include 'patient-sidebar.html' %}</div>
+				</div>
+    
+
+			<div class="col-md-7 col-lg-8 col-xl-9" >
+				<div class="card">
+						
+						<!-- Page Content -->
+						<!--NEW-->
+					<div class="content">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-7 col-lg-8 col-xl-12">
+									<div class="ec-cards">
+										<h1 class="card-title"style="text-align: center; font-size: 45px; color: black">
+										Profile Settings
+										</h1>
+												<!-- Profile Settings Form -->
+												<form action="{% url 'profile-settings' %}" method="POST" enctype="multipart/form-data">
+													{% csrf_token %}	
+																
+																
+											<!--FIRST LINE-->
+												<div class="row form-row " >
+													<!--Upload Photo-->
+													<div class="col-md-6 ">
+														<div class="card card-table">
+															<div class="table-responsive">
+																<table class="table table-center ">
+															<thead>
+																<tr>																	
+															<th>Upload Photo</th>
+																</tr>
+																	</thead>
+																		<tbody>
+																			<tr>
+																				<td>
+																					<div class="row form-row ">
+																						<div class=" col-md-12 ">
+																							<div class="form-group">
+																								<div class="change-avatar text-center">
+																									<div class="table-responsive">
+																											<div class="profile-img">
+																												<div class="image-container">
+																												<img id="profile_img_preview" src="{{ patient.featured_image.url | adjust_image_url }}" alt="User Image" width="185px">
+																												</div>
+																											</div>
+																											<div class="upload-img">
+																												<label for="profile_img_upload" class="btn btn-primary">
+																												<span><i class="fa fa-upload"></i> Upload Photo</span>
+																												</label>
+																	
+																												<input type="file" id="profile_img_upload" class="upload" name="featured_image" style="display:none;">
+																											<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+																											</div>
+																									</div>
+																												
+																											</div>		
+																										</div>
+																										
+																									</div>
+																								</div>
+						
+																							</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+						
+																		</div>	
+																	</div>
+																	<!--/Upload Photo-->
+						
+																		<div class="col-md-6">
+																			<!--Name-->
+																			<div class="row-cols-md-1">
+																				<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="width: 60px">Name</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="name" placeholder="Name" value="{{patient.name}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>	
+																				</div>
+																			</div>
+																			<!--/Name-->
+						
+																				<!--Username-->
+																				<div class="row-cols-xl-1">
+																					<div class="card card-table">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th>Username</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td class="text-danger">
+																										<input class="form-control" type="text" name="username" placeholder="Username" value="{{patient.username}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>		
+																					</div>
+																				</div>
+																				<!--/Username-->
+						
+																			</div>
+																	
+																	<!--Upload Photo-->
+						
+																</div>
+																<!--END OF FIRST LINE-->
+
+																<!--SECOND LINE-->
+																<tbody>
+																	<div class="row form-row">
+
+																		<!--Age-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																				<div class="table-responsive">
+																					<table class="table table-center">
+																						<thead>
+																							<tr>
+																								<th style="width: 30px">Age</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td>
+																									<input class="form-control" type="text" name="age" placeholder="Age" value="{{patient.age}}">
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+																				</div>	
+																			</div>
+																		</div>
+																		<!--/Age-->
+
+																		<!--/Date of Birth-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																				<div class="table-responsive">
+																					<table class="table table-center">
+																						<thead>
+																							<tr>
+																								<th style="min-width: 100px">Date of Birth</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td>
+																									<input class="form-control" type="date" name="dob" value="{{patient.dob|date:'Y-m-d'}}">
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+																				</div>	
+																			</div>
+																		</div>
+																		<!--/Date of Birth-->	
+
+																		<!--Gender-->
+																			<div class="col-md-4">
+																				<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Gender</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<select class="form-control" name="gender" value="{{patient.gender}}">
+																											<option value="Female">Female</option>
+																											<option value="Male">Male</option>
+																										</select>
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>	
+																				</div>
+																			</div>
+																		<!--/Gender-->
+
+																	</div>
+																</tbody>
+																<!--END OF SECOND LINE-->
+
+																<!--SECOND LINE-->
+																<tbody>
+																	<div class="row form-row">
+
+																		<!--Father's Name-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																				<div class="table-responsive">
+																					<table class="table table-center">
+																						<thead>
+																							<tr>
+																								<th style="width: 30px">Father's Name</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td>
+																									<input class="form-control" type="text" name="father_name" placeholder="Father's Name" value="{{patient.father_name}}">
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+																				</div>	
+																			</div>
+																		</div>
+																		<!--Father's Name-->
+																		<!--Mother's Name-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																				<div class="table-responsive">
+																					<table class="table table-center">
+																						<thead>
+																							<tr>
+																								<th style="width: 30px">Mother's Name</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td>
+																									<input class="form-control" type="text" name="mother_name" placeholder="Mother's Name" value="{{patient.mother_name}}">
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+																				</div>	
+																			</div>
+																		</div>
+																		<!--Mother's Name-->
+																		<!--Family Number-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Family Number</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="fam_num" placeholder="Family Number" value="{{patient.fam_num}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																			</div>
+																		</div>
+																		<!--Family Number-->
+																	</div>
+																</tbody>
+																<!--END OF SECOND LINE-->
+
+																<!--SECOND LINE-->
+																<tbody>
+																	<div class="row form-row">
+																		<!--Birth Weight-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Birth Weight(Pounds)</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="birth_weight" placeholder="Birth Weight" value="{{patient.birth_weight}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																			</div>
+																		</div>
+																		<!--Birth Weight-->
+																		<!--Birth Height-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Birth Height(Inches)</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="birth_height" placeholder="Birth Height" value="{{patient.birth_height}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																			</div>
+																		</div>
+																		<!--Birth Height-->
+																		<!--Place of Birth-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Place of Birth</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="place_birth" placeholder="Place of Birth" value="{{patient.place_birth}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																			</div>
+																		</div>
+																		<!--Family Number-->
+																	</div>
+																</tbody>
+																<!--END OF SECOND LINE-->
+
+
+																<!--Third LINE-->
+																<tbody>
+																	<div class="row form-row">
+
+																		<!--Mobile Number-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Mobile Number</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="phone_number" placeholder="Mobile Number" value="{{patient.phone_number}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																			</div>
+																		</div>
+																		<!--/Mobile Number-->
+
+																		<!--address-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Address</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="address" placeholder="Address" value="{{patient.address}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																			</div>
+																		</div>
+																		<!--/address-->
+
+																		<!--NID-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																				<div class="table-responsive">
+																					<table class="table table-center">
+																						<thead>
+																							<tr>
+																								<th style="min-width: 100px">NID</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td>
+																									<input class="form-control" type="text" name="nid" placeholder="National ID Number" value="{{patient.nid}}">
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+																				</div>	
+																			</div>
+																		</div>
+																		<!--/NID-->
+																	</div>
+																</tbody>
+																<!--/ End Third Line-->
+																		
+																<!--Fourth Line-->
+																<tbody>
+																	<div class="row form-row">
+
+																		<!--email-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																			
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Email</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="email" placeholder="Email Address" value="{{patient.email}}" readonly>
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																			
+																			</div>
+																		</div>
+																		<!--/email-->
+																		<!--Barangay Number-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																					<div class="table-responsive">
+																						<table class="table table-center">
+																							<thead>
+																								<tr>
+																									<th style="min-width: 100px">Barangay Number</th>
+																								</tr>
+																							</thead>
+																							<tbody>
+																								<tr>
+																									<td>
+																										<input class="form-control" type="text" name="barangay_num" placeholder="Barangay Number" value="{{patient.barangay_num}}">
+																									</td>
+																								</tr>
+																							</tbody>
+																						</table>
+																					</div>
+																			</div>
+																		</div>
+																		<!--Birth Height-->
+
+																		<!--blood group-->
+																		<div class="col-md-4">
+																			<div class="card card-table">
+																				<div class="table-responsive">
+																					<table class="table table-center">
+																						<thead>
+																							<tr>
+																								<th style="min-width: 100px">Blood Group</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td>
+																									<select class="form-control" name="blood_group" value="{{patient.blood_group}}">
+																										<option value="{{patient.blood_group}}">{{patient.blood_group}}</option>
+																										<option value="A-">A-</option>
+																										<option value="A+">A+</option>
+																										<option value="B-">B-</option>
+																										<option value="B+">B+</option>
+																										<option value="AB-">AB-</option>
+																										<option value="AB+">AB+</option>
+																										<option value="O-">O-</option>
+																										<option value="O+">O+</option>
+																									</select>
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>	
+																				</div>
+																			</div>
+																		</div>
+																		<!--/blood group-->
+
+																	</div>
+																</tbody>		
+																<!--/ End Fourth Line-->
+													
+												<!--Save Changes-->
+												<div class="col-md-12 text-center" style="margin-bottom: 20px;">
+													<div class="submit-section">
+														<button type="submit" class="btn btn-primary submit-btn">
+															<i class="fa-solid fa-floppy-disk"></i>
+									 						Save Changes
+														</button>
+													</div>
+												</div>
+												<!--/Save Changes-->
+
+												</form>
+										</div>			
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/Page Content-->
+				</div>
+						<!--NEW-->
+			</div>
+		</div>
+    
+    <!-- /Main Wrapper -->
+
+	<script>
+		document.getElementById('profile_img_upload').addEventListener('change', function(e){
+		var file = e.target.files[0];
+		var reader = new FileReader();
+
+		// Check if the file is an image
+		if (!file.type.startsWith('image/')) {
+			// Display an error message
+			alert("Please upload an image file.");
+
+			// Clear the file input field
+			e.target.value = '';
+
+			// Clear the image preview
+			document.getElementById('profile_img_preview').src = "{{ patient.featured_image.url | adjust_image_url }}";
+
+			return;
+		}
+
+		reader.onloadend = function() {
+			document.getElementById('profile_img_preview').src = reader.result;
+		}
+
+		if (file) {
+			reader.readAsDataURL(file);
+		} else {
+			document.getElementById('profile_img_preview').src = "";
+		}
+	});
+	</script>
+
+
+<script>
+	$(document).ready(function() {
+	  // When the file input changes
+	  $('#profile_img_upload').on('change', function() {
+		var input = this;
+		if (input.files && input.files[0]) {
+		  var reader = new FileReader();
+  
+		  reader.onload = function(e) {
+			// Set the preview image source to the uploaded image
+			$('#profile_img_preview').attr('src', e.target.result);
+			$('#profile_img_preview').addClass('enlarged'); // Add the enlarged class to enable enlargement
+		  }
+  
+		  reader.readAsDataURL(input.files[0]);
+		}
+	  });
+  
+	  // When the preview image is clicked
+	  $(document).on('click', '#profile_img_preview', function(e) {
+		if (!$('#profile_img_preview').hasClass('enlarged')) {
+		  // Trigger the file input click event
+		  $('#profile_img_upload').click();
+		} else {
+		  // Create an enlarged image container
+		  var enlargedImageContainer = $('<div class="enlarged-image-container">');
+  
+		  // Create an enlarged image element
+		  var enlargedImage = $('<img class="enlarged-image">');
+		  enlargedImage.attr('src', $('#profile_img_preview').attr('src'));
+  
+		  // Create a close button
+		  var closeButton = $('<button class="close-button">X</button>');
+  
+		  // Append the enlarged image and close button to the enlarged image container
+		  enlargedImageContainer.append(closeButton);
+		  enlargedImageContainer.append(enlargedImage);
+  
+		  // Append the enlarged image container to the body
+		  $('body').append(enlargedImageContainer);
+  
+		  // Remove the enlarged image container when the close button or the container itself is clicked
+		  closeButton.on('click', function() {
+			enlargedImageContainer.remove();
+		  });
+		  enlargedImageContainer.on('click', function(e) {
+			if (e.target === enlargedImageContainer[0]) {
+			  enlargedImageContainer.remove();
+			}
+		  });
+		}
+	  });
+	});
+  </script>
+
+    <!-- jQuery -->
+    <script src="{% static 'Mediqs/js/Normal/jquery.min.js' %}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{% static 'Mediqs/js/Normal/popper.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap.min.js' %}"></script>
+
+    <!-- Select2 JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/select2/js/select2.min.js' %}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{% static 'Mediqs/js/Normal/moment.min.js' %}"></script>
+    <script src="{% static 'Mediqs/js/Normal/bootstrap-datetimepicker.min.js' %}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/ResizeSensor.js' %}"></script>
+    <script src="{% static 'Mediqs/plugins/Normal/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'Mediqs/Outside_assets/js/script.js' %}"></script>
+
+    <!-- Searchbar JS -->
+    <script src="{% static 'Mediqs/js/Normal/sidebar.js' %}"></script>
+
+	{% if messages %}
+    <script>
+        {% for message in messages %}
+            $(document).ready(function () {
+                $('.toast').toast('show');
+            });
+        {% endfor %}
+    </script>
+    {% endif %}
+  </body>
+
+  <!-- doccure/profile-settings.html  30 Nov 2019 04:12:18 GMT -->
+</html>

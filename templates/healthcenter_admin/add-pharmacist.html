@@ -1,0 +1,181 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dreamguys.co.in/demo/doccure/admin/doctor-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 04:12:51 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>Mediqs</title>
+
+    	<!-- Favicon -->
+
+		<link
+		type="image/x-icon"
+		href="{% static 'images/circle-logo.png' %}"
+		rel="icon"
+	  />
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/bootstrap.min.css'%}">
+
+	<!-- Fontawesome CSS -->
+	<!--<link rel="stylesheet" href="{% static 'Mediqs/css/admin/font-awesome.min.css'%}">-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<!-- Feathericon CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/admin_assets/css/feathericon.min.css'%}">
+
+	<!-- Datatables CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/plugins/admin/datatables/datatables.min.css'%}">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="{% static 'Mediqs/css/admin/style.css'%}">
+
+	<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<!-- Main Wrapper -->
+	<div class="main-wrapper">
+		<header class="header">{% include 'healthcenter_admin/healthcenter-admin-navbar.html' %}</header>
+		<!-- Logo -->
+
+
+		<!-- /Header -->
+
+		<!-- Sidebar -->
+		<aside class="sidebar" id="sidebar">
+			{% include 'healthcenter_admin/healthcenter-admin-sidebar.html' %}
+		</aside>
+		<!-- /Sidebar -->
+
+		<!-- Page Wrapper -->
+
+		<!-- Page Wrapper -->
+		<div class="page-wrapper">
+
+			<div class="content container-fluid">
+
+				<!-- Page Header -->
+				<div class="page-header">
+					<div class="row">
+						<div class="col-sm-12">
+							<h3 class="page-title">Add Inventory Manager</h3>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="{% url 'admin-dashboard' %}">Dashboard</a></li>
+								<li class="breadcrumb-item active">Add Inventory Manager</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /Page Header -->
+
+				<!-- Page Content -->
+				<div class="content">
+					<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-7 col-lg-8 col-xl-12">
+						<div class="card-table">
+							<div class="card-header">
+							<h2 class="breadcrumb-title black" style="text-align: center;margin-top: 10px;">Add New Inventory Manager</h2>
+										<!-- Profile Settings Form -->
+										<form action="{% url 'add-inventorymanager' %}" method="POST" enctype="multipart/form-data" >
+											{% csrf_token %}
+											<div class="row justify-content-center">
+												<div class="col-md-2">
+													<div class="mx-auto">
+													<table class="table">
+														<thead>
+														<tr>
+															<th class="text-center">Field Name</th>
+														</tr>
+														</thead>
+														<tbody>
+														{% for field in form %}
+														<tr>
+															<td style="font-size: 18px;padding: 25px;">
+															{% if field.label == 'Username' %}
+															<i class="fa fa-user"></i>
+															{% elif field.label == 'Email address' %}
+															<i class="fa fa-envelope"></i>
+															{% elif field.label == 'Password' %}
+															<i class="fa fa-lock"></i>
+															{% elif field.label == 'Password confirmation' %}
+															<i class="fa fa-lock"></i>
+															{% elif field.label == 'Health center' %}
+															<i class="fa fa-hospital"></i>
+															{% endif %}
+															{{ field.label }}
+															</td>
+														</tr>
+														{% endfor %}
+														</tbody>
+													</table>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="table-responsive mx-auto">
+													<table class="table">
+														<thead>
+														<tr>
+															<th class="text-center">Field Value</th>
+														</tr>
+														</thead>
+														<tbody>
+														{% for field in form %}
+														<tr>
+															<td style="padding: 18.5px">{{ field }}</td>
+														</tr>
+														{% endfor %}
+														</tbody>
+													</table>
+													</div>
+												</div>
+												</div>
+												<div class="submit-section d-flex justify-content-center"style="margin-left:20px;margin-top:10px">
+												<button type="submit" class="btn btn-primary d-flex align-items-center" style="font-size: 25px;">
+													<i class="fa-solid fa-floppy-disk fa-2xs mr-2"></i>
+													<span style="font-size: 20px;">Create Account</span>
+												</button>
+												</div>
+											</form>
+										<!-- /Profile Settings Form -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- /Page Content -->
+
+
+
+			</div>
+			<!-- /Main Wrapper -->
+
+			<!-- jQuery -->
+			<script src="{% static 'Mediqs/js/admin/jquery-3.2.1.min.js' %}"></script>
+
+			<!-- Bootstrap Core JS -->
+			<script src="{% static 'Mediqs/js/admin/popper.min.js' %}"></script>
+			<script src="{% static 'Mediqs/js/admin/bootstrap.min.js' %}"></script>
+
+			<!-- Slimscroll JS -->
+			<script src="{% static 'Mediqs/plugins/admin/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+			<!-- Datatables JS -->
+			<script src="{% static 'Mediqs/plugins/admin/datatables/jquery.dataTables.min.js'%}"></script>
+			<script src="{% static 'Mediqs/plugins/admin/datatables/datatables.min.js'%}"></script>
+
+			<!-- Custom JS -->
+			<script src="{% static 'Mediqs/js/admin/script.js' %}"></script>
+
+</body>
+
+</html>
