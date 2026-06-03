@@ -371,6 +371,14 @@ header
   line-height: 80px;
 }
 
+/* The logo source is 517x222px. Without a height cap it renders at natural
+   size and overflows the navbar. Constrain it to fit the header height. */
+.header-area .main-nav .logo img {
+  max-height: 58px;
+  width: auto;
+  vertical-align: middle;
+}
+
 .background-header .main-nav .nav {
   margin-top: 20px !important;
 }
@@ -701,6 +709,10 @@ header
   .header-area .logo {
     margin-left: 30px;
   }
+  /* Smaller cap on mobile so the logo always sits inside the navbar. */
+  .header-area .main-nav .logo img {
+    max-height: 44px;
+  }
   .header-area .menu-trigger {
     display: block !important;
   }
@@ -1010,7 +1022,10 @@ Services Style
   border-radius: 10px;
   border-top-right-radius: 50px;
   transition: all .3s;
-  margin-bottom: 100px;
+  /* Fill the equal-height flex column so cards line up without <br> hacks.
+     Column spacing is handled by the grid gutters + .mb-4 on the columns. */
+  height: 100%;
+  margin-bottom: 0;
 }
 
 .service-item .icon {
@@ -1204,6 +1219,8 @@ about
 .about-content {
   display: flex;
   flex-wrap: wrap;
+  gap: 30px;
+  align-items: center;
 }
 
 .about-images {
@@ -1265,6 +1282,19 @@ margin-right: 62px;
 .about-slider .slick-dots {
   margin-top: 44px;
   position: unset;
+}
+
+/* Mobile: the 18% side margins on section paragraphs pinch the text into a
+   narrow column on small screens. Loosen them and tighten the About gap. */
+@media (max-width: 767px) {
+  .services .section-heading p,
+  .about .section-heading p {
+    margin-left: 6%;
+    margin-right: 6%;
+  }
+  .about-content {
+    gap: 24px;
+  }
 }
 
 
@@ -2324,30 +2354,19 @@ responsive
     margin-bottom: 80px;
   }
 
-  .service-item.first-service {
-    margin-right: 5% !important;
-    margin-left: 5% !important;
-  }
-
-  .service-item.second-service {
-    margin-right: 5% !important;
-    margin-left: 5% !important;  
-  }
-
-  .service-item.third-service {
-    margin-right: 5% !important;
-    margin-left: 5% !important;
-  }
-  
+  /* Cards are aligned by the grid columns now; no per-card side margins. */
+  .service-item.first-service,
+  .service-item.second-service,
+  .service-item.third-service,
   .service-item.fourth-service {
-    margin-right: 5% !important;
-    margin-left: 5% !important;  
+    margin-right: 0;
+    margin-left: 0;
   }
 
   .service-item p {
     transition: all .3s;
     font-size: 15px;
-    line-height: 15px;
+    line-height: 1.5;
     font-weight: normal;
     margin-bottom: 20px;
   }
