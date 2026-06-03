@@ -12,7 +12,7 @@
       }
     },
     "deploy": {
-      "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn Mediqs.wsgi",
+      "startCommand": "/opt/venv/bin/python manage.py migrate && /opt/venv/bin/python manage.py collectstatic --noinput && /opt/venv/bin/gunicorn Mediqs.wsgi",
       "restartPolicyType": "ON_FAILURE",
       "restartPolicyMaxRetries": 10
     }
