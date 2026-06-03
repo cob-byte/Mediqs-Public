@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'rest_framework',
     'ChatApp.apps.ChatappConfig',
-    'debug_toolbar',
     "verify_email.apps.VerifyEmailConfig",
     'notifications',
     "django_apscheduler",
@@ -74,8 +73,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+# debug_toolbar must only ever be active in development. Loading it in
+# production exposes SQL, settings, and request internals.
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -194,3 +198,54 @@ DJANGO_NOTIFICATIONS_CONFIG = {
 # SESSION AGE 45 Minutes
 SESSION_COOKIE_AGE = 45*60
 SESSION_SAVE_EVERY_REQUEST = True
+
+# ---------------------------------------------------------------------------
+# Security
+# These hardening settings only take effect off localhost. They are gated on
+# `not DEBUG` so local HTTP development is unaffected, but production (HTTPS)
+# gets secure cookies, HSTS, and an SSL redirect. Run `manage.py check
+# --deploy` to validate.
+# ---------------------------------------------------------------------------
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+if not DEBUG:
+    # Railway/Heroku terminate TLS at the proxy and forward this header.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+# ---------------------------------------------------------------------------
+# Logging — without this, production errors are invisible.
+# ---------------------------------------------------------------------------
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {name} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': env('DJANGO_LOG_LEVEL', default='INFO'),
+            'propagate': False,
+        },
+    },
+}

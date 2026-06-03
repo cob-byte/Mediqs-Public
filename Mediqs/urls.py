@@ -39,8 +39,7 @@ urlpatterns = [
     path('healthcenter_admin/', include('healthcenter_admin.urls')),
     path('chat/', include('ChatApp.urls')),
     path('inventory/', include('inventory.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
-    
+
     #Email verification
     path('verification/', include('verify_email.urls')),
 
@@ -56,11 +55,10 @@ urlpatterns = [
 urlpatterns += [ re_path(r'^static/images/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-# if settings.debug:
-#     import debug_toolbar
-#     urlpatterns = [
-#         path('__debug__/', include(debug_toolbar.urls)),
-#     ] + urlpatterns
+# debug_toolbar is only installed when DEBUG is on (see settings.py).
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
 
 """
 Forgot password views

@@ -1,5 +1,8 @@
-/* Style the form */
-#regForm {
+/* Scoped to the registration page (body.account-page) so these rules never
+   leak onto other pages or restyle checkboxes/radios/date pickers. */
+
+/* Style the multi-step form card */
+.account-page #regForm {
   background-color: #ffffff;
   margin: 100px auto;
   padding: 40px;
@@ -7,27 +10,28 @@
   min-width: 300px;
 }
 
-/* Style the input fields */
-input {
+/* Style only text-like input fields (not checkboxes/radios/buttons) */
+.account-page input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]) {
   padding: 10px;
   width: 100%;
   font-size: 17px;
-  font-family: Raleway;
+  font-family: Raleway, sans-serif;
   border: 1px solid #aaaaaa;
+  margin-bottom: 12px; /* consistent vertical rhythm between fields */
 }
 
-/* Mark input boxes that gets an error on validation: */
-input.invalid {
+/* Mark input boxes that get an error on validation */
+.account-page input.invalid {
   background-color: #ffdddd;
 }
 
-/* Hide all steps by default: */
-.tab {
+/* Hide all steps by default */
+.account-page .tab {
   display: none;
 }
 
-/* Make circles that indicate the steps of the form: */
-.step {
+/* Circles that indicate the steps of the form */
+.account-page .step {
   height: 15px;
   width: 15px;
   margin: 0 2px;
@@ -38,16 +42,12 @@ input.invalid {
   opacity: 0.5;
 }
 
-/* Mark the active step: */
-.step.active {
+/* Mark the active step */
+.account-page .step.active {
   opacity: 1;
 }
 
-/* Mark the steps that are finished and valid: */
-.step.finish {
-  background-color: #04AA6D;
-}
- 
-input[type="checkbox"] {
-  margin-left: -20px;
+/* Mark the steps that are finished and valid */
+.account-page .step.finish {
+  background-color: #04aa6d;
 }
