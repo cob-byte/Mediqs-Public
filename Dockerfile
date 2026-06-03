@@ -19,6 +19,6 @@ RUN pip install --upgrade pip setuptools wheel \
 
 COPY . .
 
-CMD python manage.py migrate \
-    && python manage.py collectstatic --noinput \
-    && python -m gunicorn Mediqs.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+RUN mkdir -p staticfiles
+
+CMD python -m gunicorn Mediqs.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2 --timeout 120 --access-logfile - --error-logfile -
