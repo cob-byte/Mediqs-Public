@@ -1,18 +1,11 @@
 {
-    "$schema": "https://railway.app/railway.schema.json",
+    "$schema": "https://railway.com/railway.schema.json",
     "build": {
-      "builder": "NIXPACKS",
-      "nixpacksPlan": {
-          "providers": ["python"],
-          "phases": {
-              "setup": {
-                  "nixPkgs": ["...", "nodejs"]
-              }
-          }
-      }
+      "builder": "DOCKERFILE",
+      "dockerfilePath": "Dockerfile"
     },
     "deploy": {
-      "startCommand": "python3 manage.py migrate && python3 manage.py collectstatic --noinput && python3 -m gunicorn Mediqs.wsgi:application --bind 0.0.0.0:$PORT",
+      "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && python -m gunicorn Mediqs.wsgi:application --bind 0.0.0.0:$PORT",
       "restartPolicyType": "ON_FAILURE",
       "restartPolicyMaxRetries": 10
     }
